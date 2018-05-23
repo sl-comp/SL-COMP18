@@ -1,0 +1,40 @@
+
+* Summary of theories proposed
+
+** SLRD used for SL-COMP'14 
+   + strongly typed for references
+   + explicit fields, comply with memory model 'typed' 
+   (a memory block corresponds to an array of values by field, indexed by locations) 
+   +o- types differently spatial and pure atoms
+   - too verbose
+   - difficult to mix spatial and pure formulas
+
+** SL version of CVC4
+   + strongly typed heap
+   - only one type of references, no fields
+   + uses datatypes to code data stored, comply with memory model 'cell'
+   (a memory region corresponds to a data cell)
+   +o- types to Bool the spatial atoms
+   + succinct
+   - can not be extended easily to typed locations because 
+     datatypes shall be well formed if recursive, and therefore 
+     a data cell may include a reference to itself only if there is
+     a ground constructor
+
+** SL version of Inductor : same as CVC4 with less restrictions nested types
+   + support for a unary sort Ref
+   - translates to CVC4, which requires well formed datatypes
+
+** SL with typed heap 
+   + location sorts (abstract)
+   + data sorts defined as datatypes using locations sorts
+   + heap typed using 'declare-heap' command
+   - 'emp' heap needs typing because it is an overloaded symbol 
+     with types from the 'declare-heap'
+   - 'nil' is also overloaded for each location in 'declare-heap'
+   + typing of locations may be done with integers, so pointer arithmetic
+     is supported (but the semantics its not well understood)
+
+** Other formats
+   + see format of SLOTH for quanrified formulas with boolean combination
+   	of space formulas combined with data constraints

@@ -1,0 +1,265 @@
+%\newtheorem{definition}{Definition}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{claim}{Claim}
+%\newtheorem{property}{Property}
+\newtheorem{fact}{Fact}
+
+% Marius commands
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\relmat}[1] { \{\!\!\{#1\}\!\!\}}
+\newcommand{\matrel}[1] { [\!\![#1]\!\!]}
+\newcommand{\key}[1]{\underline{#1}}
+
+% semantic stuff
+\newcommand{\bi}[1]{{}^\omega\!{#1}^\omega}
+\newcommand{\rbr}{{\bf ]\!]}}
+\newcommand{\lbr}{{\bf [\![}}
+\newcommand{\sem}[1]{\lbr #1 \rbr}
+\newcommand{\model}[2]{\sem{#1}_{#2}}
+\newcommand{\lfp}[1]{\mbox{fix}\ {#1}}
+\newcommand{\wpr}{\widetilde{pre}}
+\newcommand{\cceil}[1]{\lfloor #1 \rfloor + 1}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\tuple}[1]{\left\langle #1 \right\rangle}
+\renewcommand{\vec}[1]{\mathbf #1}
+\newcommand{\tup}[1]{\overline #1}
+\newcommand{\ite}[3]{\mathsf{ite}(#1,#2,#3)}
+\newcommand{\tupite}[2]{\mathsf{ite}(#1,#2)}
+
+% alias
+\newcommand{\alias}{\Diamond}
+\newcommand{\may}[2]{{\langle #1 \rangle}{#2}}
+\newcommand{\must}[2]{{\lbrack #1 \rbrack}{#2}}
+\newcommand{\defd}[1]{\delta({#1})}
+
+% definitions
+\newcommand{\defequal}{\stackrel{\scriptscriptstyle{def}}{=}}
+\newcommand{\defequiv}{\stackrel{\scriptscriptstyle{def}}{\equiv}}
+
+% algorithms
+\newcommand{\sig}{\mathtt{sig}}
+
+% recursive structures
+\newcommand{\LS}{\mathtt{LS}}
+\newcommand{\DLL}{\mathtt{DLL}}
+\newcommand{\TLL}{\mathtt{TLL}}
+\newcommand{\TREE}{\mathtt{TREE}}
+\newcommand{\ax}{\mathtt{a}}
+\newcommand{\bx}{\mathtt{b}}
+\newcommand{\cx}{\mathtt{c}}
+\newcommand{\dx}{\mathtt{d}}
+
+% cardinal, degree, ...
+\newcommand{\sgn}{\mbox{sgn}}
+%\newcommand{\gcd}{\mbox{gcd}}
+\newcommand{\lcm}{\mbox{lcm}}
+\newcommand{\len}[1]{{|{#1}|}}
+\newcommand{\card}[1]{{|\!|{#1}|\!|}}
+\newcommand{\minimum}[2]{\mbox{min}({#1},{#2})}
+\newcommand{\maximum}[2]{\mbox{max}({#1},{#2})}
+\newcommand{\minset}[2]{\mbox{min}\{{#1}\ |\ {#2}\}}
+\newcommand{\maxset}[2]{\mbox{max}\{{#1}\ |\ {#2}\}}
+\newcommand{\divs}[1]{\mbox{div}({#1})}
+
+% automata and languages
+\newcommand{\auth}[1]{{\mathcal A}_{#1}}
+\newcommand{\lang}[1]{{\mathcal L}({#1})}
+\newcommand{\runs}[1]{{\mathcal R}({#1})}
+\newcommand{\val}[1]{{\mathcal V}({#1})}
+\newcommand{\trace}[1]{{Tr}({#1})}
+\newcommand{\state}[1]{{\Sigma}({#1})}
+\newcommand{\trans}[1]{{\Theta}({#1})}
+\newcommand{\access}[3]{{\mathcal L}_{{#1},{#2}}({#3})}
+\newcommand{\eats}{\rightarrow}
+\newcommand{\Eats}[1]{\stackrel{#1}{\longrightarrow}}
+\newcommand{\arrow}[2]{\xrightarrow{{\scriptstyle #1}}_{{\scriptstyle #2}}}
+\newcommand{\larrow}[2]{\xleftarrow[{\scriptstyle #2}]{{\scriptstyle #1}}} 
+
+% numbers
+\newcommand{\nat}{{\bf \mathbb{N}}}
+\newcommand{\zed}{{\bf \mathbb{Z}}}
+\newcommand{\rat}{{\bf \mathbb{Q}}}
+\newcommand{\real}{{\bf \mathbb{R}}}
+\newcommand{\linzed}{{\bf \mathcal{L}\mathbb{Z}}}
+
+% powerset
+\newcommand{\pow}[1]{{\mathcal P}(#1)}
+\newcommand{\pown}[2]{{\mathcal P}^{#1}(#2)}
+
+% by definition
+\newcommand{\bydef}{\stackrel{\Delta}{=}}
+
+% projection, lifting
+\newcommand{\proj}[2]{{#1}\!\!\downarrow_{{#2}}}
+\newcommand{\lift}[2]{{#1}\!\!\uparrow_{{#2}}}
+
+% forward, backward
+\newcommand{\forw}[1]{\stackrel{\rightarrow}{#1}}
+\newcommand{\back}[1]{\stackrel{\leftarrow}{#1}}
+
+% equation figures
+\newcommand{\eqnfigx}[1]{
+\begin{minipage}{3in}
+\begin{center}
+\begin{eqnarray*}#1
+\end{eqnarray*}
+\end{center}
+\end{minipage}}
+
+\newcommand{\twoeqnfigx}[2]{
+\eqnfigx{#1}
+\eqnfigx{#2}
+}
+
+\newcommand{\threeeqnfigx}[3]{
+\eqnfigx{#1}\\
+\eqnfigx{#2}\eqnfigx{#3}
+}
+
+\newcommand{\eqnfig}[1]{
+\begin{minipage}{3in}
+\begin{center}
+\begin{eqnarray}#1
+\end{eqnarray}
+\end{center}
+\end{minipage}}
+
+\newcommand{\twoeqnfig}[2]{
+\eqnfig{#1}
+\eqnfig{#2}
+}
+
+% transitions and SOS rules
+\newcommand{\storetrans}[1]{\stackrel{#1}{\leadsto}}
+\newcommand{\storetransx}[1]{\stackrel{#1}{\leadsto^*}}
+\newcommand{\storetransprime}[3]{{#1} \storetrans{#2} {#3}}
+\newcommand{\gammatrans}[1]{\stackrel{#1}{\hookrightarrow}}
+\newcommand{\gammatransprime}[3]{{#1} \gammatrans{#2} {#3}}
+\newcommand{\gammatransx}[1]{\stackrel{#1}{\hookrightarrow^*}}
+%\newcommand{\trans}[3]{{#1} \stackrel{#2}{\longrightarrow} {#3}}
+\newcommand{\run}[3]{{#1} \stackrel{#2}{\Longrightarrow} {#3}}
+\newcommand{\sosrule}[2]{\frac{\begin{array}{c}#1\end{array}}{#2}}
+\newcommand{\hoare}[3]{\{#1\}\ {\bf #2}\ \{#3\}}
+
+\newcommand{\derivone}[3]{\mbox{\infer[#3]{#2}{#1}}}
+\newcommand{\derivtwo}[4]{\mbox{\infer[#4]{#3}{{#1} & {#2}}}}
+\newcommand{\derivdot}[4]{\mbox{\infer[#4]{#3}
+{\begin{array}{l} {#1} \\ \vdots \\ {#2} \end{array}}}}
+
+% comments, paragraphs
+\newcommand{\mypar}[1]{\vspace*{\baselineskip}\noindent\emph{#1}}
+\renewcommand{\paragraph}[1]{\noindent{\bf #1}}
+
+% theories
+\newcommand{\arith}{\langle \zed, +, \cdot, 0, 1 \rangle}
+\newcommand{\hilbert}{\langle \zed, +, \cdot, 0, 1 \rangle^\exists}
+\newcommand{\presbg}{\langle \zed, \geq, +, 0, 1 \rangle}
+\newcommand{\divides}{\langle \zed, +, |, 0, 1 \rangle}
+\newcommand{\lipshitz}{\langle \zed, \geq, +, |, 0, 1 \rangle^\exists}
+\newcommand{\dioph}[1]{\mathfrak{D}(#1)}
+
+% proofs
+\newif\ifLongVersion\LongVersiontrue
+%\newcommand{\proof}[1]{\noindent {\em Proof}: {#1}}
+%\renewcommand{\qed}{$\Box$\vspace*{\baselineskip}}
+%\newcommand{\qed}{$\Box$\vspace*{\baselineskip}}
+\newcommand{\inproof}[1]{\ifLongVersion \proof{#1} \fi}
+%\newcommand{\outproof}[2]{\ifLongVersion \else \vspace*{\baselineskip}\noindent Proof of {#1}: \proof{#2} \fi}
+%\renewcommand{\subsubsection}[1]{\noindent{\bf #1}}
+
+% multisorted first-order logic
+\newcommand{\sorts}[1]{#1^\mathrm{S}}
+\newcommand{\funs}[1]{#1^\mathrm{F}}
+\newcommand{\ssorts}[1]{#1^\mathrm{s}}
+\newcommand{\sfuns}[1]{#1^\mathrm{f}}
+\newcommand{\mods}{\mathbf{I}}
+\newcommand{\modsof}[2]{\sem{#1}_{#2}}
+
+
+% separation logic
+\newcommand{\teq}{\approx}
+\newcommand{\Spatial}{\Sigma}
+\newcommand{\Emp}{\mathbf{emp}}
+\newcommand{\PointsTo}[2]{ {#1 \mapsto #2} }
+\newcommand{\PointsToL}[3]{ {#2 \mapsto^{#1} #3} }
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\J}{\mathcal{J}}
+\newcommand{\locs}{\mathsf{Loc}}
+\newcommand{\data}{\mathsf{Data}}
+\newcommand{\nil}{\mathsf{nil}}
+\newcommand{\heaps}{\mathbf{H}}
+\newcommand{\emp}{\mathsf{emp}}
+\newcommand{\wand}{
+ \mathrel{\mbox{$\hspace*{-0.03em}\mathord{-}\hspace*{-0.66em}
+ \mathord{-}\hspace*{-0.36em}\mathord{*}$\hspace*{-0.005em}}}} % {\multimap}
+\newcommand{\seplog}{\mathsf{SL}}
+\newcommand{\tinyseplog}{\mathsf{\scriptscriptstyle{SL}}}
+\newcommand{\seplogl}[1]{\mathsf{SL}\parens{#1}}
+\newcommand{\tterm}{\mathsf{t}}
+\newcommand{\uterm}{\mathsf{u}}
+\newcommand{\vterm}{\mathsf{v}}
+\newcommand{\wterm}{\mathsf{w}}
+\newcommand{\xterm}{\mathsf{x}}
+\newcommand{\yterm}{\mathsf{y}}
+\newcommand{\zterm}{\mathsf{z}}
+\newcommand{\nextp}{\mathsf{next}}
+\newcommand{\datap}{\mathsf{data}}
+\newcommand{\lterm}{\ell}
+\newcommand{\pto}{\mathsf{pt}}
+\newcommand{\sets}{\mathsf{Set}}
+\newcommand{\lab}{\triangleleft}
+\newcommand{\labd}[1]{#1\!\!\Downarrow}
+\newcommand{\thsep}{\mathsf{Sep}}
+\newcommand{\fv}[1]{\mathrm{Fvc}(#1)}
+\newcommand{\terms}[1]{\mathrm{Pt}(#1)}
+\newcommand{\bounds}[2]{\mathrm{Bnd}(#1,#2)}
+\newcommand{\dom}{\mathrm{dom}}
+\newcommand{\size}[1]{\mathrm{Size}(#1)}
+\newcommand{\vars}{\mathsf{Vars}}
+\newcommand{\preds}{\mathsf{Pred}}
+\newcommand{\const}{\mathsf{Const}}
+
+\newcommand{\Label}[1]{ \llbracket #1 \rrbracket_{L} }
+\DeclareMathOperator{\Disjoint}{disjoint}
+\newcommand{\parens}[1]{ \left( #1 \right) }
+\newcommand{\Set}[1]{ \left\{ #1 \right\} }
+\DeclareMathOperator{\CardOp}{card}
+\newcommand{\Card}[1]{ \CardOp\parens{#1} }
+\DeclareMathOperator{\Wit}{witness}
+\DeclareMathOperator{\Choice}{Choice}
+\DeclareMathOperator{\Explain}{explain}
+
+\newcommand{\funcsolve}{\small\mathsf{solve}}
+\newcommand{\funcsmtsolve}{\small\mathsf{solve\_rec}}
+
+% \newcommand{\lan}{\mathbf{L}}
+\newcommand{\purify}[1]{\lfloor #1 \rfloor}
+\newcommand{\purifyrec}[1]{\purify{#1}^\ast}
+\newcommand{\unpurify}[1]{\lceil #1 \rceil}
+\newcommand{\quants}[1]{\mathrm{Q}(#1)}
+\newcommand{\solvesl}[1]{\mathsf{solve_{SL(#1)}}}
+\newcommand{\solveslt}[1]{\mathsf{solve_{#1}}}
+\newcommand{\lblf}{\mathsf{lbl}}
+\newcommand{\ltrue}{\top}
+\newcommand{\lfalse}{\bot}
+\newcommand{\ord}[2]{\prec_{#1,#2}}
+\newcommand{\qvar}{x}
+\newcommand{\Int}{\mathsf{Int}}
+\newcommand{\bool}{\mathsf{B}}
+\newcommand{\euf}{\mathsf{E}}
+\newcommand{\lia}{\mathsf{LIA}}
+\newcommand{\euflia}{\mathsf{ELIA}}
+\newcommand{\tinylia}{\mathsf{\scriptscriptstyle{LIA}}}
+\newcommand{\ul}{\mathsf{UL}}
+\newcommand{\ulk}{\mathsf{UL}^{\!\!\scriptscriptstyle{K}}}
+\newcommand{\il}{\mathsf{IL}}
+\newcommand{\ulid}{\mathsf{ULID}}
+
+\newcommand{\sparagraph}[1]{\smallskip
+\noindent 
+{\bf #1}\ }
