@@ -1,0 +1,5 @@
+(logic LIA
+ :theories (Ints)
+)
+
+

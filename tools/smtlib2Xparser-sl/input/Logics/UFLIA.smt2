@@ -1,0 +1,4 @@
+(logic UFLIA
+ :theories ( Ints )
+)
+

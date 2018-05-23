@@ -1,0 +1,14 @@
+(set-logic SEPLOG)
+
+(declare-sort GTyp 0)
+(declare-sort RefGTyp 0)
+
+(declare-heap (RefGTyp GTyp))
+
+(assert emp)
+(assert (_ emp RefGTyp))
+(assert (_ emp RefGTyp RefGTyp))
+(assert (_ emp GTyp GTyp))
+(assert (_ emp RefGTyp GTyp))
+
+(check-unsat)

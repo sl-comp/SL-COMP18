@@ -1,0 +1,59 @@
+(set-logic SEPLOG)
+
+; Sorts for locations, one by cell sort
+(declare-sort RefGTyp 0)
+
+; Types of cells in the heap
+
+(declare-datatypes (
+	(GTyp 0)
+	) (
+	((c_GTyp (f0 RefGTyp) ))
+	)
+)
+
+; Type of heap
+
+(declare-heap (RefGTyp GTyp))
+
+(define-fun-rec RList ((x RefGTyp)(y RefGTyp)) Bool
+	(or
+		(and
+			(distinct (as nil RefGTyp) x)
+			(pto x (c_GTyp y ))
+		)
+
+		(exists ((xp RefGTyp))
+
+		(and
+			(distinct (as nil RefGTyp) xp)
+		(sep
+			(pto xp y)
+			(RList x xp)
+		)
+
+		)
+
+		)
+
+	)
+)
+
+(declare-const x RefGTyp)
+(declare-const y RefGTyp)
+(declare-const z RefGTyp)
+
+(check-unsat)
+(assert
+		(sep
+			(pto (c_GTyp x) (c_GTyp y ))
+			(RList y z)
+		)
+
+)
+
+(assert
+			(RList x z)
+)
+
+(check-unsat)
