@@ -1,6 +1,9 @@
-# README #
+# SMT-LIB v2.6 Parser #
 
 Parser for SMT-LIB v2.6 compatible with input format of SL-COMP'18.
+
+** IMPORTANT: this directory is cloned from
+https://github.com/cristina-serban/slcomp-parser **
 
 ## Requirements ##
  - g++ 4.9.0

@@ -6,7 +6,9 @@ Tools available for SL-COMP'18:
 
 * **`smtlib2Xparser-sl`**: A generic parser for SMT-LIB v2.6 by Cristina Serban
 				with support for extensions to Separation Logic,
-				mainly the `declare-heap` command
+				mainly the `declare-heap` command.
+				See https://github.com/cristina-serban/slcomp-parser
+	
 
 * **`slcomp14tools`**: A tool-suite for the SL-COMP'14 input format
 	* AST and type-checker
