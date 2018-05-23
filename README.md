@@ -1,6 +1,7 @@
 # SL-COMP 2018 Repository #
 
-Repository for SL-COMP'18, second edition of the competition of solvers for the theory of Separation Logic.
+Repository for SL-COMP'18, second edition of the competition of solvers 
+for the theory of Separation Logic.
 
 ## Content ##
 
@@ -14,5 +15,6 @@ Repository for SL-COMP'18, second edition of the competition of solvers for the 
 
 ## Contact ##
 
-See file `CONTACT.md`
+See file `CONTACT.md` and visit competition's web site 
+https://www.irif.fr/~sighirea/sl-comp/18/
 
