@@ -1,3 +1,12 @@
+/**
+ * \file        execution.cpp
+ * \brief       Handling parsing, type checking, and translation
+ * 
+ * \author      Cristina Serban
+ * \author      Mihaela Sighireanu
+ * \copyright   See 'LICENSE' file.
+ */
+
 #include "execution.h"
 
 #include "ast/ast_script.h"
@@ -7,6 +16,7 @@
 #include "visitor/ast_syntax_checker.h"
 #include "visitor/ast_sortedness_checker.h"
 #include "visitor/sep_heap_checker.h"
+#include "visitor/sep_pp_slcomp14.h"
 
 #include <iostream>
 
@@ -16,7 +26,7 @@ using namespace smtlib;
 using namespace smtlib::ast;
 
 Execution::Execution()
-        : settings(make_shared<ExecutionSettings>()) {
+: settings(make_shared<ExecutionSettings>()) {
     parseAttempted = false;
     parseSuccessful = false;
     syntaxCheckAttempted = false;
@@ -26,7 +36,7 @@ Execution::Execution()
 }
 
 Execution::Execution(const ExecutionSettingsPtr& settings)
-        : settings(make_shared<ExecutionSettings>(settings)) {
+: settings(make_shared<ExecutionSettings>(settings)) {
     if (settings->getInputMethod() == ExecutionSettings::InputMethod::INPUT_AST) {
         ast = settings->getInputAst();
         parseAttempted = true;
@@ -85,7 +95,7 @@ bool Execution::checkSyntax() {
             Logger::syntaxError("SmtExecution::checkSyntax()", chk->getErrors().c_str());
         } else {
             Logger::syntaxError("SmtExecution::checkSyntax()",
-                                settings->getInputFile().c_str(), chk->getErrors().c_str());
+                    settings->getInputFile().c_str(), chk->getErrors().c_str());
         }
     }
 
@@ -119,7 +129,7 @@ bool Execution::checkSortedness() {
             Logger::sortednessError("SmtExecution::checkSortedness()", chk->getErrors().c_str());
         } else {
             Logger::sortednessError("SmtExecution::checkSortedness()",
-                                    settings->getInputFile().c_str(), chk->getErrors().c_str());
+                    settings->getInputFile().c_str(), chk->getErrors().c_str());
         }
     }
 
@@ -140,15 +150,31 @@ bool Execution::checkHeap() {
     ast::ScriptPtr astScript = dynamic_pointer_cast<Script>(ast);
     if (astScript) {
         sep::TranslatorPtr transl = make_shared<sep::Translator>();
-        sep::ScriptPtr sepScript = transl->translate(astScript);
+        sepScript = transl->translate(astScript);
 
         sep::HeapCheckerPtr checker = make_shared<sep::HeapChecker>();
         heapCheckSuccessful = checker->check(sepScript);
 
-        if(!heapCheckSuccessful) {
+        if (!heapCheckSuccessful) {
             Logger::heapError("SmtExecution::checkHeap()", checker->getErrors().c_str());
         }
     }
 
     return heapCheckSuccessful;
 }
+
+bool Execution::translate() {
+    if (!heapCheckAttempted ||
+            !heapCheckSuccessful ||
+            !sepScript) {
+        Logger::error("SmtExecution::translate()", "Stopped due to previous errors");
+        return false;
+    }
+
+    if (settings->getOutputFormat() == ExecutionSettings::OutputFormat::SL_COMP14) {
+        sep::Pp_SLCOMP14Ptr pp = make_shared<sep::Pp_SLCOMP14>();
+        return pp->run(sepScript);
+    } else
+        return false; // TODO
+}
+

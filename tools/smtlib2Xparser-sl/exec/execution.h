@@ -1,6 +1,10 @@
 /**
- * \file execution.h
- * \brief Execution handling.
+ * \file        execution.h
+ * \brief       Handling parsing, type checking, and translation
+ * 
+ * \author      Cristina Serban
+ * \author      Mihaela Sighireanu
+ * \copyright   See 'LICENSE' file.
  */
 
 #ifndef SLCOMP_PARSER_EXECUTION_H
@@ -14,11 +18,13 @@
 #include <memory>
 
 namespace slcompparser {
+
     /** Class handling the execution of the project */
     class Execution {
     private:
         ExecutionSettingsPtr settings;
         smtlib::ast::NodePtr ast;
+        smtlib::sep::ScriptPtr sepScript;
 
         bool parseAttempted, parseSuccessful;
         bool syntaxCheckAttempted, syntaxCheckSuccessful;
@@ -41,7 +47,11 @@ namespace slcompparser {
         /** Check the sortedness of an input file */
         bool checkSortedness();
 
+        /** Check the type of the heap constructs in the input file */
         bool checkHeap();
+
+        /** Translate an input file in SMT-LIB for Separation Logic */
+        bool translate();
     };
 
     typedef std::shared_ptr<Execution> ExecutionPtr;

@@ -121,6 +121,8 @@ set(SOURCE_FILES
         smtlib/sep/stack/sep_symbol_util.cpp
         smtlib/sep/stack/sep_symbol_stack.cpp
         smtlib/sep/stack/sep_symbol_stack.h
+        smtlib/sep/visitor/sep_pp_slcomp14.h
+        smtlib/sep/visitor/sep_pp_slcomp14.cpp
         smtlib/sep/visitor/sep_heap_checker.h
         smtlib/sep/visitor/sep_heap_checker.cpp
         smtlib/sep/visitor/sep_term_sorter.h
