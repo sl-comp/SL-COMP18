@@ -69,7 +69,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x RefGTyp)
 (declare-const y RefGTyp)
@@ -87,4 +87,4 @@
 			(ListO x z )
 ))
 
-(check-unsat)
+(check-sat)

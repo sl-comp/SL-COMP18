@@ -115,7 +115,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const q Refnode2)
 (declare-const prev0 Refnode2)
@@ -178,4 +178,4 @@
 
 ))
 
-(check-unsat)
+(check-sat)

@@ -113,7 +113,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x RefTPP_t)
 (declare-const y RefTPP_t)
@@ -126,4 +126,4 @@
 			(TPP_plus_rev x y )
 ))
 
-(check-unsat)
+(check-sat)

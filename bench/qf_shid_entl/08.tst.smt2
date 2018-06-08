@@ -75,7 +75,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x RefGTyp)
 (declare-const y RefGTyp)
@@ -90,4 +90,4 @@
 			(BSLL z w )
 ))
 
-(check-unsat)
+(check-sat)

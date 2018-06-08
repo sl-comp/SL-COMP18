@@ -101,7 +101,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const hd0 RefDLL2_t)
 (declare-const tl0 RefDLL2_t)
@@ -220,4 +220,4 @@
              )
 ))
 
-(check-unsat)
+(check-sat)

@@ -101,7 +101,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x RefDLL2_t)
 (declare-const y RefDLL2_t)
@@ -116,4 +116,4 @@
 			(DLL2_plus_rev x y u v )
 ))
 
-(check-unsat)
+(check-sat)

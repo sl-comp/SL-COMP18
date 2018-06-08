@@ -62,7 +62,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const z Refnode)
 (declare-const p Refnode)
@@ -75,4 +75,4 @@
 			(right z p )
 ))
 
-(check-unsat)
+(check-sat)

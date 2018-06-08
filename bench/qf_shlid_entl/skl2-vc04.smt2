@@ -75,7 +75,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x1 RefSL2_t)
 (declare-const x1_1 RefSL2_t)
@@ -101,4 +101,4 @@ http://www.liafa.univ-paris-diderot.fr/spen
 			(skl2 x1 (as nil RefSL2_t) )
 ))
 
-(check-unsat)
+(check-sat)

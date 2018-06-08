@@ -48,7 +48,7 @@
 	)
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const a RefTLL_t)
 (declare-const c RefTLL_t)
@@ -69,4 +69,4 @@
 			(TLL_plus a (as nil RefTLL_t) c (as nil RefTLL_t) )
 ))
 
-(check-unsat)
+(check-sat)

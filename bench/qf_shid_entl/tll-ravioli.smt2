@@ -73,7 +73,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const root0 RefTLL_t)
 (declare-const ll0 RefTLL_t)
@@ -188,4 +188,4 @@
 
 ))
 
-(check-unsat)
+(check-sat)

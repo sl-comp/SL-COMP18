@@ -62,7 +62,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const q Refnode)
 (declare-const q2 Refnode)
@@ -82,4 +82,4 @@
 			(elseg x p )
 ))
 
-(check-unsat)
+(check-sat)

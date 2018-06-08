@@ -53,7 +53,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x RefDll_t)
 (declare-const y RefDll_t)
@@ -88,4 +88,4 @@ http://www.liafa.univ-paris-diderot.fr/spen
 			(dll x y (as nil RefDll_t) z )
 ))
 
-(check-unsat)
+(check-sat)

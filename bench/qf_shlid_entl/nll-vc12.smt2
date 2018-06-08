@@ -78,7 +78,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x1 RefNLL_lvl2_t)
 (declare-const x1_1 RefNLL_lvl1_t)
@@ -99,4 +99,4 @@ http://www.liafa.univ-paris-diderot.fr/spen
 			(nll x1 (as nil RefNLL_lvl2_t) (as nil RefNLL_lvl1_t) )
 ))
 
-(check-unsat)
+(check-sat)

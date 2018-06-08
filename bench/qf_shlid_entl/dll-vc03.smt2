@@ -53,7 +53,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x_emp RefDll_t)
 (declare-const w_emp RefDll_t)
@@ -82,4 +82,4 @@ http://www.liafa.univ-paris-diderot.fr/spen
 			(dll x_emp u_emp z_emp z_emp )
 ))
 
-(check-unsat)
+(check-sat)

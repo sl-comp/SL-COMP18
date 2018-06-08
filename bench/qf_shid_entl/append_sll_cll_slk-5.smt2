@@ -140,7 +140,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const v1prm Refnode)
 (declare-const xprm Refnode)
@@ -182,4 +182,4 @@
 
 ))
 
-(check-unsat)
+(check-sat)

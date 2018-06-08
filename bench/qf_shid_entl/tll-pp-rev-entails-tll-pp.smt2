@@ -102,7 +102,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x RefTLL_t)
 (declare-const y RefTLL_t)
@@ -117,4 +117,4 @@
 			(TLL_plus x y u v )
 ))
 
-(check-unsat)
+(check-sat)

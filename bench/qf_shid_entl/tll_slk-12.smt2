@@ -199,7 +199,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const D Refnode)
 (declare-const next0 Refnode)
@@ -244,4 +244,4 @@
 
 ))
 
-(check-unsat)
+(check-sat)

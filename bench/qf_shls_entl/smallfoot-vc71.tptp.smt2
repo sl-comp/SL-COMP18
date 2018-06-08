@@ -52,7 +52,7 @@ http://navarroj.com/research/papers.html#pldi11
 	)
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x0 RefSll_t)
 (declare-const x1 RefSll_t)
@@ -82,4 +82,4 @@ http://navarroj.com/research/papers.html#pldi11
 			(ls x1 x3 )
 ))
 
-(check-unsat)
+(check-sat)

@@ -52,7 +52,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const a RefGTyp)
 (declare-const b RefGTyp)
@@ -73,4 +73,4 @@
 			(DLL a y z b )
 ))
 
-(check-unsat)
+(check-sat)

@@ -70,7 +70,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x RefDLL_t)
 (declare-const y RefDLL_t)
@@ -83,4 +83,4 @@
 			(DLL_plus_rev x (as nil RefDLL_t) y (as nil RefDLL_t) )
 ))
 
-(check-unsat)
+(check-sat)

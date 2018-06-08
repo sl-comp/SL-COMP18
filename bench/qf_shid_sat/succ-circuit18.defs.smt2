@@ -227,7 +227,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x0 RefGTyp)
 (declare-const x1 RefGTyp)

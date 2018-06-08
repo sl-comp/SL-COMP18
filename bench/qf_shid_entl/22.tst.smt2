@@ -52,7 +52,7 @@
 	)
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x RefGTyp)
 (declare-const y RefGTyp)
@@ -75,4 +75,4 @@
 
 ))
 
-(check-unsat)
+(check-sat)

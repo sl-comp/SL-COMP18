@@ -69,7 +69,7 @@
 )
 
 
-(check-unsat) 
+(check-sat) 
 ;; variables
 (declare-const x RefGTyp)
 
@@ -81,4 +81,4 @@
 			(BinTree x )
 ))
 
-(check-unsat)
+(check-sat)
