@@ -368,7 +368,7 @@ We encode this entailment problem as an assertion asking whether the negated pro
 \end{Verbatim}
 The entailment holds when the assertion is unsatisfiable, which can be
 checked in the standard way, using 
-\changed[ms]{{\tt (check-unsat)}.} %  {\tt (check-sat)
+{\tt (check-sat)}.
 However, the dual problem:
 \begin{Verbatim}
 (assert (not (implies 
@@ -387,7 +387,7 @@ problems may also be encoded using two separate assertions:}
 (assert (dllseg_ord x y z t m))
 (assert (not (and (sep (pto x (node m u v)) (dllseg_ord u x z t n)) (<= m n))
 )       )
-(check-unsat)
+(check-sat)
 \end{Verbatim}
 
 
