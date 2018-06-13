@@ -53,7 +53,6 @@ namespace smtlib {
 
             virtual void visit(const AssertCommandPtr& node) = 0;
             virtual void visit(const CheckSatCommandPtr& node) = 0;
-            virtual void visit(const CheckUnsatCommandPtr& node) = 0;
             virtual void visit(const CheckSatAssumCommandPtr& node) = 0;
             virtual void visit(const DeclareConstCommandPtr& node) = 0;
             virtual void visit(const DeclareDatatypeCommandPtr& node) = 0;
@@ -169,7 +168,6 @@ namespace smtlib {
 
             void visit(const AssertCommandPtr& node) override;
             void visit(const CheckSatCommandPtr& node) override;
-            void visit(const CheckUnsatCommandPtr& node) override;
             void visit(const CheckSatAssumCommandPtr& node) override;
             void visit(const DeclareConstCommandPtr& node) override;
             void visit(const DeclareDatatypeCommandPtr& node) override;

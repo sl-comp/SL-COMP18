@@ -90,7 +90,6 @@ simple_symbol  {sym_begin}{sym_continue}*
 "assert"		   		{ SET_LOCATION; return KW_ASSERT; }
 "check-sat-assuming"	{ SET_LOCATION; return KW_CHK_SAT_ASSUM; }
 "check-sat"		   		{ SET_LOCATION; return KW_CHK_SAT; }
-"check-unsat"		   		{ SET_LOCATION; return KW_CHK_UNSAT; }
 "declare-const"		   	{ SET_LOCATION; return KW_DECL_CONST; }
 "declare-datatype"		{ SET_LOCATION; return KW_DECL_DATATYPE; }
 "declare-datatypes"		{ SET_LOCATION; return KW_DECL_DATATYPES; }

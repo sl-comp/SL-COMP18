@@ -215,11 +215,6 @@ sep::CommandPtr Translator::translate(const ast::CommandPtr& cmd) {
         return translate(cmd2);
     }
 
-    ast::CheckUnsatCommandPtr cmd2b = dynamic_pointer_cast<ast::CheckUnsatCommand>(cmd);
-    if (cmd2b) {
-        return translate(cmd2b);
-    }
-
     ast::CheckSatAssumCommandPtr cmd3 = dynamic_pointer_cast<ast::CheckSatAssumCommand>(cmd);
     if (cmd3) {
         return translate(cmd3);
@@ -377,13 +372,6 @@ sep::AssertCommandPtr Translator::translate(const ast::AssertCommandPtr& cmd) {
 
 sep::CheckSatCommandPtr Translator::translate(const ast::CheckSatCommandPtr& cmd) {
     auto result = make_shared<sep::CheckSatCommand>();
-
-    setFileLocation(result, cmd);
-    return result;
-}
-
-sep::CheckUnsatCommandPtr Translator::translate(const ast::CheckUnsatCommandPtr& cmd) {
-    auto result = make_shared<sep::CheckUnsatCommand>();
 
     setFileLocation(result, cmd);
     return result;

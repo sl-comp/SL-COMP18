@@ -81,7 +81,6 @@ namespace smtlib {
             sep::CommandPtr translate(const ast::CommandPtr&);
             sep::AssertCommandPtr translate(const ast::AssertCommandPtr&);
             sep::CheckSatCommandPtr translate(const ast::CheckSatCommandPtr&);
-            sep::CheckUnsatCommandPtr translate(const ast::CheckUnsatCommandPtr&);
             sep::CheckSatAssumCommandPtr translate(const ast::CheckSatAssumCommandPtr&);
             sep::DeclareConstCommandPtr translate(const ast::DeclareConstCommandPtr&);
             sep::DeclareDatatypeCommandPtr translate(const ast::DeclareDatatypeCommandPtr&);

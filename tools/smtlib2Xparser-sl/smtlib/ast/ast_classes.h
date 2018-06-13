@@ -28,7 +28,6 @@ namespace smtlib {
         class Command;
         class AssertCommand;
         class CheckSatCommand;
-        class CheckUnsatCommand;
         class CheckSatAssumCommand;
         class DeclareConstCommand;
         class DeclareDatatypeCommand;
@@ -129,7 +128,6 @@ namespace smtlib {
         typedef std::shared_ptr<Command> CommandPtr;
         typedef std::shared_ptr<AssertCommand> AssertCommandPtr;
         typedef std::shared_ptr<CheckSatCommand> CheckSatCommandPtr;
-        typedef std::shared_ptr<CheckUnsatCommand> CheckUnsatCommandPtr;
         typedef std::shared_ptr<CheckSatAssumCommand> CheckSatAssumCommandPtr;
         typedef std::shared_ptr<DeclareConstCommand> DeclareConstCommandPtr;
         typedef std::shared_ptr<DeclareDatatypeCommand> DeclareDatatypeCommandPtr;

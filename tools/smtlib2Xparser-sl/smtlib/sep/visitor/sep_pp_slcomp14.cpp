@@ -132,11 +132,6 @@ void Pp_SLCOMP14::visit(const CheckSatCommandPtr& node) {
     this->ret = true;
 }
 
-void Pp_SLCOMP14::visit(const CheckUnsatCommandPtr& node) {
-    std::cout << node->toString() << std::endl;
-    this->ret = true;
-}
-
 void Pp_SLCOMP14::visit(const CheckSatAssumCommandPtr& node) {
     // NB: not used in SL-COMP'14
     // IGNORED

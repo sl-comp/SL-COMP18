@@ -55,18 +55,6 @@ namespace smtlib {
             std::string toString() override;
         };
 
-        /* ================================ CheckUnsatCommand ================================= */
-        /** A 'check-sat' command. */
-        class CheckUnsatCommand : public Command,
-                                public std::enable_shared_from_this<CheckUnsatCommand> {
-        public:
-            inline CheckUnsatCommand() = default;
-
-            void accept(Visitor0* visitor) override;
-
-            std::string toString() override;
-        };
-
         /* =============================== CheckSatAssumCommand =============================== */
         /** A 'check-sat-assuming' command. */
         class CheckSatAssumCommand : public Command,

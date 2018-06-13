@@ -66,8 +66,6 @@ void DummyVisitor0::visit(const AssertCommandPtr& node) {
 
 void DummyVisitor0::visit(const CheckSatCommandPtr& node) {}
 
-void DummyVisitor0::visit(const CheckUnsatCommandPtr& node) {}
-
 void DummyVisitor0::visit(const CheckSatAssumCommandPtr& node) {
     visit0(node->assumptions);
 }

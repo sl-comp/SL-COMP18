@@ -68,11 +68,6 @@ CommandPtr share(AstPtr nakedPtr) {
         return option2->shared_from_this();
     }
 
-    CheckUnsatCommandPtr option2b = dynamic_pointer_cast<CheckUnsatCommand>(smtlib_nodemap[nakedPtr]);
-    if (option2b) {
-        return option2b->shared_from_this();
-    }
-
     CheckSatAssumCommandPtr option3 = dynamic_pointer_cast<CheckSatAssumCommand>(smtlib_nodemap[nakedPtr]);
     if (option3) {
         return option3->shared_from_this();
@@ -605,12 +600,6 @@ AstPtr ast_newAssertCommand(AstPtr term) {
 
 AstPtr ast_newCheckSatCommand() {
     CheckSatCommandPtr ptr = make_shared<CheckSatCommand>();
-    smtlib_nodemap[ptr.get()] = ptr;
-    return ptr.get();
-}
-
-AstPtr ast_newCheckUnsatCommand() {
-    CheckUnsatCommandPtr ptr = make_shared<CheckUnsatCommand>();
     smtlib_nodemap[ptr.get()] = ptr;
     return ptr.get();
 }

@@ -170,15 +170,6 @@ void SyntaxChecker::visit(const CheckSatCommandPtr& node) {
     }
 }
 
-void SyntaxChecker::visit(const CheckUnsatCommandPtr& node) {
-    ErrorPtr err;
-
-    if (!node) {
-        err = addError(ErrorMessages::ERR_NULL_NODE_VISIT, node, err);
-        return;
-    }
-}
-
 void SyntaxChecker::visit(const CheckSatAssumCommandPtr& node) {
     ErrorPtr err;
 

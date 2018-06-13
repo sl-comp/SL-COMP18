@@ -450,10 +450,6 @@ void VisitorWithStack0::visit(const CheckSatCommandPtr& node) {
     visitWithStack(node);
 }
 
-void VisitorWithStack0::visit(const CheckUnsatCommandPtr& node) {
-    visitWithStack(node);
-}
-
 void VisitorWithStack0::visit(const CheckSatAssumCommandPtr& node) {
     visitWithStack(node);
     visit0(node->assumptions);
@@ -1069,7 +1065,6 @@ void DummyVisitorWithStack0::visitWithStack(const PropLiteralPtr& node) {}
 
 void DummyVisitorWithStack0::visitWithStack(const AssertCommandPtr& node) {}
 void DummyVisitorWithStack0::visitWithStack(const CheckSatCommandPtr& node) {}
-void DummyVisitorWithStack0::visitWithStack(const CheckUnsatCommandPtr& node) {}
 void DummyVisitorWithStack0::visitWithStack(const CheckSatAssumCommandPtr& node) {}
 void DummyVisitorWithStack0::visitWithStack(const DeclareConstCommandPtr& node) {}
 void DummyVisitorWithStack0::visitWithStack(const DeclareDatatypeCommandPtr& node) {}

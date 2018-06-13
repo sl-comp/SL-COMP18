@@ -66,7 +66,6 @@ AstPtr ast_newPropLiteral(AstPtr symbol, int negated);
 // ast_command.h
 AstPtr ast_newAssertCommand(AstPtr term);
 AstPtr ast_newCheckSatCommand();
-AstPtr ast_newCheckUnsatCommand();
 AstPtr ast_newCheckSatAssumCommand(AstList assumptions);
 AstPtr ast_newDeclareConstCommand(AstPtr symbol, AstPtr sort);
 AstPtr ast_newDeclareDatatypeCommand(AstPtr symbol, AstPtr declaration);

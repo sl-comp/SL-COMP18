@@ -29,18 +29,6 @@ string CheckSatCommand::toString() {
     return ss.str();
 }
 
-/* ================================ CheckUnsatCommand ================================= */
-
-void CheckUnsatCommand::accept(Visitor0* visitor) {
-    visitor->visit(shared_from_this());
-}
-
-string CheckUnsatCommand::toString() {
-    stringstream ss;
-    ss << "(" << KW_CHK_UNSAT << ")";
-    return ss.str();
-}
-
 /* =============================== CheckSatAssumCommand =============================== */
 
 void CheckSatAssumCommand::accept(Visitor0* visitor) {

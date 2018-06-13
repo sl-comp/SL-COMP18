@@ -68,7 +68,6 @@ namespace smtlib {
 
             void visit(const AssertCommandPtr& node) final;
             void visit(const CheckSatCommandPtr& node) final;
-            void visit(const CheckUnsatCommandPtr& node) final;
             void visit(const CheckSatAssumCommandPtr& node) final;
             void visit(const DeclareConstCommandPtr& node) final;
             void visit(const DeclareDatatypeCommandPtr& node) final;
@@ -179,7 +178,6 @@ namespace smtlib {
 
             virtual void visitWithStack(const AssertCommandPtr& node) = 0;
             virtual void visitWithStack(const CheckSatCommandPtr& node) = 0;
-            virtual void visitWithStack(const CheckUnsatCommandPtr& node) = 0;
             virtual void visitWithStack(const CheckSatAssumCommandPtr& node) = 0;
             virtual void visitWithStack(const DeclareConstCommandPtr& node) = 0;
             virtual void visitWithStack(const DeclareDatatypeCommandPtr& node) = 0;
@@ -299,7 +297,6 @@ namespace smtlib {
 
             void visitWithStack(const AssertCommandPtr& node) override;
             void visitWithStack(const CheckSatCommandPtr& node) override;
-            void visitWithStack(const CheckUnsatCommandPtr& node) override;
             void visitWithStack(const CheckSatAssumCommandPtr& node) override;
             void visitWithStack(const DeclareConstCommandPtr& node) override;
             void visitWithStack(const DeclareDatatypeCommandPtr& node) override;

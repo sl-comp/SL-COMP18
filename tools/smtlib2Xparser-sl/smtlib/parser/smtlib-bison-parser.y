@@ -27,7 +27,7 @@ void yyerror(SmtPrsr parser, const char *);
 
 %token <ptr> NUMERAL DECIMAL HEXADECIMAL BINARY
 
-%token KW_ASSERT KW_CHK_SAT KW_CHK_UNSAT KW_CHK_SAT_ASSUM KW_DECL_CONST KW_DECL_FUN KW_DECL_SORT
+%token KW_ASSERT KW_CHK_SAT KW_CHK_SAT_ASSUM KW_DECL_CONST KW_DECL_FUN KW_DECL_SORT
 %token KW_DECL_HEAP KW_DEF_FUN KW_DEF_FUN_REC KW_DEF_FUNS_REC KW_DEF_SORT KW_ECHO KW_EXIT
 %token KW_GET_ASSERTS KW_GET_ASSIGNS KW_GET_INFO KW_GET_MODEL KW_GET_OPT KW_GET_PROOF
 %token KW_GET_UNSAT_ASSUMS KW_GET_UNSAT_CORE KW_GET_VALUE KW_POP KW_PUSH
@@ -119,18 +119,6 @@ command:
 	'(' KW_CHK_SAT ')'			
 		{ 
 			$$ = ast_newCheckSatCommand(); 
-
-			@$.first_line = @1.first_line;
-            @$.first_column = @1.first_column;
-			@$.last_line = @3.last_line;
-            @$.last_column = @3.last_column;
-
-			ast_setLocation(parser, $$, @$.first_line, @$.first_column, @$.last_line, @$.last_column);
-		}
-|
-	'(' KW_CHK_UNSAT ')'
-		{
-			$$ = ast_newCheckUnsatCommand();
 
 			@$.first_line = @1.first_line;
             @$.first_column = @1.first_column;

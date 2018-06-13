@@ -36,6 +36,11 @@ int main(int argc, char **argv) {
                 settings->setOutputFormat(argv[i]);
                 i++;
             }
+        } else if (argv[i][0] == '-') {
+	    // unknown option, print the help
+	    Logger::error("main()", "Unknown option");
+	    Logger::error("main()", "Usage: slcomp-parser [--no-core] [--output <format>] file1.smt2 ... fileN.smt2");
+	    i++;
         } else {
             files.push_back(string(argv[i]));
             i++;

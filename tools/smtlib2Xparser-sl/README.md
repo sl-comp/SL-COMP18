@@ -2,6 +2,8 @@
 
 Parser for SMT-LIB v2.6 compatible with input format of SL-COMP'18.
 
+See file "LICENSE" for more information about this software.
+
 ** IMPORTANT: this directory is cloned from
 https://github.com/cristina-serban/slcomp-parser **
 
