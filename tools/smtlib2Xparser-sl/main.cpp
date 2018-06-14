@@ -2,6 +2,7 @@
  * \file        main.cpp
  * \brief       Entry point for processing SMT-LIB format for Separation Logic
  * \author      Cristina Serban
+ * \author      Mihaela Sighireanu
  * \copyright   See 'LICENSE' file.
  */
 
@@ -21,13 +22,23 @@ using namespace smtlib;
 
 int main(int argc, char **argv) {
     ExecutionSettingsPtr settings = make_shared<ExecutionSettings>();
+
     vector<string> files;
 
     for (int i = 1; i < argc;) {
         // string argstr = string(argv[i]);
         // smatch sm;
 
-        if (strcmp(argv[i], "--no-core") == 0) {
+        if (strcmp(argv[i], "--config") == 0) {
+	    i++;
+	    if (i < argc) {
+		smtlib::ast::SortCheckContextPtr cf = 
+			make_shared<smtlib::ast::SortednessCheckerContext>();
+		cf->getConfiguration()->loadFile(argv[i]);
+	        settings->setSortCheckContext(cf);
+                i++;
+            }
+	} else if (strcmp(argv[i], "--no-core") == 0) {
             settings->setCoreTheoryEnabled(false);
             i++;
         } else if (strcmp(argv[i], "--output") == 0) {

@@ -1,0 +1,5 @@
+LOC_LOGICS=../smtlib2Xparser-sl/input/Logics/
+LOC_THEORIES=../smtlib2Xparser-sl/input/Theories/
+FILE_EXT_LOGIC=.smt2
+FILE_EXT_THEORY=.smt2
+

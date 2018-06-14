@@ -391,7 +391,7 @@ void Pp_SLCOMP14::visit(const SelectorDeclarationPtr& node) {
     // NB: used in SL-COMP'18 to define datatypes
     // visit to translate fields as functions
     // We suppose that the selector belongs to this->sortname
-    std::cout << "(define-fun " << node->name << " () ";
+    std::cout << "(declare-fun " << node->name << " () ";
     std::cout << "(Field Ref" << this->sortname << " " << node->sort->toString();
     std::cout << ") )" << std::endl;
     this->ret = true;
@@ -826,7 +826,7 @@ void Pp_SLCOMP14::visit(const SepTermPtr& node) {
         std::cout << "(tobool ";
         this->inspace = true;
     }
-    std::cout << "(sep ";
+    std::cout << "(ssep ";
     this->nesting++;
     for (const auto& term : node->terms) {
         std::cout << std::endl << std::string(TAB * this->nesting, ' ');
