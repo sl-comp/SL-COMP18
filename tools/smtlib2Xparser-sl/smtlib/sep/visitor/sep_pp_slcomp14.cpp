@@ -192,7 +192,8 @@ void Pp_SLCOMP14::visit(const DeclareSortCommandPtr& node) {
 
 void Pp_SLCOMP14::visit(const DeclareHeapCommandPtr& node) {
     // IGNORE this command
-    Logger:message("Sep::Pp_slcomp14::visit()", "Ignored DeclareHeap");
+    // but keep messages to stderr
+    Logger::warning("Sep::Pp_slcomp14::visit()", "Ignored DeclareHeap");
     std::cout << ";; IGNORE declare-heap " << std::endl;
     this->ret = false;
 }
@@ -422,6 +423,8 @@ void Pp_SLCOMP14::visit(const FunctionDeclarationPtr& node) {
     // TODO: check node->sort is Bool
     // - print name
     std::cout << node->name;
+    // - register name in the set
+    this->set_pred.insert(node->name);
     // - print parameters
     std::cout << " (";
     this->nesting++;
@@ -599,13 +602,22 @@ void Pp_SLCOMP14::visit(const QualifiedTermPtr& node) {
         return;
     }
 
-    // it is a simple term
+    // it is a simple term, find if it is a predicate
+    std::set<string>::iterator it = this->set_pred.find(id);
+    if (it != this->set_pred.end() &&
+	!this->inspace) {
+	std::cout << "(tobool ";
+    }
     std::cout << "(" << id;
     for (const auto& term : terms) {
         std::cout << " ";
         visit0(term);
     }
     std::cout << ") ";
+    if (it != this->set_pred.end() &&
+	!this->inspace) {
+	std::cout << ")";
+    }
     this->ret = true;
 }
 

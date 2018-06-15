@@ -4,6 +4,7 @@
 #include "visitor/sep_visitor.h"
 #include "visitor/sep_visitor_extra.h"
 
+#include <set>
 #include <unordered_map>
 
 namespace smtlib {
@@ -20,6 +21,11 @@ namespace smtlib {
              */
             std::unordered_map<std::string, std::vector<SelectorDeclarationPtr> >
                     map_cons = {}; 
+
+	    /** stores predicates declared in define-fun(s)-rec
+	     */
+	    std::set<std::string> set_pred = {};
+
             /** stores the name of the defined sort in datatypes,
                 used to translate fields
              */
