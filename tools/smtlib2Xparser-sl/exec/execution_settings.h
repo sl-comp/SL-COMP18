@@ -17,6 +17,7 @@
 #include "sep/sep_abstract.h"
 
 #include <memory>
+#include <cstring>
 
 namespace slcompparser {
     class ExecutionSettings;
