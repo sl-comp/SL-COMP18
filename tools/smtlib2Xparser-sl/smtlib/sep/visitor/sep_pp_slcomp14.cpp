@@ -192,7 +192,7 @@ void Pp_SLCOMP14::visit(const DeclareSortCommandPtr& node) {
 
 void Pp_SLCOMP14::visit(const DeclareHeapCommandPtr& node) {
     // IGNORE this command
-    Logger::error("Sep::Pp_slcomp14::visit()", "Ignored DeclareHeap");
+    Logger:message("Sep::Pp_slcomp14::visit()", "Ignored DeclareHeap");
     std::cout << ";; IGNORE declare-heap " << std::endl;
     this->ret = false;
 }
