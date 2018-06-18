@@ -217,6 +217,11 @@ void Pp_SLCOMP14::visit(const DefineFunsRecCommandPtr& node) {
     // NB: used to define predicates in SL-COMP'18
     bool oldArg = this->inpred;
     this->inpred = true;
+    // first register all names
+    for (int i = 0; i < node->declarations.size(); i++) {
+	FunctionDeclarationPtr fd = node->declarations.at(i);
+	this->set_pred.insert(fd->name);
+    }
     // print in any order
     for (int i = 0; i < node->declarations.size(); i++) {
         // TODO: factorize with above   
@@ -604,10 +609,14 @@ void Pp_SLCOMP14::visit(const QualifiedTermPtr& node) {
 
     // it is a simple term, find if it is a predicate
     std::set<string>::iterator it = this->set_pred.find(id);
+    bool inspace = this->inspace;
     if (it != this->set_pred.end() &&
-	!this->inspace) {
+	!inspace) {
 	std::cout << "(tobool ";
-    }
+	this->inspace = true;
+    } 
+    // else std::cerr << "symbol " << id << " not pred or " << this->inspace << std::endl;
+    
     std::cout << "(" << id;
     for (const auto& term : terms) {
         std::cout << " ";
@@ -615,8 +624,9 @@ void Pp_SLCOMP14::visit(const QualifiedTermPtr& node) {
     }
     std::cout << ") ";
     if (it != this->set_pred.end() &&
-	!this->inspace) {
+	!inspace) {
 	std::cout << ")";
+	this->inspace = false;
     }
     this->ret = true;
 }
