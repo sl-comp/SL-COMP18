@@ -1,0 +1,50 @@
+#+TITLE:      SL-COMP References
+#+AUTHOR:     Mihaela Sighireanu
+#+EMAIL:      sl-comp@googlegroups.com
+#+LANGUAGE:   en
+#+CATEGORY:   competition
+#+OPTIONS:    H:2 num:nil
+#+OPTIONS:    toc:auto
+#+OPTIONS:    \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE)
+#+OPTIONS:    html-preamble:nil
+#+OPTIONS:    html-postamble:auto
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
+
+* Competition reports:
+  - M. Sighireanu and D. R. Cok.  
+    __Report on SL-COMP'14__, JSAT 2014.
+    [[file:slcomp14-report.pdf][pdf]]
+
+* Papers describing the benchmarks:
+  - J. Brotherston, N. Gorogiannis, and R.L. Petersen.
+    __A Generic Cyclic Theorem Prover__ , APLAS 2010.
+    [[https://github.com/ngorogiannis/cyclist/blob/master/papers/cyclist.pdf][pdf]]
+
+  - J. Brotherston, C. Fuhs, N. Gorogiannis, and J.N. Perez.
+    __A Decision Procedure for Satisfiability in Separation Logic with Inductive Predicates__,
+     CSL-LICS 2014.
+    [[https://github.com/ngorogiannis/cyclist/blob/master/papers/slsat.pdf][pdf]]
+
+  - Wei-Ngan Chin, Cristian Gherghina, Razvan Voicu, Quang Loc Le, Florin Craciun, Shengchao Qin.
+    __A Specialization Calculus for Pruning Disjunctive Predicates to Support Verification__,
+    CAV 2011. [pdf]
+
+  - C. Enea, O. Lengal, M. Sighireanu, and T. Vojnar. 
+    __Compositional Entailment Checking for a Fragment of Separation Logic__, APLAS 2014.
+   [[http://www.fit.vutbr.cz/~ilengal/pub/FIT-TR-2014-01.pdf][pdf]]
+
+  - R. Iosif, A. Rogalewicz, and T. Vojnar.
+    __Deciding Entailments in Inductive Separation Logic with Tree Automata__, ATVA 2014.
+    [[http://arxiv.org/pdf/1402.2127v2.pdf][pdf]]
+
+  - J.A. Navarro Perez and A. Rybalchenko.
+    __Separation Logic Modulo Theories__, APLAS 2013.
+
+* Web site of solvers:
+  - [[https://github.com/ngorogiannis/cyclist][Cyclist]]
+  - [[http://loris-7.ddns.comp.nus.edu.sg/~project/s2/beta/][SLEEK]]
+  - [[http://www.fit.vutbr.cz/research/groups/verifit/tools/slide/][SLIDE]]
+  - [[https://github.com/ngorogiannis/cyclist][SL-SAT]]
+  - [[https://github.com/mihasighi/spen][SPEN]]
+

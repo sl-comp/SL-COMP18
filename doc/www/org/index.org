@@ -1,0 +1,168 @@
+#+TITLE:      SL-COMP 2018
+#+AUTHOR:     Mihaela Sighireanu
+#+EMAIL:      sl-comp@googlegroups.com
+#+LANGUAGE:   en
+#+CATEGORY:   competition
+#+OPTIONS:    H:2 num:nil
+#+OPTIONS:    toc:auto
+#+OPTIONS:    \n:nil ::t |:t ^:t -:t f:t *:t d:(HIDE)
+#+OPTIONS:    tex:t
+#+OPTIONS:    html-preamble:nil
+#+OPTIONS:    html-postamble:auto
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
+#+HTML_MATHJAX: align: left indent: 5em tagside: left font: Neo-Euler
+
+#+MACRO: sl-comp SL-COMP
+#+MACRO: SL [[http://www0.cs.ucl.ac.uk/staff/p.ohearn/SeparationLogic/Separation_Logic/SL_Home.html][Separation Logic]]
+#+MACRO: SMT-COMP [[http://smtcomp.sourceforge.net][SMT-COMP]]
+#+MACRO: SAT-COMP [[http://www.satcompetition.org][SAT]]
+#+MACRO: SMT-LIB  [[http://smtlib.cs.uiowa.edu/index.shtml][SMT-LIB]]
+#+MACRO: StarExec [[https://www.starexec.org][StarExec]]
+
+* Synopsis
+   {{{sl-comp}}} is an initiative for collecting decision problems in {{{SL}}}
+   and solvers dealing with such problems.
+
+   This initiative started in 2014 and it was inspired by the very
+   popular initiatives on other theories, like 
+   first-order theories for {{{SMT-COMP}}} and 
+   Boolean constraints for {{{SAT-COMP}}}.
+
+* News
+  - *June 18*: [[https://github.com/sl-comp/SL-COMP18/master/tree/bench][New benchmarks]] have been added. /Many thanks to contributors!/
+  - *May 23*: [[file:CFP.md][Call for comments, solvers, and benchmarks]] issued.
+  - *January 2018*: Announcement of the second edition of SL-COMP: it will
+    be hosted by [[http://adsl.univ-grenoble-alpes.fr][ADSL workshop]] at [[http://www.floc2018.org][FLOC'18]] in July 13th 2018.
+
+* Key Dates 
+  - *June 24*: deadline for solver registration
+  - *July 1*: first round of the competition
+  - *July 8*: last round of the competition
+  - *July 13*: presentation at [[http://adsl.univ-grenoble-alpes.fr][ADSL 2018]]; 
+    *all participants are welcome to present their solver!*
+
+* Introduction
+
+{{{SL}}} (SL) is an established and fairly popular Hoare logic
+for the imperative, heap-manipulating programs.
+#+INDEX: Separation Logic
+
+Its high expressivity, its ability to generate compact proofs and its
+support for local reasoning motivated the development of [[http://www0.cs.ucl.ac.uk/staff/p.ohearn/SeparationLogic/Separation_Logic/Tools.html][tools]] for
+automatic reasoning about programs using dynamic memory and whose
+properties are specified using SL.
+
+These tools intensively use (semi-)decision procedures for checking
+satisfiability and entailment problems in SL. In the last ten years,
+[[file:papers.org][several papers]] reported on the design and implementation of such
+solvers.
+#+INDEX: decision procedures
+
+To improve the status of these solvers and to motivate the research in
+this area, [[https://cs.nyu.edu/pipermail/smt-comp/2014/000278.html][we started in May 2014]] a competition of solvers for
+Separation Logic problems. This competition was inspired by the very
+popular competitions on other logic theories, e.g., {{{SMT-COMP}}} 
+and {{{SAT-COMP}}}.
+This first edition of SL-COMP has been held with the support of the
+{{{StarExec}}} platform and of SMT-COMP officers, mainly David Cok. 
+#+INDEX: SMT-COMP
+#+INDEX: SAT-COMP
+#+INDEX: StarExec
+
+The input format of problems extended the format {{{SMT-LIB}}} with SL
+constructs. This format has been changed for the second edition of
+{{{SL-COMP}}} in 2018 to better exploit the new features of
+{{{SMT-LIB}}} like datatypes definition and mutually recursive functions.
+#+INDEX: SMT-LIB
+
+* Specifications and rules
+  The input problems are specified using the format described [[https://github.com/sl-comp/SL-COMP18/master/tree/input/Docs/][here]] and
+  commented in this [[https://groups.google.com/forum/?hl=fr#!topic/sl-comp/3j8iaaLvTWs][post]].
+
+  Problems to be solved are either satisfiability problems or
+  entailment problems. An entailment problem consists in checking the
+  validity of the formula $A \models B$ and it is coded by the formula
+  $A \land \lnot B$.
+
+  The possible answers of a solver are: *sat*, *unsat*, *unknown*.
+
+  The solvers shall run on the {{{StarExec}}} platform.
+  Solvers may use a pre-processor to transform the input file format to
+  the solver's format. The input problems are not scrambled.
+
+* Benchmarks and divisions
+
+- SL-COMP 2018 collected [[https://github.com/sl-comp/SL-COMP18/tree/master/bench][a set of 800 problems]].
+   This set includes the one in the 2014 edition and nerly 200 new problems.
+   The current set of problems is split into the following divisions:
+   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_sat][=qf_shls_sat=]]: sat problem for quantifier free formulas in the
+     symbolic heaps fragment using only acyclic singly linked lists
+   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_entl][=qf_shls_entl=]]: entailment problems for the above fragment
+   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_sat][=qf_shid_sat=]]: sat problem for quantifier free formulas in the
+     symbolic heaps fragment using general inductive definitions
+   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_entl][=qf_shid_entl=]]: entailment problem for quantifier free formulas in
+     the symbolic heaps fragment using general inductive definitions
+   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shlid_entl][=qf_shlid_entl=]]: entailment problem for quantifier free formulas in
+     the symbolic heaps fragment using linear inductive definitions
+   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/shid_entl][=shid_entl=]]: entailment problem for formulas in the symbolic heaps
+     fragment general inductive definitions
+
+- SL-COMP 2014 collected [[https://github.com/mihasighi/smtcomp14-sl/tree/master/bench][a set of 678 problems]]
+   The problems collected have the following properties:
+   + 25% satisfiability problems versus 75% entailment problems
+   + 41% crafted problems versus 59% random generated problems
+   + The problems were split in four divisions:
+     - /=sll0a_sat=/: satisfiability problems for the symbolic heap fragment of {{{SL}}}
+       with a unique inductive predicate specifying acyclic singly linked list.
+     - /=sll0a_entl=/: entailment problems for the above fragment.
+     - /=FDB_entl=/: entailment problems for the symbolic heap fragment
+       of {{{SL}}} with linear inductive definitions specifying various kinds of lists
+       in a restricted way.
+     - /=UDB_sat=/: satisfiability problems for the symbolic heap fragment
+       of {{{SL}}} with	general, user defined inductive definitions specifying lists, trees, etc.
+
+* Participants
+  The final list of participants will be announces June 25th, 2018.
+  Some participants already confimed their presence to SL-COMP'18:
+  - Asterix: divisions /=qf_shls_sat=/ and /=qf_shls_entl=/
+  - COMP-SPEN: division /=qf_shlidlia_entl=/
+  - Cyclist: all divisions
+  - Harrsh: division /=qf_shls_sat=/
+  - Inductor: divisions /=qf_shid_entl=/
+  - Sleek: all divisions
+  - SongBird: all divisions
+  - SPEN: divisions /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_shlid_entl=/, and /=qf_shlidlia_entl=/
+
+
+  The list of participants at SL-COMP 2014 is provided 
+  [[https://www.irif.fr/~sighirea/sl-comp/14/participants.html][here]].
+
+* Results
+  The results will be announces July 13th, 2018, at the [[http://adsl.univ-grenoble-alpes.fr][ADSL workshop]].
+  
+
+* Committee
+
+  The organisation committee of SL-COMP 2018 includes the organisers
+  of the [[http://adsl.univ-grenoble-alpes.fr][ADSL workshop]], namely 
+  [[https://ngorogiannis.bitbucket.io/][Nikos Gorogiannis]],
+  [[http://nts.imag.fr/index.php/Radu_Iosif][Radu Iosif]] and
+  [[http://www.irif.fr/~sighirea/][Mihaela Sighireanu]].
+
+  The competition committee will include a member for each participating solver.
+
+* Mailing list
+  Any question related to this competition shall be sent to
+  the organisation committee and to the 
+  [[https://groups.google.com/forum/?hl=fr#!forum/sl-comp][mailing list]].
+
+* Previous SL-COMPs
+
+  - [[https://www.irif.fr/~sighirea/sl-comp/14][SL-COMP 2014]]
+
+
+
+# INCLUDE:    sitemap.org
+# [[file:sitemap.html][Site Map]] and [[file:theindex.html][index]]
+
