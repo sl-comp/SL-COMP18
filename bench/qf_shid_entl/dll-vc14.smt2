@@ -1,4 +1,4 @@
-(set-logic QF_SHLID)
+(set-logic QF_SHID)
 
 (set-info :source |
 Quang Loc Le Q.Le@tees.ac.uk
@@ -57,15 +57,8 @@ Quang Loc Le Q.Le@tees.ac.uk
 (declare-const y_emp RefDll_t)
 (declare-const z_emp RefDll_t)
 
-(assert 
-		(and 
-			(distinct x_emp z_emp)
-			(dll x_emp y_emp (as nil RefDll_t) z_emp )
-		)
 
-)
-
-(assert (not 
+(assert
 		(and 
 			(distinct y_emp z_emp)
 			(distinct x_emp (as nil RefDll_t))
@@ -77,6 +70,14 @@ Quang Loc Le Q.Le@tees.ac.uk
 		)
 
 		)	
+)
+
+(assert (not 
+		(and 
+			(distinct x_emp z_emp)
+			(dll x_emp y_emp (as nil RefDll_t) z_emp )
+		)
+
 ))
 
 (check-sat)
