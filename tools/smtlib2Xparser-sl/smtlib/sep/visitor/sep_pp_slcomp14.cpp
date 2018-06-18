@@ -200,9 +200,15 @@ void Pp_SLCOMP14::visit(const DeclareHeapCommandPtr& node) {
 
 void Pp_SLCOMP14::visit(const DefineFunCommandPtr& node) {
     // NB: not used, only recursive functions
-    Logger::error("Sep::Pp_slcomp14::visit()", "Ignored DefineFun");
+    Logger::warning("Sep::Pp_slcomp14::visit()", "Please check 'define-fun'");
+    /*
     std::cout << ";; IGNORE define-fun " << std::endl;
     this->ret = false;
+    */
+    this->nesting = 0;
+    visit0(node->definition);
+    this->nesting = 0;
+    this->ret = true;
 }
 
 void Pp_SLCOMP14::visit(const DefineFunRecCommandPtr& node) {
