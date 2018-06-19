@@ -45,8 +45,9 @@ Jens Katelaan, Harrsh, https://bitbucket.org/jkatelaan/harrsh
 
 ;; variables
 (declare-const x0 RefTll_t)
+(declare-const y0 RefTll_t)
 
-(assert (tll x0 (as nil RefTll_t) (as nil RefTll_t))
+(assert (tll x0 y0 (as nil RefTll_t))
 )
 
 (check-sat)
