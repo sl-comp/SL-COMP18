@@ -1,11 +1,11 @@
-(set-logic QF_SHLID)
+(set-logic QF_SHID)
 
 (set-info :source |
 Quang Loc Le Q.Le@tees.ac.uk
 |)
 (set-info :smt-lib-version 2.0)
 (set-info :category "crafted")
-(set-info :status sat)
+(set-info :status unsat)
 (set-info :version "2018-06-15")
 
 ; Sorts for locations, one by cell sort
@@ -56,38 +56,28 @@ Quang Loc Le Q.Le@tees.ac.uk
 (declare-const x_emp RefDll_t)
 (declare-const y_emp RefDll_t)
 (declare-const z_emp RefDll_t)
-(declare-const w_emp RefDll_t)
-(declare-const x2_emp RefDll_t)
-(declare-const y2_emp RefDll_t)
-(declare-const z2_emp RefDll_t)
-(declare-const w2_emp RefDll_t)
 
-(assert 
-		(and
-			(distinct x2_emp w2_emp) 
+
+(assert
+		(and 
 			(distinct x_emp z_emp)
-			(distinct w_emp z_emp)
 			(distinct y_emp z_emp)
+			(distinct x_emp (as nil RefDll_t))
+			(distinct y_emp (as nil RefDll_t))
+			(distinct x_emp y_emp)
 		(sep 
-			(pto x_emp (c_Dll_t w_emp (as nil RefDll_t) ))
-			(pto w_emp (c_Dll_t y_emp x_emp ))
-			(pto y_emp (c_Dll_t z_emp w_emp ))
-			(pto x2_emp (c_Dll_t w2_emp (as nil RefDll_t) ))
-			(dll w2_emp y2_emp (as nil RefDll_t) z2_emp )
+			(pto x_emp (c_Dll_t y_emp (as nil RefDll_t) ))
+			(pto y_emp (c_Dll_t z_emp x_emp ))
 		)
 
-		)
-
+		)	
 )
 
-(assert (not
-		(and
-			(= z_emp z_emp)
-	 
-		(sep
+(assert (not 
+		(and 
 			(dll x_emp y_emp (as nil RefDll_t) z_emp )
-			(dll x2_emp y2_emp (as nil RefDll_t) z2_emp )
 		)
-		)
+
 ))
+
 (check-sat)
