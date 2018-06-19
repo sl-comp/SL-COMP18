@@ -5,7 +5,7 @@ Quang Loc Le Q.Le@tees.ac.uk
 |)
 (set-info :smt-lib-version 2.0)
 (set-info :category "crafted")
-(set-info :status unsat)
+(set-info :status sat)
 (set-info :version "2018-06-15")
 
 ; Sorts for locations, one by cell sort
