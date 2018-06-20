@@ -1,7 +1,7 @@
 /**
  * \file        execution.cpp
  * \brief       Handling parsing, type checking, and translation
- * 
+ *
  * \author      Cristina Serban
  * \author      Mihaela Sighireanu
  * \copyright   See 'LICENSE' file.
@@ -37,6 +37,7 @@ Execution::Execution()
 
 Execution::Execution(const ExecutionSettingsPtr& settings)
 : settings(make_shared<ExecutionSettings>(settings)) {
+    this->settings = settings;
     if (settings->getInputMethod() == ExecutionSettings::InputMethod::INPUT_AST) {
         ast = settings->getInputAst();
         parseAttempted = true;
@@ -177,4 +178,3 @@ bool Execution::translate() {
     } else
         return false; // TODO
 }
-
