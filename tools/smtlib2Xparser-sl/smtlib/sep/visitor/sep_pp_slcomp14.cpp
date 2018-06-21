@@ -234,6 +234,7 @@ void Pp_SLCOMP14::visit(const DefineFunsRecCommandPtr& node) {
         this->nesting = 0;
         std::cout << "(define-fun ";
         // - print declare signature without return type
+	this->set_quant.clear();
         visit0(node->declarations.at(i));
         // - print return type
         std::cout << " Space " << std::endl;
@@ -246,6 +247,7 @@ void Pp_SLCOMP14::visit(const DefineFunsRecCommandPtr& node) {
         std::cout << std::endl;
         std::cout << std::string(this->nesting * TAB, ' ') << ")" << std::endl;
         std::cout << ")" << std::endl;
+	this->set_quant.clear();
     }
     this->nesting = 0;
     this->inpred = oldArg;
@@ -449,6 +451,7 @@ void Pp_SLCOMP14::visit(const FunctionDefinitionPtr& node) {
     bool oldArg = this->inpred;
     this->inpred = true;
     this->nesting = 0;
+    this->set_quant.clear();
     std::cout << "(define-fun ";
     // - print declare signature without return type
     visit0(node->signature);
@@ -463,20 +466,25 @@ void Pp_SLCOMP14::visit(const FunctionDefinitionPtr& node) {
     std::cout << std::endl << std::string(this->nesting*TAB, ' ') << ")";
     std::cout << std::endl << ")" << std::endl;
     this->inpred = oldArg;
+    this->set_quant.clear();
     this->ret = true;
 }
 
 void Pp_SLCOMP14::visit(const SimpleIdentifierPtr& node) {
-    if (this->inpred)
+    string vname = node->toString();
+    if (this->inpred ||
+	this->set_quant.find(vname) != this->set_quant.end())
         std::cout << "?";
-    std::cout << node->toString();
+    std::cout << vname;
     this->ret = true;
 }
 
 void Pp_SLCOMP14::visit(const QualifiedIdentifierPtr& node) {
-    if (this->inpred) // inpred
+    string vname = node->toString();
+    if (this->inpred ||
+	this->set_quant.find(vname) != this->set_quant.end())
         std::cout << "?";
-    std::cout << node->toString();
+    std::cout << vname;
     this->ret = true;
 }
 
@@ -653,13 +661,15 @@ void Pp_SLCOMP14::visit(const ForallTermPtr& node) {
 
 void Pp_SLCOMP14::visit(const ExistsTermPtr& node) {
     // NB: exists is in predicate definition and in formulas
-    // only if inpred the biders are prefixed with '?'
+    // only if inpred the binders are prefixed with '?'
     bool inspace = this->inspace;
     //std::cout << std::string(TAB*this->nesting, ' ');
     if (this->inspace) {
         std::cout << "(tobool ";
         this->inspace = false;
     }
+    // old set of variables
+    std::set<string> old_vars = this->set_quant; // copy container
     std::cout << "(exists (";
     visit0(node->bindings);
     std::cout << ") " << std::endl;
@@ -672,6 +682,9 @@ void Pp_SLCOMP14::visit(const ExistsTermPtr& node) {
     if (inspace) {
         std::cout << ") ";
     }
+    this->set_quant.clear();
+    this->set_quant = old_vars;
+    old_vars.clear();
     this->inspace = inspace;
 }
 
@@ -906,6 +919,7 @@ void Pp_SLCOMP14::visit(const SortedVariablePtr& node) {
     // NB: used in predicate parameters and exists
     // require '?' prefix
     std::cout << "(?" << node->name << " " << node->sort->toString() << ") ";
+    this->set_quant.insert(node->name);
     this->ret = true;
 }
 

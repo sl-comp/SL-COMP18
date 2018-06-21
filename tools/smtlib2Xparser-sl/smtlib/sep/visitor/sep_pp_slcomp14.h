@@ -34,6 +34,9 @@ namespace smtlib {
             bool inspace = false; 
             /** trigger for visibility of variables (local or global) */
             bool inpred = false; 
+	    /** collects the set of variables in exists */
+	    std::set<std::string> set_quant = {};
+
             /** used for pretty printing */
             size_t nesting = 0;
 
