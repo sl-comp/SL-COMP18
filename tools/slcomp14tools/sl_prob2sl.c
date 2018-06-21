@@ -650,7 +650,9 @@ sl_prob_2sl (const char *fname)
       return;
     }
 
-  // Logic: to be fixed by benchmark, not read
+  // Logic: to be fixed by benchmark, but set most general one
+  fprintf (fout, "\n(set-logic SEPLOGLIA)\n");
+
   // Infos: to be fixed by benchmark, not read
 
   // Define reference sorts, one by record

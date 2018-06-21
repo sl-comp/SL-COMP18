@@ -374,16 +374,13 @@ void Pp_SLCOMP14::visit(const SetInfoCommandPtr& node) {
 void Pp_SLCOMP14::visit(const SetLogicCommandPtr& node) {
 std:
     string logic = node->logic;
-    if ((logic.compare(std::string{"QF_SHLS"}) == 0)
-        || (logic.compare(std::string{"QF_SHLID"}) == 0)
-        || (logic.compare(std::string{"QF_SHID"}) == 0)) {
-        std::cout << "(set-logic QF_S)" << std::endl;
-        this->ret = true;
-    } else {
-        Logger::error("Sep::Pp_slcomp14::visit()", "Ignore SetLogic");
-        std::cerr << logic << std::endl;
-        this->ret = false;
-    }
+    if ((logic.compare(std::string{"QF_SHLS"}) != 0)
+        && (logic.compare(std::string{"QF_SHLID"}) != 0)
+        && (logic.compare(std::string{"QF_SHID"}) != 0)) {
+        Logger::warning("Sep::Pp_slcomp14::visit()", "Ignore 'set-logic', fix 'QF_S'");
+    } 
+    std::cout << "(set-logic QF_S)" << std::endl;
+    this->ret = true;
 }
 
 void Pp_SLCOMP14::visit(const SetOptionCommandPtr& node) {

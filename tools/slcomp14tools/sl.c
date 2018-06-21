@@ -427,7 +427,8 @@ sl_mk_pred_typecheck (sl_context_t * ctx, const char *name,
           // TODO NEW: check that they are BagInt and Int
           continue;
         }
-      else if (i > (npar_loc + 1))
+      else /* FIXME: removed to allow integer params
+	if (i > (npar_loc + 1))
         {
           /// record parameter not in first parameters
           sl_error (1, "Building predicate definition ", name);
@@ -435,7 +436,7 @@ sl_mk_pred_typecheck (sl_context_t * ctx, const char *name,
                       name);
           return 0;
         }
-      else
+      else */
         npar_loc++;
     }
   /*
@@ -1952,6 +1953,10 @@ sl_exp_push_top (sl_context_t * ctx, sl_exp_t * e, sl_form_t * form)
       /* pure constraints */
     case SL_F_EQ:
     case SL_F_DISTINCT:
+    case SL_F_LT:
+    case SL_F_GT:
+    case SL_F_LE:
+    case SL_F_GE:
       {
 #ifndef NDEBUG
 	fprintf (stderr, "Push pure:");
