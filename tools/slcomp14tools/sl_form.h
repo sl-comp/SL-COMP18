@@ -32,6 +32,7 @@ extern "C"
 #include <stdbool.h>
 #include <assert.h>
 #include <stdio.h>
+#include "sl_vector.h"
 #include "sl_type.h"
 #include "sl_var.h"
 
@@ -39,22 +40,56 @@ extern "C"
 /* Datatypes */
 /* ====================================================================== */
 
-/** Pure atomic formulas.
+/** Data formulas.
+ *  Encoded by smtlib expressions in sl.h
  */
   typedef enum sl_pure_op_t
   {
-    SL_PURE_EQ = 0, SL_PURE_NEQ, SL_PURE_OTHER
+    SL_DATA_INT = 0,
+    SL_DATA_VAR,
+    SL_DATA_FIELD,
+    SL_DATA_LT,
+    SL_DATA_GT,
+    SL_DATA_LE,
+    SL_DATA_GE,
+    SL_DATA_EQ,
+    SL_DATA_NEQ,
+    SL_DATA_PLUS,
+    SL_DATA_MINUS,
+    SL_DATA_OTHER             /* NOT TO BE USED */
   } sl_pure_op_t;
 
-  typedef struct sl_pure_t
-  {
-    /*  vleft op vright */
-    sl_pure_op_t op;
-    uid_t vleft;
-    uid_t vright;
-  } sl_pure_t;
+  typedef struct sl_term_s sl_term_t;     /* forward definition */
+
+    SL_VECTOR_DECLARE (sl_term_array, sl_term_t *);
+
+  typedef struct sl_pure_s sl_pure_t;     /* forward definition */
 
     SL_VECTOR_DECLARE (sl_pure_array, sl_pure_t *);
+
+  struct sl_term_s
+  {
+    sl_pure_op_t kind;        // only data terms
+    sl_typ_t typ;             // either SL_TYP_RECORD or SL_TYP_INT
+
+    union
+    {
+      long value;               // integer constant
+      uid_t sid;                // symbol (variable or field) identifier
+    } p;
+
+    sl_term_array *args;     // NULL for 0-arity terms
+  };
+
+
+  struct sl_pure_s
+  {
+    sl_pure_op_t kind;        // only pure formulas
+    sl_typ_t typ;             // SL_TYP_INT or ST_TYP_BOOL
+
+    sl_term_array *targs;  // term arguments
+  };
+
 
 /**
  * Spatial formulas.
@@ -122,15 +157,28 @@ extern "C"
   sl_form_t *sl_form_new (void);
   sl_pure_t *sl_pure_new (void);
   sl_space_t *sl_space_new (void);
+
+  sl_term_t *sl_term_new (void);
+  sl_term_t *sl_term_new_var (uint_t vid, sl_typ_t ty);
+  sl_pure_t *sl_pure_new (void);
+  sl_pure_t *sl_pure_new_eq (sl_term_t * t1, sl_term_t * t2);
+
 /* Allocation */
 
   void sl_form_free (sl_form_t * f);
   void sl_pure_free (sl_pure_t * p);
   void sl_space_free (sl_space_t * s);
+  void sl_term_free (sl_term_t * t);
+  void sl_pure_free (sl_pure_t * d);
+
 /* Deallocation */
 
-  void sl_pure_push (sl_pure_array * form, sl_pure_op_t op, uid_t v1,
-		     uid_t v2);
+  int sl_pure_add_pure (sl_pure_t * form, sl_pure_t * df);
+  void sl_form_add_eq (sl_form_t * form, uid_t v1, uid_t v2);
+  void sl_form_add_neq (sl_form_t * form, uid_t v1, uid_t v2);
+
+  void sl_pure_push (sl_pure_array * form, sl_pure_op_t op, 
+                     sl_term_t * e1, sl_term_t * e2);
 /* Add equality/inequality pure formula */
 
 /* ====================================================================== */
@@ -149,9 +197,17 @@ extern "C"
 /* Printing */
 /* ====================================================================== */
 
-  void sl_pure_array_fprint (FILE * f, sl_var_array * lvars,
-			     sl_pure_array * phi);
-  void sl_space_fprint (FILE * f, sl_var_array * lvars, sl_space_t * phi);
+  void sl_term_fprint (FILE * f, sl_var_array * args,
+                       sl_var_array * lvars, sl_term_t * t);
+  void sl_term_array_fprint (FILE * f, sl_var_array * args, 
+                             sl_var_array * lvars, sl_term_array * ta);
+  void sl_pure_fprint (FILE * f, sl_var_array * args, sl_var_array * lvars, 
+		       sl_pure_t * phi);
+  void sl_pure_array_fprint (FILE * f, sl_var_array * args, sl_var_array * lvars,
+                             sl_pure_array * phi);
+
+  void sl_space_fprint (FILE * f, sl_var_array * args, sl_var_array * lvars, 
+		  	sl_space_t * phi);
   void sl_form_fprint (FILE * f, sl_form_t * phi);
 
 #ifdef	__cplusplus

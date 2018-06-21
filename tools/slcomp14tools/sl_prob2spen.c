@@ -50,8 +50,13 @@ sl_fields_2spen(FILE* fout, sl_field_array* fields_array) {
   
   for (size_t i = 0; i < sl_vector_size(fields_array); i++) {
     sl_field_t* f = sl_vector_at(fields_array,i);
-    fprintf (fout, "(declare-fun %s () (Field %s %s))\n", 
-      f->name, sl_record_name(f->src_r), sl_record_name(f->pto_r));
+    fprintf (fout, "(declare-fun %s () (Field %s ", 
+      f->name, sl_record_name(f->src_r));
+    if (f->pto_ty == SL_TYP_RECORD)
+	    fprintf (fout, "%s", sl_record_name(f->pto_r));
+    else
+	    sl_typ_fprint (fout, f->pto_ty);
+    fprintf (fout, "))\n");
   }
   fprintf (fout, "\n");
 }
@@ -99,24 +104,73 @@ sl_var_array_2spen (FILE * fout, sl_var_array * args, sl_var_array * lvars,
     }
 }
 
+void
+sl_term_2spen (FILE * fout, sl_var_array * args,
+             sl_var_array * lvars, sl_term_t* t);
+
+void
+sl_term_array_2spen (FILE * fout, sl_var_array * args,
+                   sl_var_array * lvars, sl_term_array * ta)
+{
+  assert (NULL != ta);
+
+  size_t sz = sl_vector_size(ta);
+  for (size_t i = 0; i < sz; i++)
+    {
+      sl_term_2spen (fout, args, lvars, sl_vector_at(ta, i));
+      fprintf (fout, " ");
+    }
+}
+
+void
+sl_term_2spen (FILE * fout, sl_var_array * args,
+             sl_var_array * lvars, sl_term_t* t)
+{
+  assert (NULL != t);
+  switch (t->kind)
+    {
+    case SL_DATA_INT: fprintf (fout, "%ld", t->p.value); break;
+    case SL_DATA_VAR: 
+      fprintf (fout, "%s", sl_var_2spen (args, lvars, t->p.sid));
+      break;
+    case SL_DATA_PLUS:
+      sl_term_array_2spen (fout, args, lvars, t->args);
+      break;
+    case SL_DATA_MINUS:
+      sl_term_array_2spen (fout, args, lvars, t->args);
+      break;
+    default:
+      fprintf (fout, "unknTerm");
+      break;
+    }
+}
+
 /* ====================================================================== */
 /* Formula */
 /* ====================================================================== */
 
 void
 sl_pure_2spen (FILE * fout, sl_var_array * args, sl_var_array * lvars,
-		  sl_pure_t * form)
+               sl_pure_t * form)
 {
   assert (NULL != form);
 
   // shall always start by the local vars
-  char *vleft = sl_var_2spen (args, lvars, form->vleft);
-
-  char *vright = sl_var_2spen (args, lvars, form->vright);
-
-  fprintf (fout, "(%s %s %s) ", 
-	   (form->op == SL_PURE_EQ) ? "=" : "distinct", 
-	   vleft, vright);
+  fprintf (fout, "(");
+  switch (form->kind)
+    {
+    case SL_DATA_EQ: fprintf (fout, "= "); break;
+    case SL_DATA_NEQ: fprintf (fout, "distinct "); break;
+    case SL_DATA_LT: fprintf (fout, "< "); break;
+    case SL_DATA_LE: fprintf (fout, "<= "); break;
+    case SL_DATA_GT: fprintf (fout, "> "); break;
+    case SL_DATA_GE: fprintf (fout, ">= "); break;
+    default:  fprintf (fout, "error "); break;
+    }
+  sl_term_2spen (fout, args, lvars, sl_vector_at(form->targs,0));
+  fprintf (fout, " ");
+  sl_term_2spen (fout, args, lvars, sl_vector_at(form->targs,1));
+  fprintf (fout, ")");
 }
 
 int
@@ -142,7 +196,7 @@ sl_space_2spen (FILE * fout, sl_var_array * args, sl_var_array * lvars,
 	  uid_t fi = sl_vector_at (form->m.pto.fields, ri);
 	  uid_t vi = sl_vector_at (form->m.pto.dest, ri);
 	  fprintf (fout, "(ref %s %s) ", sl_field_name(fi),
-	  sl_var_2spen(args, lvars, vi));
+	           sl_var_2spen(args, lvars, vi));
 	  }
 	if (sl_vector_size (form->m.pto.dest) > 1)
 	  fprintf (fout, ") "); // end:sref
@@ -270,8 +324,8 @@ sl_pred_case_2spen (FILE * fout, sl_var_array * args, sl_pred_case_t * c)
       for (size_t i = 0; i < sl_vector_size (c->lvars); i++)
 	{
 	  sl_var_t* v = sl_vector_at(c->lvars, i);
-	  fprintf (fout, "(%s %s) ", v->vname,
-	  sl_record_name (sl_vector_at(v->vty->args,0)));
+	  fprintf (fout, "(%s ", v->vname);
+	  sl_type_fprint (fout, v->vty);
 	}
       fprintf (fout, ") ");
     }
@@ -327,12 +381,14 @@ sl_pred_2spen (FILE * fout, sl_pred_t * p)
       for (size_t vi = 1; vi <= p->def->argc; vi++)
 	{
 	  sl_var_t* v = sl_vector_at (p->def->args, vi);
-	  fprintf (fout, "(%s %s) ", v->vname,
-	  sl_record_name (sl_vector_at(v->vty->args,0)));
+	  fprintf (fout, "(%s ", v->vname);
+          // type may be Int, Bag, etc
+          sl_type_fprint (fout, v->vty);
+          fprintf (fout, ") ");
 	}
       fprintf (fout, ")");
   fprintf (fout, " Space (tospace \n");
-  
+
   SL_DEBUG ("Defs %s ...\n", p->pname);
 
   assert (NULL != p->def);
@@ -401,10 +457,10 @@ sl_prob_2spen (const char *fname)
   fprintf (fdef, "\n;; declare variables\n");
   for (size_t vi = 1; vi < sl_vector_size(sl_prob->pform->lvars); vi++) {
 	  sl_var_t* v = sl_vector_at (sl_prob->pform->lvars, vi);
-	  if (v->scope == SL_SCOPE_GLOBAL)
-	    fprintf (fdef, "(declare-fun %s () %s)\n", v->vname,
-		sl_record_name (sl_vector_at(v->vty->args,0)));
-	  else
+	  if (v->scope == SL_SCOPE_GLOBAL) {
+	    fprintf (fdef, "(declare-fun %s () ", v->vname);
+            sl_type_fprint (fdef, v->vty);
+	  } else
 	    break;
   }
 

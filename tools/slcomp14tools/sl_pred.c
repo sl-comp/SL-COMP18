@@ -39,6 +39,36 @@ sl_pred_init ()
   sl_pred_array_reserve (preds_array, 4);
 }
 
+
+/* ====================================================================== */
+/* Constructors/Destructors */
+/* ====================================================================== */
+
+sl_pred_binding_t *
+sl_pred_binding_new (void)
+{
+  sl_pred_binding_t *pdef =
+    (sl_pred_binding_t *) malloc (sizeof (sl_pred_binding_t));
+  pdef->pargs = 0;
+  pdef->args = NULL;
+  pdef->argc = 0;
+  pdef->cases = NULL;
+  return pdef;
+}
+
+
+void
+sl_pred_binding_delete (sl_pred_binding_t * pdef)
+{
+  if (pdef == NULL)
+    return;
+  if (pdef->args != NULL)
+    sl_var_array_delete (pdef->args);
+  if (pdef->cases != NULL)
+    sl_pred_case_array_delete (pdef->cases);
+  free (pdef);
+}
+
   /* ====================================================================== */
   /* Predicate cases */
   /* ====================================================================== */
@@ -123,7 +153,7 @@ sl_pred_register (const char *pname, sl_pred_binding_t * def)
 }
 
 uid_t
-sl_pred_typecheck_call (uid_t pid, uid_t * actuals_ty, uid_t size)
+sl_pred_typecheck_call (uid_t pid, sl_type_t** actuals_ty, uid_t size)
 {
   if (pid == UNDEFINED_ID)
     return UNDEFINED_ID;
@@ -136,25 +166,30 @@ sl_pred_typecheck_call (uid_t pid, uid_t * actuals_ty, uid_t size)
 
   if (size != p->def->argc)
     {
-      // TODO: make error message
-      printf
-	("Predicate call `%s': called with %d parameters instead of %d.\n",
-	 p->pname, size, p->def->argc);
+      sl_error (0, "sl_pred_typecheck_call", "Bad number of parameters");
+      SL_DEBUG ("Predicate call `%s': called with %d parameters instead of %d.\n",
+	        p->pname, size, p->def->argc);
       return UNDEFINED_ID;
     }
   for (uint_t i = 0; i < size; i++)
     {
       sl_var_t *fi = sl_vector_at (p->def->args, i + 1);	/* +1 for nil */
-      uid_t fi_ty = SL_TYP_VOID;
+      sl_type_t* fi_ty = &sl_type_heap;
       if (fi->vid != VNIL_ID)
-	fi_ty = (fi->vty && fi->vty->kind == SL_TYP_RECORD) ?
+	fi_ty = fi->vty;
+      (fi->vty && fi->vty->kind == SL_TYP_RECORD) ?
 	  sl_vector_at (fi->vty->args, 0) : UNDEFINED_ID;
-      if ((actuals_ty[i] != SL_TYP_VOID) && (actuals_ty[i] != fi_ty))
+      if ((actuals_ty[i]->kind != SL_TYP_VOID) && 
+	  ((actuals_ty[i]->kind != fi_ty->kind) ||
+	   (actuals_ty[i]->kind == SL_TYP_RECORD &&
+	    actuals_ty[i]->args != NULL &&
+	    fi_ty->args != NULL &&
+	    sl_vector_at (fi_ty->args, 0) != sl_vector_at (actuals_ty[i]->args, 0))
+	  ))
 	{
-	  // TODO: make error message
-	  printf
-	    ("Predicate call `%s': bad type (%d instead of %d) for the %d-th parameter.\n",
-	     p->pname, actuals_ty[i], fi_ty, i);
+	  sl_error (0, "sl_pred_typecheck_call", "Bad type of parameters");
+	  SL_DEBUG ("Predicate call `%s': bad type (%d instead of %d) for the %d-th parameter.\n",
+	            p->pname, actuals_ty[i]->kind, fi_ty->kind, i);
 	  return UNDEFINED_ID;
 	}
     }
@@ -240,6 +275,42 @@ sl_pred_type ()
 /* ====================================================================== */
 /* Printing */
 /* ====================================================================== */
+
+void
+sl_pred_case_fprint (FILE * f, sl_var_array * args, sl_pred_case_t * rule)
+{
+  fprintf (f, "\nrule: ");
+  sl_var_array_fprint (f, rule->lvars, "exists ");
+  fprintf (f, ". \n\t(pure) ");
+  sl_pure_array_fprint (f, args, rule->lvars, rule->pure);
+  fprintf (f, "\n\t & (space) ");
+  for (uint_t i = 0; i < sl_vector_size(rule->space); i++) {
+  	sl_space_fprint (f, args, rule->lvars, sl_vector_at(rule->space,i));
+	fprintf (f, " * ");
+  }
+  fprintf (f, " emp");
+}
+
+void
+sl_pred_fprint (FILE * f, uid_t pid)
+{
+  assert (pid < sl_vector_size (preds_array));
+
+  sl_pred_t *pi = sl_vector_at (preds_array, pid);
+  fprintf (f, "pred-%d: %s(%d args) ", pi->pid, pi->pname, pi->def->argc);
+
+  fprintf (f, "of rules ");
+  if (pi->def == NULL)
+    {
+      fprintf (f, "NULL\n");
+      return;
+    }
+
+  assert (pi->def->cases != NULL);
+  for (uint_t ri = 0; ri < sl_vector_size (pi->def->cases); ri++)
+    sl_pred_case_fprint (f, pi->def->args, sl_vector_at (pi->def->cases, ri));
+}
+
 
 void
 sl_pred_array_fprint (FILE * f, sl_pred_array * a, const char *msg)

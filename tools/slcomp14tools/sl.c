@@ -51,9 +51,8 @@ sl_mk_context (void)
   /* initialize the global tables for the analysis */
   sl_init ();
 
-#ifndef NDEBUG
-  printf ("sl_mk_context reset qstack\n");
-#endif
+  SL_DEBUG ("sl_mk_context reset qstack\n");
+
   /* initialize the stack of location variables to store
    * one global variable (nil) */
   r->lvar_stack = sl_uint_array_new ();
@@ -92,10 +91,8 @@ sl_del_context (sl_context_t * ctx)
 void
 sl_pop_context (sl_context_t * ctx)
 {
-#ifndef NDEBUG
-  fprintf (stdout, "sl_pop_context start\n");
-  fflush (stdout);
-#endif
+  SL_DEBUG ("sl_pop_context start\n");
+
   /*
    * the entries for exists and parameters will be deleted after that
    * by sl_pop_quant no global variables added
@@ -122,10 +119,9 @@ sl_contex_restore_global (sl_context_t * ctx)
   assert (ctx->lvar_env != NULL);
   assert (ctx->lvar_stack != NULL);
 
-#ifndef NDEBUG
-  fprintf (stderr, "sl_context_restore_global: (begin) %d vars\n",
+  SL_DEBUG ("sl_context_restore_global: (begin) %d vars\n",
 	   sl_vector_at (ctx->lvar_stack, 0));
-#endif
+ 
   // ctx->* vars have been copied in  the formulae
   // refill the context with the global variables
   sl_var_array *arr = ctx->lvar_env;
@@ -137,10 +133,9 @@ sl_contex_restore_global (sl_context_t * ctx)
   for (uint_t i = 0; i < size; i++)
     sl_var_array_push (ctx->lvar_env, sl_var_copy (sl_vector_at (arr, i)));
 
-#ifndef NDEBUG
-  fprintf (stderr, "sl_context_restore_global: (end) %d vars\n",
+  SL_DEBUG ("sl_context_restore_global: (end) %d vars\n",
 	   sl_vector_size (ctx->lvar_env));
-#endif
+
   return;
 }
 
@@ -217,6 +212,7 @@ sl_mk_fun_decl (sl_context_t * ctx, const char *name, sl_type_t * rty)
 {
   switch (rty->kind)
     {
+    case SL_TYP_INT:
     case SL_TYP_RECORD:
       {
 	/* global variable declaration
@@ -232,6 +228,7 @@ sl_mk_fun_decl (sl_context_t * ctx, const char *name, sl_type_t * rty)
 	//field declaration
 	// register it in the array of fields
 	sl_field_register (name, rty);
+	assert (rty != NULL);
 	return rty;
       }
     default:
@@ -295,7 +292,22 @@ sl_mk_fun_case (sl_context_t * ctx, const char *name, sl_pred_case_t * pcase,
 	sl_exp_push_pure (ctx, e, pcase->pure);
 	break;
       }
-
+    case SL_F_LT:
+    case SL_F_GT:
+    case SL_F_LE:
+    case SL_F_GE:               // pure formula
+      {
+        assert (NULL != pcase->pure);
+        sl_exp_push_pure (ctx, e, pcase->pure);
+        break;
+      }
+    case SL_F_PLUS:
+    case SL_F_MINUS:
+      {
+        //this is an error, no translation is possible
+        sl_error (0, "sl_exp_push_top", "data operation not allowed");
+        return 0;
+      }
     case SL_F_EMP:
       {				// nothing
 	break;
@@ -357,34 +369,107 @@ sl_mk_fun_case (sl_context_t * ctx, const char *name, sl_pred_case_t * pcase,
   return 1;
 }
 
-/**
- * Define a predicate.
- *
- * @param ctx   contains the parameters and local variables
- * @param name  name of the predicate
- * @param npar  number of parameters in the local context, first npar
- * @param rety  return type (shall be Space)
- * @param def   the term defining the predicate
- * @return      the identifier of the predicate defined or UNDEFINED_ID
- */
-uint_t
-sl_mk_fun_def (sl_context_t * ctx, const char *name, uint_t npar,
-	       sl_type_t * rety, sl_exp_t * def)
-{
-  /* Warning: modified to allow general recursive definitions */
-  /* the predicate may be already included in the preds_array
-   * by a forward use */
-  uid_t pid = sl_pred_register (name, NULL);
-  // set the initial predicate if not done
-  sl_prob_set_pid(pid);
 
-  if (ctx->pname != NULL && strcmp (ctx->pname, name))
+/**
+ * @brief Check the parameters of the predicate definition
+ *        for logic SL_LOGIC_SLRDI
+ * @return number of recursive parameters if no error, 0 otherwise
+ */
+int
+sl_mk_pred_typecheck (sl_context_t * ctx, const char *name,
+                      uint_t npar, sl_type_t * rety, 
+		      sl_pred_binding_t * pdef)
+{
+  assert ((npar + 1) == sl_vector_size (pdef->args));
+
+  uint_t env_size = sl_vector_at (ctx->lvar_stack, 1);
+  if ((sl_vector_at (ctx->lvar_stack, 1) > sl_vector_size (ctx->lvar_env))
+      || (env_size != npar))
     {
-      /* name does not correspond to this predicate definition */
       sl_error (1, "Building predicate definition ", name);
-      sl_error (1, "Incorrect predicate name in ", name);
-      return UNDEFINED_ID;
+      sl_error (1, "Incorrect number of parameters in ", name);
+      return 0;
     }
+  /* assert:rety sort shall be Space */
+  if ((rety == NULL) || (rety->kind != SL_TYP_SPACE))
+    {
+      sl_error (1, "Building predicate definition ", name);
+      sl_error (1, "Incorrect result type (!= Space) ", name);
+      return 0;
+    }
+
+  /*
+   * assert: number of parameters is at least 1 and
+   * exactly the ctx->lvar_stack[1]
+   */
+  if (sl_vector_size (pdef->args) <= 2)
+    {
+      sl_error (1, "Building predicate definition ", name);
+      sl_error (1, "Empty set of location parameters in ", name);
+      return 0;
+    }
+  if (sl_vector_at (ctx->lvar_stack, 1) < 2)
+    {
+      sl_error (1, "Building predicate definition ", name);
+      sl_error (1, "Incorrect number of parameters (< 2) in ", name);
+      return 0;
+    }
+
+  /*
+   * assert: first parameters are of type record
+   */
+  uint_t npar_loc = 1;
+  for (uint_t i = 1; i <= npar; i++)
+    {
+      sl_type_t* vty = sl_var_type (pdef->args, i);
+      if (vty->kind != SL_TYP_RECORD)
+        {
+          // TODO NEW: check that they are BagInt and Int
+          continue;
+        }
+      else if (i > (npar_loc + 1))
+        {
+          /// record parameter not in first parameters
+          sl_error (1, "Building predicate definition ", name);
+          sl_error (1, "Parameter of record type shall be first in list",
+                      name);
+          return 0;
+        }
+      else
+        npar_loc++;
+    }
+  /*
+   * The first parameter is of type record
+   */
+  if (npar_loc < 2)
+    {
+      sl_error (1, "Building predicate definition ", name);
+      sl_error (1, "First parameter shall be of reference type", name);
+      return 0;
+    }
+  /// get the number of recursive parameters = same type as the first one
+  uint_t pred_ty = sl_var_record (pdef->args, 1);
+  uint_t nrec_p = 0;
+  while (nrec_p < npar) {
+    sl_type_t* vty = sl_var_type (pdef->args, nrec_p + 1);
+    if (vty->kind == SL_TYP_RECORD &&
+	vty->args != NULL &&
+	sl_vector_at (vty->args, 0) == pred_ty)
+      nrec_p++;
+    else
+      break;
+  }
+
+  SL_DEBUG ("sl_mk_fun_def: Number of recursive parameters %d.\n",
+           nrec_p);
+
+  return nrec_p;
+}
+
+uid_t
+sl_mk_pred_userdef (sl_context_t * ctx, const char *name, uint_t npar,
+                    sl_type_t * rety, sl_exp_t * def, sl_pred_binding_t * pdef)
+{
   /*
    * assert: no global variables except the "nil" constant
    * may be defined before the predicate definition,
@@ -397,50 +482,19 @@ sl_mk_fun_def (sl_context_t * ctx, const char *name, uint_t npar,
       sl_error (1, "Global variables declared before ", name);
       return UNDEFINED_ID;
     }
-  /*
-   * assert: number of parameters is at least 1 and
-   * exactly the ctx->lvar_stack[1]
+   /*
+   * typechecks the predicate profile depending on the logic used,
+   * and computes the number of recursive parameters >= 1
    */
-  if (sl_vector_size (ctx->lvar_env) < 1)
+  uint_t nrec_p = 0;
+  if ((nrec_p = sl_mk_pred_typecheck (ctx, name, npar, rety, pdef)) == 0)
     {
       sl_error (1, "Building predicate definition ", name);
-      sl_error (1, "Empty set of parameters in ", name);
+      sl_error (1, "Bad parameters!", " ");
       return UNDEFINED_ID;
     }
-  if (sl_vector_at (ctx->lvar_stack, 1) < 1)
-    {
-      sl_error (1, "Building predicate definition ", name);
-      sl_error (1, "Incorrect number of parameters (< 1) in ", name);
-      return UNDEFINED_ID;
-    }
-  if ((sl_vector_at (ctx->lvar_stack, 1) > sl_vector_size (ctx->lvar_env))
-      || (sl_vector_at (ctx->lvar_stack, 1) != npar))
-    {
-      sl_error (1, "Building predicate definition ", name);
-      sl_error (1, "Incorrect number of parameters in ", name);
-      return UNDEFINED_ID;
-    }
-  /* assert:rety sort shall be Space */
-  if ((rety == NULL) || (rety->kind != SL_TYP_SPACE))
-    {
-      sl_error (1, "Building predicate definition ", name);
-      sl_error (1, "Incorrect result type (!= Space) ", name);
-      return UNDEFINED_ID;
-    }
-  /*
-   * Check the syntax of predicates while
-   * the predicate definition is built
-   */
-  /* cond 0: all the parameters are of record type */
-  for (uint_t i = 1; i <= npar; i++)
-    {
-      if (sl_var_record (ctx->lvar_env, i) == UNDEFINED_ID)
-	{
-	  sl_error (1, "Building predicate definition ", name);
-	  sl_error (1, "Parameter not of record type ", name);
-	  return UNDEFINED_ID;
-	}
-    }
+
+  pdef->pargs = (nrec_p == 2) ? 0 : 1;  // TODO NEW: no more interesting, keep only for dll
 
   /* cond 1: the def has the form (tospace( ...)) or 
    *         directly a space formula 
@@ -474,11 +528,8 @@ sl_mk_fun_def (sl_context_t * ctx, const char *name, uint_t npar,
     }
 
   /*
-   * build the record for this predicate definition and register it
+   * set cases
    */
-  sl_pred_binding_t *pdef =
-    (sl_pred_binding_t *) malloc (sizeof (sl_pred_binding_t));
-  pdef->pargs = 0;
   pdef->argc = npar;
   pdef->args = ctx->lvar_env;
   pdef->cases = pcases;
@@ -489,6 +540,61 @@ sl_mk_fun_def (sl_context_t * ctx, const char *name, uint_t npar,
   /* register the  predicate */
   return sl_pred_register (name, pdef);
 }
+
+/**
+ * Define a predicate.
+ *
+ * @param ctx   contains the parameters and local variables
+ * @param name  name of the predicate
+ * @param npar  number of parameters in the local context, first npar
+ * @param rety  return type (shall be Space)
+ * @param def   the term defining the predicate
+ * @return      the identifier of the predicate defined or UNDEFINED_ID
+ */
+uint_t
+sl_mk_fun_def (sl_context_t * ctx, const char *name, uint_t npar,
+	       sl_type_t * rety, sl_exp_t * def)
+{
+  /* Warning: modified to allow general recursive definitions */
+  /* the predicate may be already included in the preds_array
+   * by a forward use */
+  uid_t pid = sl_pred_register (name, NULL);
+  // set the initial predicate if not done
+  sl_prob_set_pid(pid);
+
+  if (ctx->pname != NULL && strcmp (ctx->pname, name))
+    {
+      /* name does not correspond to this predicate definition */
+      sl_error (1, "Building predicate definition ", name);
+      sl_error (1, "Incorrect predicate name in ", name);
+      return UNDEFINED_ID;
+    }
+  
+  /*
+   * build the record for this predicate definition and register it
+   */
+  sl_pred_binding_t *pdef = sl_pred_binding_new ();
+  /// NEW: context contains only parameters
+  assert ((npar + 1) == sl_vector_size (ctx->lvar_env));
+  pdef->argc = npar;
+  pdef->args = ctx->lvar_env;   /// NEW: no need to copy the context
+
+  pid = sl_mk_pred_userdef (ctx, name, npar, rety, def, pdef);
+  if (UNDEFINED_ID == pid)
+    sl_pred_binding_delete (pdef);
+
+  /* reset the predicate name in the context */
+  if (ctx->pname != NULL)
+    free (ctx->pname);
+  ctx->pname = NULL;
+
+  SL_DEBUG ("Predicate built: ");
+#ifndef NDEBUG
+  sl_pred_fprint (stderr, pid);
+#endif
+  return pid;
+}
+
 
 int
 sl_assert (sl_context_t * ctx, sl_exp_t * term)
@@ -534,7 +640,8 @@ sl_assert (sl_context_t * ctx, sl_exp_t * term)
 int
 sl_check (sl_context_t * ctx)
 {
-  if (sl_error_parsing > 0)
+  if ((ctx != NULL) &&
+      sl_error_parsing > 0)
     {
       //assert (sl_prob->smt_fname != NULL);
       sl_error (0, "sl_check", "stop check because of parsing error");
@@ -543,6 +650,7 @@ sl_check (sl_context_t * ctx)
 
   sl_prob_set_cmd (SL_PROB_SAT);
 
+  SL_DEBUG ("Problem read: ");
 #ifndef NDEBUG
   sl_prob_fprint (stdout);
 #endif
@@ -566,7 +674,8 @@ sl_push_var (sl_context_t * ctx, const char *name, sl_type_t * vty)
     return;
 
   uid_t vid = UNDEFINED_ID;
-  if (vty->kind == SL_TYP_RECORD)
+  if ((vty->kind == SL_TYP_RECORD)||
+      (vty->kind == SL_TYP_INT))
     {
       assert (ctx->lvar_env != NULL);
       sl_var_t *v = sl_var_new (name, vty, SL_SCOPE_LOCAL);
@@ -583,9 +692,9 @@ sl_push_var (sl_context_t * ctx, const char *name, sl_type_t * vty)
 int
 sl_push_quant (sl_context_t * ctx)
 {
+  SL_DEBUG ("push_quant start: ");
 #ifndef NDEBUG
-  fprintf (stdout, "push_quant start: ");
-  sl_context_fprint (stdout, ctx);
+  sl_context_fprint (stderr, ctx);
 #endif
   //the SL supports only 2 levels of nesting and only inside define - fun
   if (sl_vector_size (ctx->lvar_stack) >= 3)
@@ -600,9 +709,9 @@ sl_push_quant (sl_context_t * ctx)
 int
 sl_pop_quant (sl_context_t * ctx)
 {
+  SL_DEBUG ("pop_quant start: ");
 #ifndef NDEBUG
-  fprintf (stdout, "pop_quant start: ");
-  sl_context_fprint (stdout, ctx);
+  sl_context_fprint (stderr, ctx);
 #endif
   if (sl_vector_size (ctx->lvar_stack) <= 1)
     {
@@ -639,6 +748,23 @@ sl_mk_op (sl_expkind_t f, sl_exp_t ** args, uint_t size)
 }
 
 /**
+ * @brief Build a term for field application
+ */
+sl_exp_t *
+sl_mk_dfield (sl_context_t * ctx, const char *name, sl_exp_t ** args,
+                uint_t size)
+{
+  assert (NULL != ctx);
+  
+  /// search the field
+  uid_t fid = sl_field_array_find (name);
+  if ((fid == UNDEFINED_ID) || (size != 1))
+    return NULL;
+  sl_exp_t *res = sl_mk_op (SL_F_DFIELD, args, size);
+  return res;
+}
+
+/**
  * This function is called
  * - either for predicate definition
  * - either at the top-most of a SL formula
@@ -653,18 +779,18 @@ sl_mk_exists (sl_context_t * ctx, sl_exp_t * term)
   uint_t nb_exists_lvar = sl_vector_last (ctx->lvar_stack);
 
 #ifndef NDEBUG
-  fprintf (stdout, "mk_exists start lvar_stack=[");
+  fprintf (stderr, "mk_exists start lvar_stack=[");
   for (uint_t i = 0; i < sl_vector_size (ctx->lvar_stack); i++)
-    fprintf (stdout, "%d,", sl_vector_at (ctx->lvar_stack, i));
-  fprintf (stdout, "]\n");
-  fprintf (stdout, "mk_exists exists lvar=[");
+    fprintf (stderr, "%d,", sl_vector_at (ctx->lvar_stack, i));
+  fprintf (stderr, "]\n");
+  fprintf (stderr, "mk_exists exists lvar=[");
   for (uint_t i = nb_exists_lvar; i > 0; i--)
     {
       sl_var_t *vi = sl_vector_at (ctx->lvar_env,
 				   sl_vector_size (ctx->lvar_env) - i);
-      fprintf (stdout, "%s,", vi->vname);
+      fprintf (stderr, "%s,", vi->vname);
     }
-  fprintf (stdout, "]\n");
+  fprintf (stderr, "]\n");
 #endif
   sl_exp_t *res = sl_mk_op (SL_F_EXISTS, &term, 1);
   res->p.quant.lvars = sl_var_array_new ();
@@ -706,6 +832,28 @@ sl_mk_app (sl_context_t * ctx, const char *name, sl_exp_t ** args,
   return sl_mk_pred (ctx, name, args, size);
 }
 
+/** @brief Build a term including the integer given by @p str.
+ */
+sl_exp_t *
+sl_mk_number (sl_context_t * ctx, const char *str)
+{
+  if (&ctx != &ctx)
+    {
+      assert (0);
+    }
+
+  sl_exp_t *res = sl_mk_op (SL_F_INT, NULL, 0);
+  char *endstr;
+  res->p.value = strtol (str, &endstr, 10);
+  if (endstr == NULL)
+    {
+      /// bad translation to integer
+      sl_error_id (1, "sl_mk_number", str);
+      return NULL;
+    }
+  return res;
+}
+
 /** Build a term from this variable or field.
  */
 sl_exp_t *
@@ -715,10 +863,9 @@ sl_mk_symbol (sl_context_t * ctx, const char *name)
   sl_exp_t *ret = NULL;
   uint_t sid = UNDEFINED_ID;
   sl_type_t *typ = NULL;
-#ifndef NDEBUG
-  fprintf (stdout, "mk_symbol: start %s\n", name);
-  fflush (stdout);
-#endif
+
+  SL_DEBUG ("mk_symbol: start %s\n", name);
+
   /* special case of 'nil'?
      if (strcmp (name, "nil") == 0)
      {
@@ -737,16 +884,15 @@ sl_mk_symbol (sl_context_t * ctx, const char *name)
     typ = NULL;
   if (typ != NULL)
     {
-      if (typ->kind == SL_TYP_RECORD)
+      if ((typ->kind == SL_TYP_RECORD) ||
+          (typ->kind == SL_TYP_INT))
 	{
 	  ret = sl_mk_op (SL_F_LVAR, NULL, 0);
 	  ret->p.sid = sid;
 	}
       else
 	assert (0);
-#ifndef NDEBUG
-      fprintf (stdout, "mk_symbol: local %s (id %d)\n", name, ret->p.sid);
-#endif
+      SL_DEBUG ("mk_symbol: local %s (id %d)\n", name, ret->p.sid);
       return ret;
     }
   /* else, it shall be a field */
@@ -775,7 +921,7 @@ sl_mk_pred (sl_context_t * ctx, const char *name, sl_exp_t ** args,
   assert (ctx != NULL);
   assert (name != NULL);
   assert (args != NULL);
-  if ((ctx == ctx) && /* To avoid silly warning */
+  if ((ctx != NULL) && /* To avoid silly warning */
       (size < 1))
     {
       char *msg = strdup (name);
@@ -888,6 +1034,84 @@ sl_mk_distinct (sl_context_t * ctx, sl_exp_t ** args, uint_t size)
   if (size != 2)
     sl_error_args (1, "sl_mk_distinct", size, "= 2");
   return sl_mk_op (SL_F_DISTINCT, args, size);
+}
+
+sl_exp_t *
+sl_mk_lt (sl_context_t * ctx, sl_exp_t ** args, uint_t size)
+{
+  if (&ctx != &ctx)
+    {
+      assert (0);
+    }
+
+  if (size != 2)
+    sl_error_args (1, "sl_mk_lt", size, "= 2");
+  return sl_mk_op (SL_F_LT, args, size);
+}
+
+sl_exp_t *
+sl_mk_gt (sl_context_t * ctx, sl_exp_t ** args, uint_t size)
+{
+  if (&ctx != &ctx)
+    {
+      assert (0);
+    }
+
+  if (size != 2)
+    sl_error_args (1, "sl_mk_gt", size, "= 2");
+  return sl_mk_op (SL_F_GT, args, size);
+}
+
+sl_exp_t *
+sl_mk_le (sl_context_t * ctx, sl_exp_t ** args, uint_t size)
+{
+  if (&ctx != &ctx)
+    {
+      assert (0);
+    }
+
+  if (size != 2)
+    sl_error_args (1, "sl_mk_le", size, "= 2");
+  return sl_mk_op (SL_F_LE, args, size);
+}
+
+sl_exp_t *
+sl_mk_ge (sl_context_t * ctx, sl_exp_t ** args, uint_t size)
+{
+  if (&ctx != &ctx)
+    {
+      assert (0);
+    }
+
+  if (size != 2)
+    sl_error_args (1, "sl_mk_ge", size, "= 2");
+  return sl_mk_op (SL_F_GE, args, size);
+}
+
+sl_exp_t *
+sl_mk_plus (sl_context_t * ctx, sl_exp_t ** args, uint_t size)
+{
+  if (&ctx != &ctx)
+    {
+      assert (0);
+    }
+
+  if (size < 2)
+    sl_error_args (1, "sl_mk_plus", size, "< 2");
+  return sl_mk_op (SL_F_PLUS, args, size);
+}
+
+sl_exp_t *
+sl_mk_minus (sl_context_t * ctx, sl_exp_t ** args, uint_t size)
+{
+  if (&ctx != &ctx)
+    {
+      assert (0);
+    }
+
+  if (size != 2)
+    sl_error_args (1, "sl_mk_minus", size, "= 2");
+  return sl_mk_op (SL_F_MINUS, args, size);
 }
 
 sl_exp_t *
@@ -1045,6 +1269,16 @@ sl_exp_printf (FILE * f, sl_context_t * ctx, sl_exp_t * e)
 	fprintf (f, " %s ", sl_field_name (e->p.sid));
 	return;
       }
+    case SL_F_INT:
+      {
+        fprintf (f, " %ld ", e->p.value);
+        return;
+      }
+    case SL_F_DFIELD:
+      {
+        fprintf (f, " (");
+        break;
+      }
     case SL_F_EMP:
       {
 	fprintf (f, " emp ");
@@ -1141,6 +1375,26 @@ sl_exp_printf (FILE * f, sl_context_t * ctx, sl_exp_t * e)
       {
 	fprintf (f, " (loop \n\t");
 	break;
+      }
+    case SL_F_LT:
+      {
+        fprintf (f, " (< ");
+        break;
+      }
+    case SL_F_GT:
+      {
+        fprintf (f, " (> ");
+        break;
+      }
+    case SL_F_LE:
+      {
+        fprintf (f, " (<= ");
+        break;
+      }
+    case SL_F_GE:
+      {
+        fprintf (f, " (>= ");
+        break;
       }
     default:
       {
@@ -1263,37 +1517,165 @@ sl_exp_typecheck (sl_context_t * ctx, sl_exp_t * e)
  * ======================================================================
  */
 
-void
-sl_exp_push_pure (sl_context_t * ctx, sl_exp_t * e, sl_pure_array * form)
+/**
+ * @brief Translate the SMTLIB AST into the internal data AST.
+ * Because the translation is direct, no need to push in a formula.
+ */
+sl_term_t *
+sl_exp_push_term (sl_exp_t * e, sl_var_array * lenv)
 {
-  if (&ctx != &ctx)
-    {
-      assert (0);
-    }
-
   assert (NULL != e);
-  assert (NULL != form);
+
+  SL_DEBUG ("push_term: discr=%d, size=%d\n", e->discr, e->size);
+
+  sl_term_t *dt = sl_term_new ();
+  switch (e->discr)
+    {
+    case SL_F_INT:
+       {
+        dt->kind = SL_DATA_INT;
+        dt->typ = SL_TYP_INT;
+        dt->p.value = e->p.value;
+        break;
+      }
+    case SL_F_LVAR:
+      {
+        dt->kind = SL_DATA_VAR;
+        sl_var_t *v = sl_vector_at (lenv, e->p.sid);
+        dt->typ = v->vty->kind;
+        dt->p.sid = e->p.sid;
+        break;
+      }
+    case SL_F_DFIELD:
+      {
+        dt->kind = SL_DATA_FIELD;
+        dt->typ = SL_TYP_INT;
+        break;
+      }
+    case SL_F_PLUS:
+      {
+        dt->kind = SL_DATA_PLUS;
+        dt->typ = SL_TYP_INT;
+        break;
+      }
+    case SL_F_MINUS:
+      {
+        dt->kind = SL_DATA_MINUS;
+        dt->typ = SL_TYP_INT;
+        break;
+      }
+     default:
+      {
+        sl_error (1, "Building data term ", "(bad operator)");
+        sl_term_free (dt);
+        return NULL;
+      }
+    }
+  if (e->size > 0)
+    {
+      dt->args = sl_term_array_new ();
+      sl_term_array_reserve (dt->args, e->size);
+    }
+  uint_t i = 0;
+  for (; i < e->size; i++)
+    {
+      sl_term_t *ti = sl_exp_push_term (e->args[i], lenv);
+      if (ti == NULL)
+        {
+          sl_error (1, "Building data term ", "(bad sub-term)");
+          sl_term_free (dt);
+          return NULL;
+        }
+      if (((dt->kind != SL_DATA_FIELD) && (ti->typ != dt->typ)) ||
+          ((dt->kind == SL_DATA_FIELD) && (ti->typ != SL_TYP_RECORD)))
+        {
+          sl_error (1, "Building data term ", "(bad type)");
+          sl_term_free (dt);
+          return NULL;
+        }
+      sl_term_array_push (dt->args, ti);
+    }
+  return dt;
+}
+
+
+/**
+ * @brief Translate the SMTLIB AST into the internal data AST.
+ * Because the translation is direct, no need to push in a formula.
+ */
+sl_pure_t *
+sl_exp_push_pure_atom (sl_exp_t * e, sl_var_array * lenv, int level)
+{
+  assert (NULL != e);
+  assert (0 <= level);
+
+  sl_pure_t *df = sl_pure_new ();
   switch (e->discr)
     {
     case SL_F_EQ:
       {
-	//the variables implied in the equality
-	uint_t v1 = e->args[0]->p.sid;
-	uint_t v2 = e->args[1]->p.sid;
-	sl_pure_push (form, SL_PURE_EQ, v1, v2);
-	break;
+        df->kind = SL_DATA_EQ;
+        break;
       }
     case SL_F_DISTINCT:
       {
-	//the variables implied in the equality
-	uint_t v1 = e->args[0]->p.sid;
-	uint_t v2 = e->args[1]->p.sid;
-	sl_pure_push (form, SL_PURE_NEQ, v1, v2);
-	break;
+        df->kind = SL_DATA_NEQ;
+        break;
+      }
+    case SL_F_LT:
+      {
+        df->kind = SL_DATA_LT;
+        break;
+      }
+    case SL_F_GT:
+      {
+        df->kind = SL_DATA_GT;
+        break;
+      }
+    case SL_F_LE:
+      {
+        df->kind = SL_DATA_LE;
+        break;
+      }
+    case SL_F_GE:
+      {
+        df->kind = SL_DATA_GE;
+        break;
       }
     default:
-      break;			/* nothing to be done */
+      {
+        sl_error (1, "Building data formula ", "(bad operator)");
+        sl_pure_free (df);
+        return NULL;
+      }
     }
+  /// all data formulas are built from binary operators
+  sl_term_t *t1 = sl_exp_push_term (e->args[0], lenv);
+  sl_term_t *t2 = sl_exp_push_term (e->args[1], lenv);
+  if (t1 == NULL || t2 == NULL)
+    {
+      sl_error (1, "Building data formula ", "(bad terms)");
+      sl_pure_free (df);
+      return NULL;
+    }
+  if (t1->typ != t2->typ) 
+    {
+      sl_error (1, "Building data formula ", "(bad type for terms)");
+      sl_pure_free (df);
+      return NULL;
+    }
+  df->targs = sl_term_array_new ();
+  df->typ = SL_TYP_BOOL;
+  sl_term_array_push (df->targs, t1);
+  sl_term_array_push (df->targs, t2);
+  return df;
+}
+
+void
+sl_exp_push_pure (sl_context_t * ctx, sl_exp_t * e, sl_pure_array * f)
+{
+  sl_pure_t * p = sl_exp_push_pure_atom(e, ctx->lvar_env, 0);
+  sl_pure_array_push(f, p);
 }
 
 /**
@@ -1407,7 +1789,7 @@ sl_mk_form_pred (sl_context_t * ctx, sl_exp_t * e)
   //check that the type of actual arguments is correct
   sl_uid_array *actuals = sl_uid_array_new ();
   sl_uid_array_reserve (actuals, e->size);
-  uint_t *actuals_ty = (uint_t *) malloc (e->size * sizeof (uint_t));
+  sl_type_t **actuals_ty = (sl_type_t **) malloc (e->size * sizeof (sl_type_t *));
 
   const char *pname = sl_pred_name (e->p.sid);
   assert (NULL != pname);
@@ -1424,7 +1806,7 @@ sl_mk_form_pred (sl_context_t * ctx, sl_exp_t * e)
 	}
       uint_t pi = e->args[i]->p.sid;
       sl_uid_array_push (actuals, pi);
-      actuals_ty[i] = sl_var_record (ctx->lvar_env, pi);
+      actuals_ty[i] = sl_var_type (ctx->lvar_env, pi);
     }
   uint_t pid = sl_pred_typecheck_call (e->p.sid, actuals_ty, e->size);
   free (actuals_ty);
@@ -1533,9 +1915,9 @@ sl_exp_push_top (sl_context_t * ctx, sl_exp_t * e, sl_form_t * form)
     sl_var_array_delete (form->lvars);
   form->lvars = ctx->lvar_env;
 #ifndef NDEBUG
-  fprintf (stdout, "\nsl_exp_push_top:\n\t");
+  fprintf (stderr, "\nsl_exp_push_top:\n\t");
   sl_var_array_fprint (stdout, form->lvars, "lvars");
-  fprintf (stdout, "\n\t");
+  fprintf (stderr, "\n\t");
 #endif
   //fill other parts of the formula
   switch (e->discr)
@@ -1572,9 +1954,9 @@ sl_exp_push_top (sl_context_t * ctx, sl_exp_t * e, sl_form_t * form)
     case SL_F_DISTINCT:
       {
 #ifndef NDEBUG
-	fprintf (stdout, "Push pure:");
-	sl_exp_printf (stdout, ctx, e);
-	fflush (stdout);
+	fprintf (stderr, "Push pure:");
+	sl_exp_printf (stderr, ctx, e);
+	fflush (stderr);
 #endif
 	sl_exp_push_pure (ctx, e, form->pure);
 	break;
@@ -1604,11 +1986,11 @@ sl_exp_push (sl_context_t * ctx, sl_exp_t * e, int ispos)
 {
 #ifndef NDEBUG
   //printing now:
-  fprintf (stdout, "Push %stive formula:\n", (ispos) ? "posi" : "nega");
-  sl_exp_printf (stdout, ctx, e);
-  fprintf (stdout, "\nwith context: ");
-  sl_var_array_fprint (stdout, ctx->lvar_env, "lvars");
-  fflush (stdout);
+  fprintf (stderr, "Push %stive formula:\n", (ispos) ? "posi" : "nega");
+  sl_exp_printf (stderr, ctx, e);
+  fprintf (stderr, "\nwith context: ");
+  sl_var_array_fprint (stderr, ctx->lvar_env, "lvars");
+  fflush (stderr);
 #endif
   if (!e)
     return;

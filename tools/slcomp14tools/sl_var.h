@@ -99,7 +99,10 @@ extern "C"
 /* Search the position of the variable name in the local array a. */
 
   char *sl_var_name (sl_var_array * a, uid_t vid, sl_typ_t ty);
+  char *sl_var_name2 (sl_var_array * gvars, sl_var_array * lvars, uid_t vid, sl_typ_t ty);
   uint_t sl_var_record (sl_var_array * a, uid_t vid);
+  sl_type_t* sl_var_type (sl_var_array * a, uid_t vid);
+
 /* Accessors */
 
 /* ====================================================================== */

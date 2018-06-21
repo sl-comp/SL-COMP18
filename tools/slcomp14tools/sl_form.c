@@ -25,6 +25,8 @@
 #include "sl_form.h"
 #include "sl_pred.h"
 
+SL_VECTOR_DEFINE (sl_term_array, sl_term_t *);
+
 SL_VECTOR_DEFINE (sl_pure_array, sl_pure_t *);
 
 SL_VECTOR_DEFINE (sl_space_array, sl_space_t *);
@@ -67,22 +69,76 @@ sl_form_free (sl_form_t * form)
   free (form);
 }
 
-sl_pure_t *
-sl_pure_new (void)
+sl_term_t *
+sl_term_new (void)
 {
-  sl_pure_t *ret = (sl_pure_t *) malloc (sizeof (struct sl_pure_t));
-  ret->op = SL_PURE_EQ;
-  ret->vleft = UNDEFINED_ID;
-  ret->vright = UNDEFINED_ID;
+  sl_term_t *ret = (sl_term_t *) malloc (sizeof (struct sl_term_s));
+  ret->kind = SL_DATA_INT;
+  ret->typ = SL_TYP_INT;
+  ret->p.value = 0;
+  ret->args = NULL;
+  return ret;
+}
+
+sl_term_t *
+sl_term_new_var (uint_t vid, sl_typ_t ty)
+{
+  sl_term_t *ret = (sl_term_t *) malloc (sizeof (struct sl_term_s));
+  ret->kind = SL_DATA_VAR;
+  ret->typ = ty;
+  ret->p.sid = vid;
+  ret->args = NULL;
   return ret;
 }
 
 void
-sl_pure_free (sl_pure_t * p)
+sl_term_free (sl_term_t * d)
 {
-  if (!p)
+  if (d == NULL)
     return;
-  free (p);
+  if ((d->kind > SL_DATA_FIELD) && (d->args != NULL))
+    sl_term_array_delete (d->args);
+  free (d);
+}
+
+sl_pure_t *
+sl_pure_new (void)
+{
+  sl_pure_t *ret = (sl_pure_t *) malloc (sizeof (struct sl_pure_s));
+  ret->kind = SL_DATA_EQ;
+  ret->typ = SL_TYP_INT;
+  ret->targs = sl_term_array_new ();
+  sl_term_array_push (ret->targs, sl_term_new());
+  sl_term_array_push (ret->targs, sl_term_new());
+  return ret;
+}
+
+sl_pure_t *
+sl_pure_new_eq (sl_term_t * t1, sl_term_t * t2)
+{
+  assert (t1 != NULL);
+  assert (t2 != NULL);
+  assert (t1->typ == t2->typ);
+  sl_pure_t *ret = (sl_pure_t *) malloc (sizeof (struct sl_pure_s));
+  ret->kind = SL_DATA_EQ;
+  ret->typ = t1->typ;
+  ret->targs = sl_term_array_new ();
+  sl_term_array_push (ret->targs, t1);
+  sl_term_array_push (ret->targs, t2);
+  return ret;
+}
+
+void
+sl_pure_free (sl_pure_t * d)
+{
+  if (d == NULL)
+    return;
+  if (d->kind != SL_DATA_OTHER)
+    {
+      if (d->targs != NULL)
+        sl_term_array_delete (d->targs);
+    }
+  free (d);
 }
 
 sl_space_t *
@@ -131,14 +187,13 @@ sl_space_free (sl_space_t * s)
 }
 
 void
-sl_pure_push (sl_pure_array * f, sl_pure_op_t op, uid_t v1, uid_t v2)
+sl_pure_push (sl_pure_array * f, sl_pure_op_t op, 
+              sl_term_t * e1, sl_term_t * e2)
 {
   assert (f != NULL);
 
-  sl_pure_t *res = sl_pure_new ();
-  res->op = op;
-  res->vleft = (v1 <= v2) ? v1 : v2;	// lowest one for cyclist
-  res->vright = (v1 <= v2) ? v2 : v1;
+  sl_pure_t *res = sl_pure_new_eq (e1,e2);
+  res->kind = op;
   sl_pure_array_push (f, res);
 }
 
@@ -160,7 +215,6 @@ sl_form_type (sl_form_t * form)
   return 0;
 }
 
-
 /* ====================================================================== */
 /* Getters/Setters */
 /* ====================================================================== */
@@ -170,7 +224,82 @@ sl_form_type (sl_form_t * form)
 /* ====================================================================== */
 
 void
-sl_pure_array_fprint (FILE * f, sl_var_array * lvars, sl_pure_array * phi)
+sl_term_fprint (FILE * f, sl_var_array * args, sl_var_array * lvars, sl_term_t * t) 
+{
+  if (!t)
+    {
+      fprintf (f, "null term\n");
+      return;
+    }
+  fprintf (f, "(");
+  switch (t->kind)
+    {
+    case SL_DATA_INT: fprintf (f, " %ld ", t->p.value); break;
+    case SL_DATA_VAR: {
+      char * vname = sl_var_name2(args, lvars, t->p.sid, SL_TYP_RECORD);
+      fprintf (f, " (vid:%ud) %s ", t->p.sid, (NULL == vname) ? "error" : vname);
+      break;
+    }
+    case SL_DATA_FIELD: fprintf (f, " (fid:%ud) %s ", t->p.sid,
+                                 sl_field_name(t->p.sid));
+      sl_term_array_fprint (f, args, lvars, t->args);
+      break;
+    case SL_DATA_PLUS: fprintf (f, " + ");
+      sl_term_array_fprint (f, args, lvars, t->args);
+      break;
+    case SL_DATA_MINUS: fprintf (f, " - ");
+      sl_term_array_fprint (f, args, lvars, t->args);
+      break;
+    default: fprintf (f, " unknown-op ");
+      break;
+    }
+  fprintf (f, ")");
+}
+
+void 
+sl_term_array_fprint (FILE * f, sl_var_array * args, 
+                      sl_var_array * lvars, sl_term_array * ta)
+{
+  if (!ta)
+    {
+      fprintf (f, "null term array\n");
+      return;
+    }
+  for (size_t i = 0; i < sl_vector_size (ta); i++)
+    {
+      sl_term_t * t = sl_vector_at (ta, i);
+      sl_term_fprint (f, args, lvars, t);
+      fprintf (f, " ");
+    }
+  fprintf (f, "\n");
+}
+
+void
+sl_pure_fprint (FILE * f, sl_var_array * args, sl_var_array * lvars, sl_pure_t * phi)
+{
+  if (!phi)
+    {
+      fprintf (f, "null pure\n");
+      return;
+    }
+  fprintf (f, "(");
+  switch (phi->kind) 
+    {
+    case SL_DATA_EQ: fprintf (f, "="); break;
+    case SL_DATA_NEQ: fprintf (f, "<>"); break;
+    case SL_DATA_LT: fprintf (f, "<"); break;
+    case SL_DATA_LE: fprintf (f, "<="); break;
+    case SL_DATA_GT: fprintf (f, ">"); break;
+    case SL_DATA_GE: fprintf (f, ">="); break;
+    default: fprintf (f, "unknown"); break;
+    }
+  sl_term_array_fprint (f, args, lvars, phi->targs);
+  fprintf (f, ")");
+}
+
+void
+sl_pure_array_fprint (FILE * f, sl_var_array * args, 
+                      sl_var_array * lvars, sl_pure_array * phi)
 {
   if (!phi)
     {
@@ -180,16 +309,14 @@ sl_pure_array_fprint (FILE * f, sl_var_array * lvars, sl_pure_array * phi)
   for (size_t i = 0; i < sl_vector_size (phi); i++)
     {
       sl_pure_t *fi = sl_vector_at (phi, i);
-      fprintf (f, "%s %s %s, ",
-	       sl_var_name (lvars, fi->vleft, SL_TYP_RECORD),
-	       (fi->op == SL_PURE_EQ) ? "=" : "<>",
-	       sl_var_name (lvars, fi->vright, SL_TYP_RECORD));
+      sl_pure_fprint (f, args, lvars, fi);
+      fprintf (f, "and \n");
     }
-  fprintf (f, "\n");
+  fprintf (f, " true\n");
 }
 
 void
-sl_space_fprint (FILE * f, sl_var_array * lvars, sl_space_t * phi)
+sl_space_fprint (FILE * f, sl_var_array * args, sl_var_array * lvars, sl_space_t * phi)
 {
   if (!phi)
     {
@@ -215,9 +342,11 @@ sl_space_fprint (FILE * f, sl_var_array * lvars, sl_space_t * phi)
 	fprintf (f, "(pto  ");
 	if (lvars == NULL)
 	  fprintf (f, "*%d ...)", phi->m.pto.sid);
-	else
-	  fprintf (f, "%s ...)", sl_vector_at (lvars, phi->m.pto.sid)->vname);
-	break;
+	else {
+          char* vname = sl_var_name2(args, lvars, phi->m.pto.sid, SL_TYP_RECORD);
+	  fprintf (f, "%s ...)", (NULL == vname) ? "error" : vname);
+	}
+        break;
       }
     case SL_SPACE_LS:
       {
@@ -231,8 +360,10 @@ sl_space_fprint (FILE * f, sl_var_array * lvars, sl_space_t * phi)
 	      fprintf (f, " *%d ", vi);
 	    else if (vi == VNIL_ID)
 	      fprintf (f, " nil ");
-	    else
-	      fprintf (f, " %s ", sl_vector_at (lvars, vi)->vname);
+	    else {
+	      char* vname = sl_var_name2(args, lvars, vi, SL_TYP_RECORD);
+	      fprintf (f, " %s ", (NULL == vname) ? "error" : vname);
+	    }
 	  }
 	fprintf (f, ")");
 	break;
@@ -243,7 +374,7 @@ sl_space_fprint (FILE * f, sl_var_array * lvars, sl_space_t * phi)
 	fprintf (f, "(ssep ");
 	for (uid_t i = 0; i < sl_vector_size (phi->m.sep); i++)
 	  {
-	    sl_space_fprint (f, lvars, sl_vector_at (phi->m.sep, i));
+	    sl_space_fprint (f, args, lvars, sl_vector_at (phi->m.sep, i));
 	    fprintf (f, "\n\t");
 	  }
 	fprintf (f, ")");
@@ -266,8 +397,8 @@ sl_form_fprint (FILE * f, sl_form_t * phi)
   fprintf (f, "\n\t lvars: ");
   sl_var_array_fprint (f, phi->lvars, "\t\t");
   fprintf (f, "\n\n\t pure part: \t");
-  sl_pure_array_fprint (f, phi->lvars, phi->pure);
+  sl_pure_array_fprint (f, phi->lvars, phi->lvars, phi->pure);
   fprintf (f, "\n\t spatial part: \t");
-  sl_space_fprint (f, phi->lvars, phi->space);
+  sl_space_fprint (f, phi->lvars, phi->lvars, phi->space);
 
 }

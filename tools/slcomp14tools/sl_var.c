@@ -77,7 +77,9 @@ void
 sl_var_register (sl_var_array * a, const char *name, sl_type_t * ty,
 		 sl_scope_e scope)
 {
-  assert (ty && (ty->kind == SL_TYP_RECORD || ty->kind == SL_TYP_SETLOC));
+  assert (ty && (ty->kind == SL_TYP_RECORD || 
+		 ty->kind == SL_TYP_SETLOC ||
+		 ty->kind == SL_TYP_INT));
 
   sl_var_t *v = sl_var_new (name, ty, scope);
   v->scope = scope;
@@ -127,6 +129,42 @@ sl_var_name (sl_var_array * a, uid_t vid, sl_typ_t ty)
   return (sl_vector_at (a, vid))->vname;
 }
 
+char *
+sl_var_name2 (sl_var_array * gvars, sl_var_array * lvars, uid_t vid, sl_typ_t ty)
+{
+  assert (SL_TYP_OTHER != ty);
+  if (VNIL_ID == vid)
+    return "nil";
+  char * vname = "unknown";
+  if (NULL != gvars &&
+      vid < sl_vector_size (gvars)) 
+    return (sl_vector_at (gvars, vid))->vname;
+  if (NULL != lvars &&
+      vid < sl_vector_size (lvars)) 
+    return (sl_vector_at (lvars, vid))->vname;
+  return "unknVar";
+}
+
+sl_type_t*
+sl_var_type (sl_var_array * a, uid_t vid)
+{
+  assert (a);
+
+  if (vid == VNIL_ID)
+    return &sl_type_heap;
+  if (vid >= sl_vector_size (a))
+    {
+      if (vid >= sl_vector_capacity (a))
+        {
+          sl_warning ("sl_var_type", "look outside vector capacity");
+          return &sl_type_heap;
+        }
+      sl_warning ("sl_var_type", "look outside vector size");
+    }
+  sl_var_t *v = sl_vector_at (a, vid);
+  return v->vty;
+}
+
 uid_t
 sl_var_record (sl_var_array * a, uid_t vid)
 {
@@ -147,13 +185,13 @@ sl_var_record (sl_var_array * a, uid_t vid)
   sl_type_t *ty = v->vty;
   if ((ty == NULL) || (ty->kind != SL_TYP_RECORD) || (ty->args == NULL))
     {
-      fprintf (stdout, "Incorrect type for location variable %d.\n", vid);
+      sl_warning ("sl_var_record", "Not a record variable");
+      SL_DEBUG ("\t(var id %d)\n", vid);
       return UNDEFINED_ID;
     }
-#ifndef NDEBUG
-  //fprintf (stdout, "sl_var_record: var %s, tid = %d\n", v->vname, ty->kind);
-  //fflush(stdout);
-#endif
+
+  SL_DEBUG ("sl_var_record: var %s, tid = %d\n", v->vname, ty->kind);
+
   uid_t tid = sl_vector_at (ty->args, 0);
   if ((tid >= sl_vector_size (records_array))
       || (sl_vector_at (records_array, tid) == NULL))
@@ -192,6 +230,8 @@ sl_var_array_fprint (FILE * f, sl_var_array * a, const char *msg)
 	  uid_t rid = sl_vector_at (vi->vty->args, 0);
 	  fprintf (f, "%s:%s, ", vi->vname, sl_record_name (rid));
 	}
+      else if (ti->kind == SL_TYP_INT)
+	fprintf (f, "%s:Int, ", vi->vname);
       else
 	fprintf (f, "%s:SetLoc, ", vi->vname);
     }

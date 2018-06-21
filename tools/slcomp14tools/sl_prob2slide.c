@@ -61,6 +61,51 @@ sl_vid_array_2slide (FILE * fout, sl_var_array * args, sl_var_array * lvars,
     }
 }
 
+void
+sl_term_2slide (FILE * fout, sl_var_array * args,
+                  sl_var_array * lvars, sl_term_t* t);
+
+void
+sl_term_array_2slide (FILE * fout, sl_var_array * args,
+                        sl_var_array * lvars,
+                        sl_term_array * ta, char * op)
+{
+  assert (NULL != ta);
+  assert (NULL != op);
+
+  size_t sz = sl_vector_size(ta);
+  for (size_t i = 0; i < sz-1; i++)
+    {
+      sl_term_2slide (fout, args, lvars, sl_vector_at(ta, i));
+      fprintf (fout, "%s", op);
+    }
+  if (sz > 1)
+    sl_term_2slide (fout, args, lvars, sl_vector_at(ta, sz-1));
+}
+
+void
+sl_term_2slide (FILE * fout, sl_var_array * args,
+                sl_var_array * lvars, sl_term_t* t)
+{
+  assert (NULL != t);
+
+  switch (t->kind)
+    {
+    case SL_DATA_INT: fprintf (fout, "%ld", t->p.value); break;
+    case SL_DATA_VAR:
+      fprintf (fout, "%s", sl_var_2slide (args, lvars, t->p.sid));
+      break;
+    case SL_DATA_PLUS:
+      sl_term_array_2slide (fout, args, lvars, t->args, "+");
+      break;
+    case SL_DATA_MINUS:
+      sl_term_array_2slide (fout, args, lvars, t->args, "-");
+      break;
+    default:
+      fprintf (fout, "unknTerm");
+      break;
+    }
+}
 
 /* ====================================================================== */
 /* Formula */
@@ -72,15 +117,20 @@ sl_pure_2slide (FILE * fout, sl_var_array * args, sl_var_array * lvars,
 {
   assert (NULL != form);
 
+
+  if (form->kind != SL_DATA_EQ && form->kind != SL_DATA_NEQ)
+    {  fprintf (fout, "error");
+       return 0;
+    }
   // shall always start by the local vars
-  char *vleft = sl_var_2slide (args, lvars, form->vleft);
-
-  char *vright = sl_var_2slide (args, lvars, form->vright);
-
-  fprintf (fout, "%s%s%s", vleft,
-	   (form->op == SL_PURE_EQ) ? "=" : "!=", vright);
+  // contains only two args
+  sl_term_2slide (fout, args, lvars, sl_vector_at(form->targs,0));
+  // for the moment, only = and <>
+  fprintf (fout, "%s", (form->kind == SL_DATA_EQ) ? "=" : "!=");
+  sl_term_2slide (fout, args, lvars, sl_vector_at(form->targs,1));
   return 1;
 }
+
 
 int
 sl_ls_2slide (FILE * fout, sl_var_array * args, sl_var_array * lvars,

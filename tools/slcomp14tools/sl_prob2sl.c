@@ -63,7 +63,7 @@ sl_record_2sl (FILE * fout, sl_record_array * arr)
 
   fprintf (fout, "\n; Types of cells in the heap\n");
 
-  // Special case of no recrod defined
+  // Special case of no record defined
   if (sl_vector_size (arr) == 1) {
     fprintf (fout, "\n; Cell are of Int type\n");
     return;
@@ -87,10 +87,13 @@ sl_record_2sl (FILE * fout, sl_record_array * arr)
       uid_t fi = sl_vector_at (r->flds, i);
       sl_field_t *fldi = sl_vector_at (fields_array, fi);
       fprintf (fout, "(%s ", fldi->name);
-      char* rn = sl_record_name (fldi->pto_r);
-      if (strcmp(rn, "Int") != 0 || strcmp(rn, "Bool") != 0)
-	fprintf (fout, "Ref");
-      fprintf (fout, "%s) ", rn);
+      if (fldi->pto_r == UNDEFINED_ID)
+        sl_typ_fprint (fout, fldi->pto_ty);
+      else {
+        char* rn = sl_record_name (fldi->pto_r);
+	fprintf (fout, "Ref%s", rn);
+      }
+      fprintf (fout, ") ");
     }
     // constructor end
     fprintf (fout, "))\n");
@@ -133,7 +136,8 @@ sl_var_2sl (FILE* fout, sl_var_array * args, sl_var_array * lvars, uid_t vid,
   char *vname;
   
   char * rname = (rctx == SL_TYP_VOID) ? "" : sl_record_name(rctx);
-  if (vid == VNIL_ID && inpred == inpred)
+  if (vid == VNIL_ID && 
+      (inpred || !inpred)) // to silent compiler
     {
       fprintf (fout, "(as nil Ref%s)", rname);
       return;
@@ -142,9 +146,9 @@ sl_var_2sl (FILE* fout, sl_var_array * args, sl_var_array * lvars, uid_t vid,
   uid_t fstlocal = (args == NULL) ? 0 : sl_vector_size (args);
   // printf("fstlocal = %d, vid = %d\n", fstlocal, vid);
   if (vid >= fstlocal)
-    vname = sl_var_name (lvars, vid - fstlocal, SL_TYP_RECORD);
+    vname = sl_var_name (lvars, vid - fstlocal, rctx);
   else 
-    vname = sl_var_name (args, vid, SL_TYP_RECORD);
+    vname = sl_var_name (args, vid, rctx);
   if (vname[0] == '?')
     fprintf (fout, "%s", vname + 1); 
   else if (strcmp(vname,"nil") == 0) {
@@ -168,13 +172,16 @@ sl_vartype_2sl (sl_var_array * args, sl_var_array * lvars, uid_t vid,
     return (heap_rid == UNDEFINED_ID) ? SL_TYP_VOID : heap_rid; // TODO : type
   
   uid_t fstlocal = (args == NULL) ? 0 : sl_vector_size (args);
-  uid_t lstlocal = sl_vector_size(lvars) + fstlocal;
+  uid_t lstlocal = fstlocal + ((lvars == NULL) ? 0 : sl_vector_size(lvars));
   if (vid < fstlocal && inpred)
     // arguments   
     return sl_var_record (args, vid);
 
-  if (vid >= fstlocal && vid < lstlocal)
-    return sl_var_record (lvars, vid - fstlocal);
+  if (vid >= fstlocal && vid < lstlocal) {
+    sl_type_t* vty = sl_var_type (lvars, vid - fstlocal);
+    return (vty->kind == SL_TYP_RECORD) ? sl_vector_at(vty->args, 0) : 
+	    vty->kind; // TODO
+  }
   else {
     // error
     sl_error (1, "sl_vartype_2sl:", "unknown type for variable");
@@ -200,6 +207,73 @@ sl_var_array_2sl (FILE * fout, sl_var_array * args, sl_var_array * lvars,
     }
 }
 
+uid_t
+sl_termtype_2sl (sl_var_array * args, sl_var_array * lvars, sl_term_t* t,
+                 bool inpred)
+{
+  assert (NULL != t);
+  switch (t->kind) {
+  case SL_DATA_INT: 
+  case SL_DATA_PLUS:
+  case SL_DATA_MINUS: return SL_TYP_INT;
+  case SL_DATA_VAR:   return sl_vartype_2sl (args, lvars, t->p.sid, inpred);
+  case SL_DATA_FIELD: {
+    sl_field_t* fi = sl_vector_at(fields_array, t->p.sid);
+    return fi->pto_r;
+  }
+  default:
+    return SL_TYP_VOID;
+  }
+}
+
+void
+sl_term_2sl (FILE * fout, sl_var_array * args,
+             sl_var_array * lvars, sl_term_t* t, bool inpred, uid_t rid);
+
+void
+sl_term_array_2sl (FILE * fout, sl_var_array * args,
+                   sl_var_array * lvars, sl_term_array * ta, bool inpred, uid_t rid)
+{
+  assert (NULL != ta);
+
+  size_t sz = sl_vector_size(ta);
+  for (size_t i = 0; i < sz; i++)
+    {
+      sl_term_2sl (fout, args, lvars, sl_vector_at(ta, i), inpred, rid);
+      fprintf (fout, " ");
+    }
+}
+
+void
+sl_term_2sl (FILE * fout, sl_var_array * args,
+             sl_var_array * lvars, sl_term_t* t, bool inpred, uid_t rid)
+{
+  assert (NULL != t);
+  switch (t->kind)
+    {
+    case SL_DATA_INT: fprintf (fout, "%ld", t->p.value); break;
+    case SL_DATA_VAR: {
+      sl_var_2sl (fout, args, lvars, t->p.sid, inpred, rid); // SL_TYP_VOID);
+      break;
+    }
+    case SL_DATA_PLUS: {
+      fprintf (fout, "(+ ");
+      sl_term_array_2sl (fout, args, lvars, t->args, inpred, SL_TYP_INT);
+      fprintf (fout, ") ");
+      break;
+    }
+    case SL_DATA_MINUS: {
+      fprintf (fout, "(- ");
+      sl_term_array_2sl (fout, args, lvars, t->args, inpred, SL_TYP_INT);
+      fprintf (fout, ") ");
+      break;
+    }
+    default:
+      fprintf (fout, "unknTerm");
+      break;
+    }
+}
+
 /* ====================================================================== */
 /* Formula */
 /* ====================================================================== */
@@ -210,22 +284,26 @@ sl_pure_2sl (FILE * fout, sl_var_array * args, sl_var_array * lvars,
 {
   assert (NULL != form);
 
-  uid_t rleft = sl_vartype_2sl(args, lvars, form->vleft, inpred);
-  uid_t rright = sl_vartype_2sl(args, lvars, form->vright, inpred);
-  uid_t rid = rright;
-  if (rleft != rright) {
-    sl_error (1, "sl_pure_2sl:", "pure terms of different type");
-  }
-  if (rid == UNDEFINED_ID || rid == SL_TYP_VOID) 
+  uid_t rid = sl_termtype_2sl(args, lvars, sl_vector_at (form->targs,0), inpred);
+  if (rid == UNDEFINED_ID || rid == SL_TYP_VOID)
     rid = heap_rid;
-  
-  // shall always start by the local vars
-  fprintf (fout, "(%s ", (form->op == SL_PURE_EQ) ? "=" : "distinct");
-  sl_var_2sl (fout, args, lvars, form->vleft, inpred, rid); // rright
-  fprintf (fout, " ");
-  sl_var_2sl (fout, args, lvars, form->vright, inpred, rid); // rleft
-  fprintf (fout, ")");
 
+  // shall always start by the local vars
+  fprintf (fout, "(");
+  switch (form->kind)
+    {
+    case SL_DATA_EQ: fprintf (fout, "= "); break;
+    case SL_DATA_NEQ: fprintf (fout, "distinct "); break;
+    case SL_DATA_LT: fprintf (fout, "< "); break;
+    case SL_DATA_LE: fprintf (fout, "<= "); break;
+    case SL_DATA_GT: fprintf (fout, "> "); break;
+    case SL_DATA_GE: fprintf (fout, ">= "); break;
+    default:  fprintf (fout, "error "); break;
+    }
+  sl_term_2sl (fout, args, lvars, sl_vector_at(form->targs,0), inpred, rid);
+  fprintf (fout, " ");
+  sl_term_2sl (fout, args, lvars, sl_vector_at(form->targs,1), inpred, rid); // rleft
+  fprintf (fout, ")");
 }
 
 void
@@ -491,7 +569,7 @@ sl_pred_case_2sl (FILE * fout, sl_var_array * args, sl_pred_case_t * c)
 
   SL_DEBUG ("\t nbc=%zu\n", nb_pure+nb_space);
 
-  assert (nbc > 0);
+  assert ((nb_pure+nb_space) > 0);
   
 }
 
@@ -612,21 +690,25 @@ sl_prob_2sl (const char *fname)
   
 
   // Translated the problem only for entailment
-  fprintf (fout, "\n\n(check-unsat) ");
+  fprintf (fout, "\n\n(check-sat) ");
 
   // translate free variables
   fprintf (fout, "\n;; variables\n");
   for (size_t vi = 1; vi < sl_vector_size(sl_prob->pform->lvars); vi++) {
           sl_var_t* v = sl_vector_at (sl_prob->pform->lvars, vi);
-          if (v->scope == SL_SCOPE_GLOBAL)
+          if (v->scope == SL_SCOPE_GLOBAL) {
 	    // TODO: all variables are references
-            fprintf (fout, "(declare-const %s Ref%s)\n", v->vname,
-                sl_record_name (sl_vector_at(v->vty->args,0)));
-          else
+            fprintf (fout, "(declare-const %s ", v->vname);
+	    if (v->vty->kind == SL_TYP_RECORD)
+		fprintf (fout, "Ref");
+            sl_type_fprint (fout, v->vty);
+	    fprintf (fout, ")\n");
+	  }
+	  else
             break;
   }
 
-  
+
   // translate positive formula
   fprintf (fout, "\n(assert ");
   sl_form_2sl (fout, sl_prob->pform);
@@ -639,7 +721,7 @@ sl_prob_2sl (const char *fname)
     fprintf (fout, "\n(assert (not ");
     sl_form_2sl (fout, sl_vector_at (sl_prob->nform, 0));
     fprintf (fout, "\n))\n");
-    fprintf (fout, "\n(check-unsat)\n");
+    fprintf (fout, "\n(check-sat)\n");
   }
   
   fclose (fout);

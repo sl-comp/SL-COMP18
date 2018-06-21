@@ -109,6 +109,17 @@ extern "C"
   void sl_pred_init (void);
   /* Initialize global arrays of predicates */
 
+
+  /* ====================================================================== */
+  /* Constructors/Destructors */
+  /* ====================================================================== */
+
+  sl_pred_binding_t *sl_pred_binding_new (void);
+  /* Allocate a new biding for the predicate and initialize the fields to 0 */
+
+  void sl_pred_binding_delete (sl_pred_binding_t * def);
+  /* Free the binding @p def */
+
   /* ====================================================================== */
   /* Predicate cases */
   /* ====================================================================== */
@@ -127,7 +138,7 @@ extern "C"
   uid_t sl_pred_register (const char *pname, sl_pred_binding_t * def);
   /* Insert the predicate definition in the global array */
 
-  uid_t sl_pred_typecheck_call (uid_t pid, uid_t * actuals_ty, uid_t size);
+  uid_t sl_pred_typecheck_call (uid_t pid, sl_type_t ** actuals_ty, uid_t size);
   /* Typecheck the call of name with the types of parameters given in
    * actuals_ty of length size.
    */
@@ -145,6 +156,9 @@ extern "C"
   /* ====================================================================== */
   /* Printing */
   /* ====================================================================== */
+ 
+  void sl_pred_fprint (FILE * f, uid_t pid);
+  /* Print the predicate @p pid. */
 
   void sl_pred_array_fprint (FILE * f, sl_pred_array * a, const char *msg);
   /* Print the array a. */

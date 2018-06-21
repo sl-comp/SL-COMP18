@@ -73,6 +73,8 @@ extern "C"
     sl_uid_array *args;		// type arguments, including the record index
   } sl_type_t;
 
+  extern sl_type_t sl_type_heap;
+
 /** Record information:
  * - the name of the record declared in the program
  * - the list of reference fields
@@ -110,8 +112,9 @@ extern "C"
   {
     char *name;			// declaration name
     uid_t fid;			// field identifier
-    uid_t src_r;		// identifier of the source record
-    uid_t pto_r;		// identifier of the target record
+    uid_t src_r;		// type of the source record
+    uid_t pto_r;		// type of the target record, if UNDEFINED, see pto_ty
+    sl_typ_t pto_ty;            // kind of type for pto, mainly cell type
     uid_t order;		// order number wrt use in predicates
     uid_t pid;			// predicate where the fields is used in the matrix
     sl_field_e kind;		// kind of the field wrt predicate pid
@@ -154,7 +157,7 @@ extern "C"
 
   sl_type_t *sl_mk_type_bool (void);
   sl_type_t *sl_mk_type_int (void);
-  sl_type_t *sl_mk_type_field (uid_t src, uid_t dest);
+  sl_type_t *sl_mk_type_field (sl_type_t * src, sl_type_t * dest);
   sl_type_t *sl_mk_type_record (uid_t rid);
   sl_type_t *sl_mk_type_setloc (void);
   sl_type_t *sl_mk_type_setref (uid_t ty);
@@ -162,13 +165,26 @@ extern "C"
 /* Constructors for the predefined types. */
   sl_type_t *sl_type_clone (sl_type_t * a);
   void sl_type_free (sl_type_t * a);
+  void sl_typ_fprint (FILE * f, sl_typ_t k);
+  void sl_type_fprint (FILE * f, sl_type_t * a);
+
 
 /* ====================================================================== */
 /* Other methods */
 /* ====================================================================== */
 
+  bool sl_type_is_vartype (sl_type_t * t);
+/* True if type may be used for a variable */
+
+  bool sl_type_is_fldtype (sl_type_t * t);
+/* True if type may be used for co-domain of a field */
+
   uid_t sl_is_record (uid_t rid);
 /* Returns rid if the arguments is a valid record index, otherwise UNDEFINED_ID. */
+
+  uid_t sl_type_get_record (sl_type_t * t);
+/* Returns record identifier if the type is a record, otherwise UNDEFINED_ID */
+
 
 // searching
 

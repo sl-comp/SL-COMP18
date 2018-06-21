@@ -489,7 +489,7 @@ void Pp_SLCOMP14::visit(const DecimalLiteralPtr& node) {
 
 void Pp_SLCOMP14::visit(const NumeralLiteralPtr& node) {
     // NB: not used, but translated
-    Logger::error("Sep::Pp_slcomp14::visit()", "Ignored numeral");
+    Logger::warning("Sep::Pp_slcomp14::visit()", "Ignored numeral");
     std::cout << node->toString();
     this->ret = false;
 }

@@ -83,6 +83,10 @@ static smtlib2_term smtlib2_sl_parser_mk_function (smtlib2_context ctx,
 						   smtlib2_sort sort,
 						   smtlib2_vector * index,
 						   smtlib2_vector * args);
+static smtlib2_term smtlib2_sl_parser_mk_number (smtlib2_context ctx,
+                                                 const char *rep,
+                                                 unsigned int width,
+                                                 unsigned int base);
 #define SMTLIB2_SL_DECLHANDLER(name)				      \
     static smtlib2_term smtlib2_sl_parser_mk_ ## name (              \
         smtlib2_context ctx,                                            \
@@ -95,6 +99,12 @@ SMTLIB2_SL_DECLHANDLER (or);
 SMTLIB2_SL_DECLHANDLER (not);
 SMTLIB2_SL_DECLHANDLER (eq);
 SMTLIB2_SL_DECLHANDLER (distinct);
+SMTLIB2_SL_DECLHANDLER (lt);
+SMTLIB2_SL_DECLHANDLER (gt);
+SMTLIB2_SL_DECLHANDLER (le);
+SMTLIB2_SL_DECLHANDLER (ge);
+SMTLIB2_SL_DECLHANDLER (plus);
+SMTLIB2_SL_DECLHANDLER (minus);
 //SMTLIB2_SL_DECLHANDLER (emp);
 //SMTLIB2_SL_DECLHANDLER (junk);
 SMTLIB2_SL_DECLHANDLER (ssep);
@@ -156,12 +166,22 @@ smtlib2_sl_parser_new (void)
   /* for symbols and user-defined function application */
   smtlib2_term_parser_set_function_handler (tp,
 					    smtlib2_sl_parser_mk_function);
+  smtlib2_term_parser_set_number_handler (tp, smtlib2_sl_parser_mk_number);
+
   /* for logic pre-defined operators */
   SMTLIB2_SL_SETHANDLER (tp, "or", or);
   SMTLIB2_SL_SETHANDLER (tp, "and", and);
   SMTLIB2_SL_SETHANDLER (tp, "not", not);
   SMTLIB2_SL_SETHANDLER (tp, "=", eq);
   SMTLIB2_SL_SETHANDLER (tp, "distinct", distinct);
+
+  SMTLIB2_SL_SETHANDLER (tp, "<", lt);
+  SMTLIB2_SL_SETHANDLER (tp, ">", gt);
+  SMTLIB2_SL_SETHANDLER (tp, "<=", le);
+  SMTLIB2_SL_SETHANDLER (tp, ">=", ge);
+  SMTLIB2_SL_SETHANDLER (tp, "+", plus);
+  SMTLIB2_SL_SETHANDLER (tp, "-", minus);
+
   SMTLIB2_SL_SETHANDLER (tp, "ssep", ssep);
   SMTLIB2_SL_SETHANDLER (tp, "pto", pto);
   SMTLIB2_SL_SETHANDLER (tp, "ref", ref);
@@ -174,9 +194,6 @@ smtlib2_sl_parser_new (void)
   smtlib2_hashtable_set (ret->sorts_,
 			 (intptr_t) (void *) smtlib2_strdup ("Bool"),
 			 (intptr_t) (void *) sl_mk_type_bool ());
-  smtlib2_hashtable_set (ret->sorts_,
-			 (intptr_t) (void *) smtlib2_strdup ("Int"),
-			 (intptr_t) (void *) sl_mk_type_int ());
   smtlib2_hashtable_set (ret->sorts_,
 			 (intptr_t) (void *) smtlib2_strdup ("Field"),
 			 (intptr_t) (void *) sl_mk_type_field (0, 0));
@@ -231,10 +248,10 @@ smtlib2_sl_parser_set_logic (smtlib2_parser_interface * p, const char *logic)
 	    smtlib2_sprintf ("logic `%s' is not supported", logic);
 	}
       /* if it is, declare primitive sorts */
-      /* register the SetLoc sort */
-      sl_type_t *ty = sl_mk_type_setloc ();
+      /* register the Int sort */
+      sl_type_t *ty = sl_mk_type_int ();
       smtlib2_hashtable_set (sl_sorts (p),
-			     (intptr_t) (void *) smtlib2_strdup ("SetLoc"),
+			     (intptr_t) (void *) smtlib2_strdup ("Int"),
 			     (intptr_t) (void *) ty);
     }
   else
@@ -371,7 +388,7 @@ smtlib2_sl_parser_declare_variable (smtlib2_parser_interface * p,
 		smtlib2_sprintf ("local variable `%s' is not a constant.",
 				 name);
 	    }
-	  else if ((ty->kind != SL_TYP_RECORD) && (ty->kind != SL_TYP_SETLOC))
+	  else if (sl_type_is_vartype(ty) == false)
 	    {
 	      ap->response_ = SMTLIB2_RESPONSE_ERROR;
 	      ap->errmsg_ =
@@ -601,17 +618,15 @@ smtlib2_sl_parser_make_parametric_sort (smtlib2_parser_interface * p,
 	{
 	  /* check that the sort is exactly Field,
 	   * since (SetRef sort) can not appear in the formula */
-	  if (!strcmp (sortname, "Field") && tps && smtlib2_vector_size (tps)
-	      == 2)
+	  if ((0 == strcmp (sortname, "Field")) && (NULL != tps) 
+	      && (smtlib2_vector_size (tps) == 2))
 	    {
 	      sl_type_t *src = (sl_type_t *) smtlib2_vector_at (tps, 0);
 	      sl_type_t *dst = (sl_type_t *) smtlib2_vector_at (tps, 1);
 
-	      if (src->kind == SL_TYP_RECORD && dst->kind == SL_TYP_RECORD)
-		res =
-		  (smtlib2_sort)
-		  sl_mk_type_field (sl_vector_at (src->args, 0),
-				    sl_vector_at (dst->args, 0));
+	      if ((src->kind == SL_TYP_RECORD) && 
+                  (sl_type_is_fldtype (dst) == true))
+		res = (smtlib2_sort) sl_mk_type_field (src, dst);
 	      else
 		{
 		  ap->response_ = SMTLIB2_RESPONSE_ERROR;
@@ -755,12 +770,23 @@ smtlib2_sl_parser_mk_function (smtlib2_context ctx,
   return (smtlib2_term) res;
 }
 
+static smtlib2_term
+smtlib2_sl_parser_mk_number (smtlib2_context ctx,
+                               const char *rep,
+                               unsigned int width, unsigned int base)
+{
+  sl_context_t *sctx = sl_ctx (ctx);
+  sl_exp_t *ret = NULL;
+  if ((width == 0) && (base == 10))
+    {
+      // parse only only base 10 numbers, not arrays
+      ret = sl_mk_number (sctx, rep);
+    }
+  return (smtlib2_term) ret;
+}
+
 SMTLIB2_SL_DECLHANDLER (and)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_and (sl_ctx (ctx),
 		    (sl_exp_t **) (smtlib2_vector_array (args)),
 		    smtlib2_vector_size (args));
@@ -768,10 +794,6 @@ SMTLIB2_SL_DECLHANDLER (and)
 
 SMTLIB2_SL_DECLHANDLER (or)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_or (sl_ctx (ctx),
 		   (sl_exp_t **) (smtlib2_vector_array (args)),
 		   smtlib2_vector_size (args));
@@ -779,10 +801,6 @@ SMTLIB2_SL_DECLHANDLER (or)
 
 SMTLIB2_SL_DECLHANDLER (not)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_not (sl_ctx (ctx),
 		    (sl_exp_t **) (smtlib2_vector_array (args)),
 		    smtlib2_vector_size (args));
@@ -790,10 +808,6 @@ SMTLIB2_SL_DECLHANDLER (not)
 
 SMTLIB2_SL_DECLHANDLER (eq)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_eq (sl_ctx (ctx),
 		   (sl_exp_t **) (smtlib2_vector_array (args)),
 		   smtlib2_vector_size (args));
@@ -801,21 +815,91 @@ SMTLIB2_SL_DECLHANDLER (eq)
 
 SMTLIB2_SL_DECLHANDLER (distinct)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_distinct (sl_ctx (ctx),
 			 (sl_exp_t **) (smtlib2_vector_array (args)),
 			 smtlib2_vector_size (args));
 }
 
-SMTLIB2_SL_DECLHANDLER (ssep)
+SMTLIB2_SL_DECLHANDLER (lt)
 {
   if (symbol != symbol && sort != sort && idx != idx)
     {
-      assert (0);		// to remove warnings in unsed parameters
+      assert (0);               // to remove warnings in unsed parameters
     }
+  if (args == NULL)
+    return (smtlib2_term) NULL;
+  return sl_mk_lt (sl_ctx (ctx),
+                     (sl_exp_t **) (smtlib2_vector_array (args)),
+                     smtlib2_vector_size (args));
+}
+
+SMTLIB2_SL_DECLHANDLER (gt)
+{
+  if (symbol != symbol && sort != sort && idx != idx)
+    {
+      assert (0);               // to remove warnings in unsed parameters
+    }
+  if (args == NULL)
+    return (smtlib2_term) NULL;
+  return sl_mk_gt (sl_ctx (ctx),
+                     (sl_exp_t **) (smtlib2_vector_array (args)),
+                     smtlib2_vector_size (args));
+}
+
+SMTLIB2_SL_DECLHANDLER (le)
+{
+  if (symbol != symbol && sort != sort && idx != idx)
+    {
+      assert (0);               // to remove warnings in unsed parameters
+    }
+  if (args == NULL)
+    return (smtlib2_term) NULL;
+  return sl_mk_le (sl_ctx (ctx),
+                     (sl_exp_t **) (smtlib2_vector_array (args)),
+                     smtlib2_vector_size (args));
+}
+
+SMTLIB2_SL_DECLHANDLER (ge)
+{
+  if (symbol != symbol && sort != sort && idx != idx)
+    {
+      assert (0);               // to remove warnings in unsed parameters
+    }
+  if (args == NULL)
+    return (smtlib2_term) NULL;
+  return sl_mk_ge (sl_ctx (ctx),
+                     (sl_exp_t **) (smtlib2_vector_array (args)),
+                     smtlib2_vector_size (args));
+}
+
+SMTLIB2_SL_DECLHANDLER (plus)
+{
+  if (symbol != symbol && sort != sort && idx != idx)
+    {
+      assert (0);               // to remove warnings in unsed parameters
+    }
+  if (args == NULL)
+    return (smtlib2_term) NULL;
+  return sl_mk_plus (sl_ctx (ctx),
+                       (sl_exp_t **) (smtlib2_vector_array (args)),
+                       smtlib2_vector_size (args));
+}
+
+SMTLIB2_SL_DECLHANDLER (minus)
+{
+  if (symbol != symbol && sort != sort && idx != idx)
+    {
+      assert (0);               // to remove warnings in unsed parameters
+    }
+  if (args == NULL)
+    return (smtlib2_term) NULL;
+  return sl_mk_minus (sl_ctx (ctx),
+                        (sl_exp_t **) (smtlib2_vector_array (args)),
+                        smtlib2_vector_size (args));
+}
+
+SMTLIB2_SL_DECLHANDLER (ssep)
+{
   return sl_mk_ssep (sl_ctx (ctx),
 		     (sl_exp_t **) (smtlib2_vector_array (args)),
 		     smtlib2_vector_size (args));
@@ -823,10 +907,6 @@ SMTLIB2_SL_DECLHANDLER (ssep)
 
 SMTLIB2_SL_DECLHANDLER (pto)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_pto (sl_ctx (ctx),
 		    (sl_exp_t **) (smtlib2_vector_array (args)),
 		    smtlib2_vector_size (args));
@@ -834,10 +914,6 @@ SMTLIB2_SL_DECLHANDLER (pto)
 
 SMTLIB2_SL_DECLHANDLER (ref)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_ref (sl_ctx (ctx),
 		    (sl_exp_t **) (smtlib2_vector_array (args)),
 		    smtlib2_vector_size (args));
@@ -845,10 +921,6 @@ SMTLIB2_SL_DECLHANDLER (ref)
 
 SMTLIB2_SL_DECLHANDLER (sref)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_sref (sl_ctx (ctx),
 		     (sl_exp_t **) (smtlib2_vector_array (args)),
 		     smtlib2_vector_size (args));
@@ -856,10 +928,6 @@ SMTLIB2_SL_DECLHANDLER (sref)
 
 SMTLIB2_SL_DECLHANDLER (tobool)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_tobool (sl_ctx (ctx),
 		       (sl_exp_t **) (smtlib2_vector_array (args)),
 		       smtlib2_vector_size (args));
@@ -867,10 +935,6 @@ SMTLIB2_SL_DECLHANDLER (tobool)
 
 SMTLIB2_SL_DECLHANDLER (tospace)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_tospace (sl_ctx (ctx),
 			(sl_exp_t **) (smtlib2_vector_array (args)),
 			smtlib2_vector_size (args));
@@ -878,10 +942,6 @@ SMTLIB2_SL_DECLHANDLER (tospace)
 
 SMTLIB2_SL_DECLHANDLER (loop)
 {
-  if (symbol != symbol && sort != sort && idx != idx)
-    {
-      assert (0);		// to remove warnings in unsed parameters
-    }
   return sl_mk_loop (sl_ctx (ctx),
 		     (sl_exp_t **) (smtlib2_vector_array (args)),
 		     smtlib2_vector_size (args));

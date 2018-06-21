@@ -63,6 +63,14 @@ extern "C"
     SL_F_PRED,
     SL_F_EQ,			/* pure operators */
     SL_F_DISTINCT,
+    SL_F_LT,                  /* Integer theory */
+    SL_F_GT,
+    SL_F_LE,
+    SL_F_GE,
+    SL_F_PLUS,
+    SL_F_MINUS,
+    SL_F_INT,                 /* integer constant */
+    SL_F_DFIELD,              /* integer field selection */
     SL_F_EMP,			/* space operators */
     SL_F_JUNK,
     SL_F_SSEP,
@@ -84,6 +92,9 @@ extern "C"
     {
       /* user-defined function or symbol name */
       uint_t sid;
+
+      /* constant */
+      long value;
 
       /* quantifiers */
       struct
@@ -170,7 +181,11 @@ extern "C"
   sl_exp_t *sl_mk_exists (sl_context_t * ctx, sl_exp_t * term);
   sl_exp_t *sl_mk_app (sl_context_t * ctx, const char *name,
 		       sl_exp_t ** args, uint_t size);
+  sl_exp_t *sl_mk_number (sl_context_t * ctx, const char *str);
   sl_exp_t *sl_mk_symbol (sl_context_t * ctx, const char *name);
+  sl_exp_t *sl_mk_dfield (sl_context_t * ctx, const char *name,
+                          sl_exp_t ** args, uint_t size);
+
   sl_exp_t *sl_mk_pred (sl_context_t * ctx, const char *name,
 			sl_exp_t ** args, uint_t size);
   sl_exp_t *sl_mk_true (sl_context_t * ctx);
@@ -179,8 +194,13 @@ extern "C"
   sl_exp_t *sl_mk_or (sl_context_t * ctx, sl_exp_t ** args, uint_t size);
   sl_exp_t *sl_mk_not (sl_context_t * ctx, sl_exp_t ** args, uint_t size);
   sl_exp_t *sl_mk_eq (sl_context_t * ctx, sl_exp_t ** args, uint_t size);
-  sl_exp_t *sl_mk_distinct (sl_context_t * ctx, sl_exp_t ** args,
-			    uint_t size);
+  sl_exp_t *sl_mk_distinct (sl_context_t * ctx, sl_exp_t ** args, uint_t size);
+  sl_exp_t *sl_mk_lt (sl_context_t * ctx, sl_exp_t ** args, uint_t size);
+  sl_exp_t *sl_mk_gt (sl_context_t * ctx, sl_exp_t ** args, uint_t size);
+  sl_exp_t *sl_mk_le (sl_context_t * ctx, sl_exp_t ** args, uint_t size);
+  sl_exp_t *sl_mk_ge (sl_context_t * ctx, sl_exp_t ** args, uint_t size);
+  sl_exp_t *sl_mk_plus (sl_context_t * ctx, sl_exp_t ** args, uint_t size);
+  sl_exp_t *sl_mk_minus (sl_context_t * ctx, sl_exp_t ** args, uint_t size);
   sl_exp_t *sl_mk_emp (sl_context_t * ctx);
   sl_exp_t *sl_mk_junk (sl_context_t * ctx);
   sl_exp_t *sl_mk_ssep (sl_context_t * ctx, sl_exp_t ** args, uint_t size);

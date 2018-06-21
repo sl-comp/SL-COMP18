@@ -37,6 +37,8 @@ SL_VECTOR_DEFINE (sl_field_array, sl_field_t *);
 sl_record_array *records_array;
 sl_field_array *fields_array;
 
+sl_type_t sl_type_heap;
+
 /* Initialize global arrays of records and fields */
 void
 sl_record_init ()
@@ -46,6 +48,9 @@ sl_record_init ()
 
   /* initialize with void* */
   sl_record_register ("void");
+
+  sl_type_heap.kind = SL_TYP_VOID;
+  sl_type_heap.args = NULL;
 }
 
 void
@@ -119,8 +124,9 @@ sl_field_new (const char *name, uid_t ty_src, uid_t ty_dst)
 {
   sl_field_t *f = (sl_field_t *) malloc (sizeof (sl_field_t));
   f->name = strdup (name);
-  f->pto_r = ty_dst;
   f->src_r = ty_src;
+  f->pto_r = ty_dst;
+  f->pto_ty = (ty_dst == UNDEFINED_ID) ? SL_TYP_INT : SL_TYP_RECORD;
   return f;
 }
 
@@ -134,8 +140,8 @@ sl_field_register (const char *name, sl_type_t * ty)
   if (!ty || ty->kind != SL_TYP_FIELD || ty->args == NULL
       || (sl_vector_size (ty->args) != 2))
     {
-      // TODO: make error message
-      printf ("Field declaration `%s': typing error.\n", name);
+      sl_error (0, "sl_field_register", "Field declaration: typing error.\n");
+      SL_DEBUG ("\t(fiel %s)\n", name);
       return NULL;
     }
   // set src and dest
@@ -185,14 +191,14 @@ sl_mk_type_int ()
 }
 
 sl_type_t *
-sl_mk_type_field (uid_t src, uid_t dst)
+sl_mk_type_field (sl_type_t * src, sl_type_t * dst)
 {
   sl_type_t *ret = (sl_type_t *) malloc (sizeof (struct sl_type_t));
   ret->kind = SL_TYP_FIELD;
   ret->args = sl_uid_array_new ();
   sl_uid_array_reserve (ret->args, 1);
-  sl_uid_array_push (ret->args, src);
-  sl_uid_array_push (ret->args, dst);
+  sl_uid_array_push (ret->args, sl_type_get_record (src));
+  sl_uid_array_push (ret->args, sl_type_get_record (dst));
   return ret;
 }
 
@@ -258,10 +264,71 @@ sl_type_free (sl_type_t * a)
   free (a);
 }
 
-/* ====================================================================== */
-/* Other methods */
+void
+sl_typ_fprint (FILE * f, sl_typ_t k)
+{
+  switch (k)
+    {
+    case SL_TYP_BOOL:
+      fprintf (f, "Bool");
+      break;
+    case SL_TYP_INT:
+      fprintf (f, "Int");
+      break;
+    case SL_TYP_RECORD:
+      // fprintf (f, "%s", sl_record_name (sl_vector_at (a->args, 0)));
+      break;
+    case SL_TYP_SETLOC:
+      fprintf (f, "SetLoc");
+      break;
+    case SL_TYP_FIELD:
+      fprintf (f, "Field");
+      break;
+    case SL_TYP_SETREF:
+      fprintf (f, "SetRef");
+      break;
+    case SL_TYP_SPACE:
+      fprintf (f, "Space");
+      break;
+    default:
+      fprintf (f, "(unknown)");
+      break;
+    }
+}
+
+void
+sl_type_fprint (FILE * f, sl_type_t * a)
+{
+  if (a == NULL)
+    fprintf (f, "(null)");
+  sl_typ_fprint (f, a->kind);
+  if (a->kind == SL_TYP_RECORD)
+    fprintf (f, "%s", sl_record_name (sl_vector_at (a->args, 0)));
+}
 
 /* ====================================================================== */
+/* Other methods */
+/* ====================================================================== */
+
+bool
+sl_type_is_vartype (sl_type_t * t)
+{
+  assert (NULL != t);
+  /// depends on logic  // TODO NEW
+  if ((t->kind >= SL_TYP_INT) && (t->kind <= SL_TYP_SETLOC))
+    return true;
+  return false;
+}
+
+bool
+sl_type_is_fldtype (sl_type_t * t)
+{
+  assert (NULL != t);
+  /// depends on logic  // TODO NEW
+  if ((t->kind == SL_TYP_INT) || (t->kind == SL_TYP_RECORD))
+    return true;
+  return false;
+}
 
 uid_t
 sl_is_record (uid_t rid)
@@ -269,14 +336,23 @@ sl_is_record (uid_t rid)
   return (rid < sl_vector_size (records_array)) ? rid : UNDEFINED_ID;
 }
 
+uid_t
+sl_type_get_record (sl_type_t * ty)
+{
+  if (NULL == ty)
+    return 0;                   /// void
+  if (ty->kind == SL_TYP_RECORD)
+    return sl_vector_at (ty->args, 0);
+  return UNDEFINED_ID;
+}
+
 char *
 sl_field_name (uid_t fid)
 {
   if (fid >= sl_vector_size (fields_array))
     {
-      printf
-	("sl_field_name: called with identifier %d not in the global environment.\n",
-	 fid);
+      sl_warning("sl_field_name", "identifier not in the environment.\n");
+      SL_DEBUG ("\t(field identifier %u)\n", fid);
       return "unknown";
     }
   return sl_vector_at (fields_array, fid)->name;
@@ -285,11 +361,13 @@ sl_field_name (uid_t fid)
 char *
 sl_record_name (uid_t rid)
 {
+  if (rid == SL_TYP_VOID)
+     return "void";
+
   if (rid >= sl_vector_size (records_array))
     {
-      printf
-	("sl_record_name: called with identifier %d not in the global environment.\n",
-	 rid);
+      sl_warning("sl_record_name", "Record identifier not in the environment.\n");
+      SL_DEBUG ("\t(record identifier %u)\n", rid);
       return "unknown";
     }
   return sl_vector_at (records_array, rid)->name;
@@ -337,7 +415,8 @@ sl_fields_array_fprint (FILE * f, const char *msg)
       sl_field_t *fi = sl_vector_at (fields_array, i);
       fprintf (f, " %s:%s->%s,",
 	       fi->name, sl_record_name (fi->src_r),
-	       sl_record_name (fi->pto_r));
+	       (fi->pto_ty == SL_TYP_RECORD) ?
+	       sl_record_name (fi->pto_r) : "data");
     }
   fprintf (f, " - ]");
 }

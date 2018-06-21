@@ -86,7 +86,53 @@ sl_var_array_2sleek (FILE * fout, sl_var_array * args, sl_var_array * lvars,
       if (i > start)
 	fprintf (fout, ",");
       fprintf (fout, "%s", sl_var_2sleek (args, lvars,
-					  sl_vector_at (va, i), inpred));
+                                          sl_vector_at (va, i), inpred));
+    }
+}
+
+void
+sl_term_2sleek(FILE * fout, sl_var_array * args,
+               sl_var_array * lvars, sl_term_t* t, bool inpred);
+
+void
+sl_term_array_2sleek (FILE * fout, sl_var_array * args,
+                      sl_var_array * lvars, sl_term_array * ta, 
+                      char * op, bool inpred)
+{
+  assert (NULL != ta);
+  assert (NULL != op);
+
+  size_t sz = sl_vector_size(ta);
+  for (size_t i = 0; i < sz-1; i++)
+    {
+      sl_term_2sleek (fout, args, lvars, sl_vector_at(ta, i), inpred);
+      fprintf (fout, "%s", op);
+    }
+  if (sz > 1)
+    sl_term_2sleek (fout, args, lvars, sl_vector_at(ta, sz-1), inpred);
+}
+
+void
+sl_term_2sleek (FILE * fout, sl_var_array * args,
+                sl_var_array * lvars, sl_term_t* t, bool inpred)
+{
+  assert (NULL != t);
+
+  switch (t->kind)
+    {
+    case SL_DATA_INT: fprintf (fout, "%ld", t->p.value); break;
+    case SL_DATA_VAR:
+      fprintf (fout, "%s", sl_var_2sleek (args, lvars, t->p.sid, inpred));
+      break;
+    case SL_DATA_PLUS:
+      sl_term_array_2sleek(fout, args, lvars, t->args, "+", inpred);
+      break;
+    case SL_DATA_MINUS:
+      sl_term_array_2sleek (fout, args, lvars, t->args, "-", inpred);
+      break;
+    default:
+      fprintf (fout, "unknTerm");
+      break;
     }
 }
 
@@ -100,13 +146,17 @@ sl_pure_2sleek (FILE * fout, sl_var_array * args, sl_var_array * lvars,
 {
   assert (NULL != form);
 
+  if (form->kind != SL_DATA_EQ && form->kind != SL_DATA_NEQ)
+    {  fprintf (fout, "error");
+       return;
+    }
   // shall always start by the local vars
-  char *vleft = sl_var_2sleek (args, lvars, form->vleft, inpred);
+  // contains only two args
+  sl_term_2sleek (fout, args, lvars, sl_vector_at(form->targs,0), inpred);
+  // for the moment, only = and <> 
+  fprintf (fout, "%s", (form->kind == SL_DATA_EQ) ? "=" : "!=");
+  sl_term_2sleek (fout, args, lvars, sl_vector_at(form->targs,1), inpred);
 
-  char *vright = sl_var_2sleek (args, lvars, form->vright, inpred);
-
-  fprintf (fout, "%s%s%s", vleft,
-	   (form->op == SL_PURE_EQ) ? "=" : "!=", vright);
 }
 
 void
