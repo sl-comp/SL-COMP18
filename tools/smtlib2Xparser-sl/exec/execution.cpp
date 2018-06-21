@@ -1,7 +1,7 @@
 /**
  * \file        execution.cpp
  * \brief       Handling parsing, type checking, and translation
- * 
+ *
  * \author      Cristina Serban
  * \author      Mihaela Sighireanu
  * \copyright   See 'LICENSE' file.
@@ -37,6 +37,7 @@ Execution::Execution()
 
 Execution::Execution(const ExecutionSettingsPtr& settings)
 : settings(make_shared<ExecutionSettings>(settings)) {
+    this->settings = settings;
     if (settings->getInputMethod() == ExecutionSettings::InputMethod::INPUT_AST) {
         ast = settings->getInputAst();
         parseAttempted = true;
@@ -174,7 +175,11 @@ bool Execution::translate() {
     if (settings->getOutputFormat() == ExecutionSettings::OutputFormat::SL_COMP14) {
         sep::Pp_SLCOMP14Ptr pp = make_shared<sep::Pp_SLCOMP14>();
         return pp->run(sepScript);
-    } else
+    }
+    else {
+        std::string msg = "Translation to the " + settings->toStringOutputFormat()
+            + " format is not supported yet!";
+        Logger::warning("SmtExecution::translate()", msg.data());
         return false; // TODO
+    }
 }
-

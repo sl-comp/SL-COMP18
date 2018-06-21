@@ -1,7 +1,7 @@
 /**
  * \file        execution_settings.cpp
  * \brief       Options for the selected tools
- * 
+ *
  * \author      Cristina Serban
  * \author      Mihaela Sighireanu
  * \copyright   See 'LICENSE' file.
@@ -42,7 +42,7 @@ void ExecutionSettings::setInputFromAst(NodePtr ast) {
 void ExecutionSettings::setOutputFormat(char* format) {
     if (!format)
         this->outputFormat = SL_COMP18;
-    else if (strcmp(format, "SL-COMP14"))
+    else if (strcmp(format, "SL_COMP14") == 0)
         this->outputFormat = SL_COMP14;
     else
         this->outputFormat = SL_COMP18;
@@ -51,10 +51,11 @@ void ExecutionSettings::setOutputFormat(char* format) {
 std::string ExecutionSettings::toStringOutputFormat() {
     switch (this->outputFormat) {
         case SL_COMP14: return std::string("SL_COMP14");
+        case SL_COMP18: return std::string("SL_COMP18");
         case ASTERIX:
         case CYCLIST:
         case SLIDE: return std::string("Other");
         default: break;
     }
-    return std::string("SL_COMP18");
+    return std::string("Unknown");
 }
