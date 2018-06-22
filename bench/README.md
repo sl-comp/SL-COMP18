@@ -19,10 +19,13 @@ in the directory `input/Logics/`):
 	sat problems for `QF_SHIDLIA` logic,
 	**NEW** division
 - `qf_bsl_sat`:
-	sat problems for `QF_BSL`logic,
+	sat problems for `QF_BSL` logic,
 	**NEW** division
 - `qf_bsllia_sat`:
-	sat problems for `QF_BSLLIA`logic,
+	sat problems for `QF_BSLLIA` logic,
+	**NEW** division
+- `bsl_sat`:
+	sat problems for `BSL` logic
 	**NEW** division
 
 * Entailment problems:
