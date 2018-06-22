@@ -1,7 +1,7 @@
 (set-logic QF_SHID)
 
 (set-info :source |
-Jens Katelaan, Harrsh, https://bitbucket.org/jkatelaan/harrsh
+Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 |)
 (set-info :smt-lib-version 2.6)
 (set-info :category "crafted")

@@ -93,34 +93,43 @@ constructs. This format has been changed for the second edition of
 
 * Benchmarks and divisions
 
-- SL-COMP 2018 collected [[https://github.com/sl-comp/SL-COMP18/tree/master/bench][a set of 800 problems]].
-   This set includes the one in the 2014 edition and nerly 200 new problems.
+- SL-COMP 2018 collected [[https://github.com/sl-comp/SL-COMP18/tree/master/bench][a set of 1180 problems]].
+   This set includes the one in the 2014 edition and nearly 200 new problems.
    The current set of problems is split into the following divisions:
-   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_sat][=qf_shls_sat=]]: sat problem for quantifier free formulas in the
-     symbolic heaps fragment using only acyclic singly linked lists
-   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_entl][=qf_shls_entl=]]: entailment problems for the above fragment
-   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_sat][=qf_shid_sat=]]: sat problem for quantifier free formulas in the
-     symbolic heaps fragment using general inductive definitions
-   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_entl][=qf_shid_entl=]]: entailment problem for quantifier free formulas in
-     the symbolic heaps fragment using general inductive definitions
-   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shlid_entl][=qf_shlid_entl=]]: entailment problem for quantifier free formulas in
-     the symbolic heaps fragment using linear inductive definitions
-   + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/shid_entl][=shid_entl=]]: entailment problem for formulas in the symbolic heaps
-     fragment general inductive definitions
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_sat][=qf_shls_sat=]]: sat problem for quantifier free formulas in the
+    symbolic heaps fragment using only acyclic singly linked lists
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_entl][=qf_shls_entl=]]: entailment problems for the above fragment
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_sat][=qf_shid_sat=]]: sat problem for quantifier free formulas in the
+    symbolic heaps fragment using general inductive definitions
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_entl][=qf_shid_entl=]]: entailment problem for quantifier free formulas in
+    the symbolic heaps fragment using general inductive definitions
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shlid_entl][=qf_shlid_entl=]]: entailment problem for quantifier free formulas in
+    the symbolic heaps fragment using linear inductive definitions
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/shid_entl][=shid_entl=]]: entailment problem for formulas in the symbolic heaps
+    fragment general inductive definitions
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shidlia_entl][=qf_shidlia_entl=]]: entailment problem for formulas in the symbolic heaps
+    fragment general inductive definitions and linear integer constraints
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shidlia_sat][=qf_shidlia_sat=]]: sat problem for formulas in the symbolic heaps
+    fragment general inductive definitions and linear integer constraints
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/shidlia_entl][=shidlia_entl=]]: entailment problem for quantified formula in the symbolic heaps
+    fragment general inductive definitions and linear integer constraints
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_bsl_sat][=qf_bsl_sat=]]: sat problem in quantifier free boolean combination of SL atoms
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_bsllia_sat][=qf_bsllia_sat=]]: sat problem in quantifier free boolean combination of SL atoms and linear constraints
+  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/bsl_sat][=bsl_sat=]]: sat problem for boolean combination of SL atoms
 
 - SL-COMP 2014 collected [[https://github.com/mihasighi/smtcomp14-sl/tree/master/bench][a set of 678 problems]]
    The problems collected have the following properties:
-   + 25% satisfiability problems versus 75% entailment problems
-   + 41% crafted problems versus 59% random generated problems
-   + The problems were split in four divisions:
-     - /=sll0a_sat=/: satisfiability problems for the symbolic heap fragment of {{{SL}}}
-       with a unique inductive predicate specifying acyclic singly linked list.
-     - /=sll0a_entl=/: entailment problems for the above fragment.
-     - /=FDB_entl=/: entailment problems for the symbolic heap fragment
-       of {{{SL}}} with linear inductive definitions specifying various kinds of lists
-       in a restricted way.
-     - /=UDB_sat=/: satisfiability problems for the symbolic heap fragment
-       of {{{SL}}} with	general, user defined inductive definitions specifying lists, trees, etc.
+  + 25% satisfiability problems versus 75% entailment problems
+  + 41% crafted problems versus 59% random generated problems
+  + The problems were split in four divisions:
+    - /=sll0a_sat=/: satisfiability problems for the symbolic heap fragment of {{{SL}}}
+      with a unique inductive predicate specifying acyclic singly linked list.
+    - /=sll0a_entl=/: entailment problems for the above fragment.
+    - /=FDB_entl=/: entailment problems for the symbolic heap fragment
+      of {{{SL}}} with linear inductive definitions specifying various kinds of lists
+      in a restricted way.
+    - /=UDB_sat=/: satisfiability problems for the symbolic heap fragment
+      of {{{SL}}} with	general, user defined inductive definitions specifying lists, trees, etc.
 
 * Participants
   The final list of participants will be announces June 25th, 2018.

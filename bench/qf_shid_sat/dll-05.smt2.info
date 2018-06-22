@@ -6,5 +6,4 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 (set-info :smt-lib-version 2.6)
 (set-info :category "crafted")
 (set-info :status sat)
-(set-info :version "2018-06-18")
-
+(set-info :version "2018-06-21")

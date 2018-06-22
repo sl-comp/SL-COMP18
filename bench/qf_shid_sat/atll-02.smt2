@@ -5,7 +5,7 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 |)
 (set-info :smt-lib-version 2.6)
 (set-info :category "crafted")
-(set-info :status sat)
+(set-info :status unsat)
 (set-info :version "2018-06-21")
 
 ;; Locally acyclic trees with linked leaves
@@ -48,8 +48,8 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 	)
 )
 
-(define-fun-rec R ((x1 RefAtll_t)(x2 RefAtll_t)(y RefAtll_t)) Bool
-	(sep (atll x1 x2 y)
+(define-fun-rec R ((x RefAtll_t)(y RefAtll_t)) Bool
+	(sep (atll x (as nil RefAtll_t) y)
              (pto y (c_Atll_t (as nil RefAtll_t) (as nil RefAtll_t) (as nil RefAtll_t))
 	     )
 	)	
@@ -58,9 +58,8 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 (check-sat) 
 ;; variables
 (declare-const x0 RefAtll_t)
-(declare-const x1 RefAtll_t)
 (declare-const y0 RefAtll_t)
 
-(assert (R x0 x1 y0)
+(assert (R x0 y0)
 )
 

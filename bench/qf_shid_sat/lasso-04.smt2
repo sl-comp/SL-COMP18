@@ -5,8 +5,8 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 |)
 (set-info :smt-lib-version 2.6)
 (set-info :category "crafted")
-(set-info :status sat)
-(set-info :version "2018-06-18")
+(set-info :status unsat)
+(set-info :version "2018-06-21")
 
 ;; Lasso-shaped list structure
 
@@ -19,21 +19,21 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 	)
 )
 
-(declare-heap (RefSll_t Sll_t) 
+(declare-heap (RefSll_t Sll_t)
 )
 
 ;; Underlying singly-linked list that forms the loop
 (define-fun-rec sll ((x RefSll_t) (y RefSll_t)) Bool
-	(or 
+	(or
 		(and (= x y)
 		     (_ emp RefSll_t Sll_t)
 		)
 
 		(exists ((u RefSll_t))
-	 
-		(and 
+
+		(and
 			(distinct x y)
-		(sep 
+		(sep
 			(pto x (c_Sll_t u ))
 			(sll u y )
 		)
@@ -57,9 +57,23 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 (check-sat)
 ;; variables
 (declare-const x0 RefSll_t)
+(declare-const x1 RefSll_t)
+(declare-const x2 RefSll_t)
+(declare-const x3 RefSll_t)
+(declare-const x4 RefSll_t)
 
-(assert (lasso x0)
+(assert (sep
+         (sll x0 (as nil RefSll_t))
+         (lasso x0)
+         (sll x1 (as nil RefSll_t))
+         (lasso x1)
+         (sll x2 (as nil RefSll_t))
+         (lasso x2)
+         (sll x3 (as nil RefSll_t))
+         (lasso x3)
+         (sll x4 (as nil RefSll_t))
+         (lasso x4)
+         )
 )
 
 (check-sat)
-

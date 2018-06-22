@@ -6,7 +6,7 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 (set-info :smt-lib-version 2.6)
 (set-info :category "crafted")
 (set-info :status sat)
-(set-info :version "2018-06-18")
+(set-info :version "2018-06-21")
 
 ;; Trees with linked leaves
 
@@ -45,9 +45,8 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 
 ;; variables
 (declare-const x0 RefTll_t)
-(declare-const y0 RefTll_t)
 
-(assert (tll x0 y0 (as nil RefTll_t))
+(assert (tll x0 x0 x0)
 )
 
 (check-sat)
