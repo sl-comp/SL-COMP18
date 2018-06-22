@@ -93,55 +93,72 @@ constructs. This format has been changed for the second edition of
 
 * Benchmarks and divisions
 
-- SL-COMP 2018 collected [[https://github.com/sl-comp/SL-COMP18/tree/master/bench][a set of 1180 problems]].
-   This set includes the one in the 2014 edition and nearly 200 new problems.
+- SL-COMP 2018 collected [[https://github.com/sl-comp/SL-COMP18/tree/master/bench][a set of 1275 problems]].
+   This set includes the one in the 2014 edition (678 problems, see below) and new problems.
    The current set of problems is split into the following divisions:
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_sat][=qf_shls_sat=]]: sat problem for quantifier free formulas in the
-    symbolic heaps fragment using only acyclic singly linked lists
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_entl][=qf_shls_entl=]]: entailment problems for the above fragment
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_sat][=qf_shid_sat=]]: sat problem for quantifier free formulas in the
-    symbolic heaps fragment using general inductive definitions
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_entl][=qf_shid_entl=]]: entailment problem for quantifier free formulas in
-    the symbolic heaps fragment using general inductive definitions
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shlid_entl][=qf_shlid_entl=]]: entailment problem for quantifier free formulas in
-    the symbolic heaps fragment using linear inductive definitions
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/shid_entl][=shid_entl=]]: entailment problem for formulas in the symbolic heaps
-    fragment general inductive definitions
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shidlia_entl][=qf_shidlia_entl=]]: entailment problem for formulas in the symbolic heaps
-    fragment general inductive definitions and linear integer constraints
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shidlia_sat][=qf_shidlia_sat=]]: sat problem for formulas in the symbolic heaps
-    fragment general inductive definitions and linear integer constraints
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/shidlia_entl][=shidlia_entl=]]: entailment problem for quantified formula in the symbolic heaps
-    fragment general inductive definitions and linear integer constraints
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_bsl_sat][=qf_bsl_sat=]]: sat problem in quantifier free boolean combination of SL atoms
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_bsllia_sat][=qf_bsllia_sat=]]: sat problem in quantifier free boolean combination of SL atoms and linear constraints
-  + [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/bsl_sat][=bsl_sat=]]: sat problem for boolean combination of SL atoms
+  + Satisfiability checking:
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_sat][=qf_shls_sat=]]: for quantifier free (QF) formulas in the symbolic heaps (SH) fragment using only acyclic singly linked lists
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_sat][=qf_shid_sat=]]: for QF formulas in the SH fragment using general inductive definitions (ID)
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shidlia_sat][=qf_shidlia_sat=]]: for QF formulas in the SH fragment with ID and linear integer constraints (LIA)
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_bsl_sat][=qf_bsl_sat=]]: for QF fragment with boolean combination of SL atoms
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_bsllia_sat][=qf_bsllia_sat=]]: for QF fragment with boolean combination of SL atoms and LIA
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/bsl_sat][=bsl_sat=]]: for boolean combination of SL atoms
+
+  + Entailment checking:
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_entl][=qf_shls_entl=]]: for QF formulas in the SH fragment using only acyclic singly linked lists
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_entl][=qf_shid_entl=]]: for QF formulas in the SH fragment with ID
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shlid_entl][=qf_shlid_entl=]]: for QF formulas in the SH fragment with linear ID
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/shid_entl][=shid_entl=]]: for formulas in the SH fragment with ID
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shidlia_entl][=qf_shidlia_entl=]]: for formulas in the SH fragment with ID and LIA
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/shidlia_entl][=shidlia_entl=]]: for QF formulas in the SH fragment with IS and LIA
 
 - SL-COMP 2014 collected [[https://github.com/mihasighi/smtcomp14-sl/tree/master/bench][a set of 678 problems]]
-   The problems collected have the following properties:
+  with the following properties:
   + 25% satisfiability problems versus 75% entailment problems
   + 41% crafted problems versus 59% random generated problems
   + The problems were split in four divisions:
-    - /=sll0a_sat=/: satisfiability problems for the symbolic heap fragment of {{{SL}}}
-      with a unique inductive predicate specifying acyclic singly linked list.
-    - /=sll0a_entl=/: entailment problems for the above fragment.
-    - /=FDB_entl=/: entailment problems for the symbolic heap fragment
-      of {{{SL}}} with linear inductive definitions specifying various kinds of lists
-      in a restricted way.
-    - /=UDB_sat=/: satisfiability problems for the symbolic heap fragment
-      of {{{SL}}} with	general, user defined inductive definitions specifying lists, trees, etc.
+    - /=sll0a_sat=/: satisfiability problems for the SH fragment
+      with a unique inductive definition (ID) specifying acyclic singly linked list
+    - /=sll0a_entl=/: entailment problems for the above fragment
+    - /=FDB_entl=/: entailment problems for the SH fragment
+      with linear ID specifying various kinds of lists
+      in a restricted way
+    - /=UDB_sat=/: satisfiability problems for the SH fragment
+      with general, user defined ID specifying lists, trees, etc
+    - /=UDB_entl=/: entailment problems for the above fragment
+
+- The contributions to the benchmark of SL-COMP are summarized below:
+
+| Division          | #problems | Asterix | CompSpen | CVC4 | Cyclist | Harrsh | Inductor | Sleek | Slide | Songbird | Spen |
+|-------------------+-----------+---------+----------+------+---------+--------+----------+-------+-------+----------+------|
+| =bsl_sat=         |         3 |       0 |        0 |    3 |       0 |      0 |        0 |     0 |     0 |        0 |    0 |
+| =qf_bsl_sat=      |        46 |       0 |        0 |   46 |       0 |      0 |        0 |     0 |     0 |        0 |    0 |
+| =qf_bsllia_sat=   |        24 |       0 |        0 |   24 |       0 |      0 |        0 |     0 |     0 |        0 |    0 |
+| =qf_shid_entl=    |       311 |       1 |        0 |    0 |      22 |      0 |        0 |    81 |    17 |      132 |   46 |
+| =qf_shid_sat=     |        99 |       0 |        0 |    0 |      61 |     29 |        0 |     0 |     0 |        0 |    0 |
+| =qf_shidlia_entl= |        75 |       0 |       22 |    0 |       0 |      0 |        0 |     0 |     0 |       53 |    0 |
+| =qf_shidlia_sat=  |        20 |       0 |       20 |    0 |       0 |      0 |        0 |     0 |     0 |        0 |    0 |
+| =qf_shlid_entl=   |        59 |       0 |        0 |    0 |       0 |      0 |        0 |     0 |     0 |        0 |   46 |
+| =qf_shls_entl=    |       292 |     287 |        0 |    0 |       0 |      0 |        0 |     0 |     0 |        0 |    5 |
+| =qf_shls_sat=     |       110 |     110 |        0 |    0 |       0 |      0 |        0 |     0 |     0 |        0 |    0 |
+| =shid_entl=       |        73 |       0 |        0 |    0 |       0 |      0 |        0 |     0 |     9 |       64 |    0 |
+| =shidlia_entl=    |       167 |       0 |        0 |    0 |       0 |      0 |        0 |     0 |     0 |      167 |    0 |
+|-------------------+-----------+---------+----------+------+---------+--------+----------+-------+-------+----------+------|
+
 
 * Participants
   The final list of participants will be announces June 25th, 2018.
   Some participants already confimed their presence to SL-COMP'18:
   - Asterix: divisions /=qf_shls_sat=/ and /=qf_shls_entl=/
-  - COMP-SPEN: division /=qf_shlidlia_entl=/
-  - Cyclist: all divisions
-  - Harrsh: division /=qf_shls_sat=/
-  - Inductor: divisions /=qf_shid_entl=/
-  - Sleek: all divisions
-  - SongBird: all divisions
-  - SPEN: divisions /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_shlid_entl=/, and /=qf_shlidlia_entl=/
+  - CompSpen: divisions /=qf_shidlia_entl=/ and /=qf_shidlia_sat=/
+  - CVC4: all divisions on /=bsl=/
+  - Cyclist: all divisions except /=bsl=/
+  - Harrsh: divisions /=qf_shls_sat=/, /=qf_shid_sat=/
+  - Sleek: all divisions except /=bsl=/
+  - Slide: divisions /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_shid_sat=/ and /=qf_shid_entl=/
+  - Sloth: divisions /=qf_shls_sat=/, /=qf_shls_entl=/, and all divisions for /=bsl=/
+  - SongBird: all divisions except /=bsl=/
+  - Spen: divisions /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_shlid_entl=/, and /=qf_shidlia_entl=/
 
 
   The list of participants at SL-COMP 2014 is provided 
