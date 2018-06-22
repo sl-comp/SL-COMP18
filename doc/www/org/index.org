@@ -93,7 +93,7 @@ constructs. This format has been changed for the second edition of
 
 * Benchmarks and divisions
 
-- SL-COMP 2018 collected [[https://github.com/sl-comp/SL-COMP18/tree/master/bench][a set of 1275 problems]].
+- SL-COMP 2018 collected [[https://github.com/sl-comp/SL-COMP18/tree/master/bench][a set of 1296 problems]].
    This set includes the one in the 2014 edition (678 problems, see below) and new problems.
    The current set of problems is split into the following divisions:
   + Satisfiability checking:
@@ -129,21 +129,26 @@ constructs. This format has been changed for the second edition of
 
 - The contributions to the benchmark of SL-COMP are summarized below:
 
-| Division          | #problems | Asterix | CompSpen | CVC4 | Cyclist | Harrsh | Inductor | Sleek | Slide | Songbird | Spen |
-|-------------------+-----------+---------+----------+------+---------+--------+----------+-------+-------+----------+------|
-| =bsl_sat=         |         3 |       0 |        0 |    3 |       0 |      0 |        0 |     0 |     0 |        0 |    0 |
-| =qf_bsl_sat=      |        46 |       0 |        0 |   46 |       0 |      0 |        0 |     0 |     0 |        0 |    0 |
-| =qf_bsllia_sat=   |        24 |       0 |        0 |   24 |       0 |      0 |        0 |     0 |     0 |        0 |    0 |
-| =qf_shid_entl=    |       311 |       1 |        0 |    0 |      22 |      0 |        0 |    81 |    17 |      132 |   46 |
-| =qf_shid_sat=     |        99 |       0 |        0 |    0 |      61 |     29 |        0 |     0 |     0 |        0 |    0 |
-| =qf_shidlia_entl= |        75 |       0 |       22 |    0 |       0 |      0 |        0 |     0 |     0 |       53 |    0 |
-| =qf_shidlia_sat=  |        20 |       0 |       20 |    0 |       0 |      0 |        0 |     0 |     0 |        0 |    0 |
-| =qf_shlid_entl=   |        59 |       0 |        0 |    0 |       0 |      0 |        0 |     0 |     0 |        0 |   46 |
-| =qf_shls_entl=    |       292 |     287 |        0 |    0 |       0 |      0 |        0 |     0 |     0 |        0 |    5 |
-| =qf_shls_sat=     |       110 |     110 |        0 |    0 |       0 |      0 |        0 |     0 |     0 |        0 |    0 |
-| =shid_entl=       |        73 |       0 |        0 |    0 |       0 |      0 |        0 |     0 |     9 |       64 |    0 |
-| =shidlia_entl=    |       167 |       0 |        0 |    0 |       0 |      0 |        0 |     0 |     0 |      167 |    0 |
-|-------------------+-----------+---------+----------+------+---------+--------+----------+-------+-------+----------+------|
+#+ATTR_HTML: :border 2 :rules all :frame border
+| Division          | #problems | Asterix | CompSpen | CVC4 | Cyclist | Harrsh |   Le | Sleek | Slide | Songbird | Spen |
+|                   |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |
+|-------------------+------+------+------+------+------+------+------+------+------+------+------|
+| =bsl_sat=         |    3 |    0 |    0 |    3 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
+| =qf_bsl_sat=      |   46 |    0 |    0 |   46 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
+| =qf_bsllia_sat=   |   24 |    0 |    0 |   24 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
+| =qf_shid_entl=    |  311 |    1 |    0 |    0 |   22 |    0 |   59 |   81 |   17 |  132 |   46 |
+| =qf_shid_sat=     |   99 |    0 |    0 |    0 |   61 |   29 |    9 |    0 |    0 |    0 |    0 |
+| =qf_shidlia_entl= |   75 |    0 |   22 |    0 |    0 |    0 |    0 |    0 |    0 |   53 |    0 |
+| =qf_shidlia_sat=  |   33 |    0 |   20 |    0 |    0 |    0 |   13 |    0 |    0 |    0 |    0 |
+| =qf_shlid_entl=   |   59 |    0 |    0 |    0 |    0 |    0 |   59 |    0 |    0 |    0 |   46 |
+| =qf_shls_entl=    |  296 |  287 |    0 |    0 |    0 |    0 |    9 |    0 |    0 |    0 |    5 |
+| =qf_shls_sat=     |  110 |  110 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
+| =shid_entl=       |   73 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    9 |   64 |    0 |
+| =shidlia_entl=    |  167 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |  167 |    0 |
+|-------------------+------+------+------+------+------+------+------+------+------+------+------|
+
+
+
 
 
 * Participants
