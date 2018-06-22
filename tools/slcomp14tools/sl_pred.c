@@ -174,22 +174,29 @@ sl_pred_typecheck_call (uid_t pid, sl_type_t** actuals_ty, uid_t size)
   for (uint_t i = 0; i < size; i++)
     {
       sl_var_t *fi = sl_vector_at (p->def->args, i + 1);	/* +1 for nil */
-      sl_type_t* fi_ty = &sl_type_heap;
-      if (fi->vid != VNIL_ID)
-	fi_ty = fi->vty;
-      (fi->vty && fi->vty->kind == SL_TYP_RECORD) ?
-	  sl_vector_at (fi->vty->args, 0) : UNDEFINED_ID;
-      if ((actuals_ty[i]->kind != SL_TYP_VOID) && 
-	  ((actuals_ty[i]->kind != fi_ty->kind) ||
-	   (actuals_ty[i]->kind == SL_TYP_RECORD &&
-	    actuals_ty[i]->args != NULL &&
-	    fi_ty->args != NULL &&
-	    sl_vector_at (fi_ty->args, 0) != sl_vector_at (actuals_ty[i]->args, 0))
-	  ))
+      sl_type_t* fi_ty = fi->vty; 
+      sl_typ_t fi_ty_kind = fi_ty->kind;
+      uid_t a_rid = (actuals_ty[i]->kind != SL_TYP_RECORD) ? UNDEFINED_ID :
+		        ((actuals_ty[i]->args == NULL) ? UNDEFINED_ID :
+			  sl_vector_at (actuals_ty[i]->args, 0));
+      uid_t f_rid = (fi_ty_kind != SL_TYP_RECORD) ? UNDEFINED_ID :
+	      	        ((fi_ty->args == NULL) ? UNDEFINED_ID :
+                          sl_vector_at (fi_ty->args, 0));
+
+      /* if the kind is diferent */
+      if ((actuals_ty[i]->kind != fi_ty_kind) ||
+          /* or actual is nil and formal not a record */
+	  (fi_ty_kind == SL_TYP_RECORD &&
+	   a_rid != f_rid && a_rid != SL_TYP_VOID)
+	 )
 	{
-	  sl_error (0, "sl_pred_typecheck_call", "Bad type of parameters");
 	  SL_DEBUG ("Predicate call `%s': bad type (%d instead of %d) for the %d-th parameter.\n",
-	            p->pname, actuals_ty[i]->kind, fi_ty->kind, i);
+	            p->pname, actuals_ty[i]->kind, fi_ty_kind, i);
+          if (fi_ty_kind == SL_TYP_RECORD &&
+              actuals_ty[i]->kind == fi_ty_kind) {
+            SL_DEBUG ("  record %u instead of %u.\n", a_rid, f_rid);
+          }
+          sl_error (0, "sl_pred_typecheck_call", "Bad type of parameters");
 	  return UNDEFINED_ID;
 	}
     }
@@ -294,7 +301,10 @@ sl_pred_case_fprint (FILE * f, sl_var_array * args, sl_pred_case_t * rule)
 void
 sl_pred_fprint (FILE * f, uid_t pid)
 {
-  assert (pid < sl_vector_size (preds_array));
+  if (pid == UNDEFINED_ID) {
+    fprintf (f, "undefined");
+    return;
+  }
 
   sl_pred_t *pi = sl_vector_at (preds_array, pid);
   fprintf (f, "pred-%d: %s(%d args) ", pi->pid, pi->pname, pi->def->argc);

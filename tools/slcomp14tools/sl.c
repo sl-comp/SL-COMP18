@@ -402,16 +402,16 @@ sl_mk_pred_typecheck (sl_context_t * ctx, const char *name,
    * assert: number of parameters is at least 1 and
    * exactly the ctx->lvar_stack[1]
    */
-  if (sl_vector_size (pdef->args) <= 2)
+  if (sl_vector_size (pdef->args) < 1)
     {
       sl_error (1, "Building predicate definition ", name);
       sl_error (1, "Empty set of location parameters in ", name);
       return 0;
     }
-  if (sl_vector_at (ctx->lvar_stack, 1) < 2)
+  if (sl_vector_at (ctx->lvar_stack, 1) < 1)
     {
       sl_error (1, "Building predicate definition ", name);
-      sl_error (1, "Incorrect number of parameters (< 2) in ", name);
+      sl_error (1, "Empty set of parameters in ", name);
       return 0;
     }
 
@@ -867,14 +867,7 @@ sl_mk_symbol (sl_context_t * ctx, const char *name)
 
   SL_DEBUG ("mk_symbol: start %s\n", name);
 
-  /* special case of 'nil'?
-     if (strcmp (name, "nil") == 0)
-     {
-     ret = sl_mk_op (SL_F_LVAR, NULL, 0);
-     ret->p.sid = VNIL_ID;
-     return ret;
-     }
-   */
+  /* special case of 'nil': is in ctx->lvar_env */
   //search the variable environment
   // -search in the location env
   assert (ctx->lvar_env != NULL);
