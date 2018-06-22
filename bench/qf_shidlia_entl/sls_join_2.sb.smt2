@@ -19,17 +19,17 @@
 (define-fun-rec ls ((x_1 Refnode) (y_2 Refnode) (l_3 Int) (u_4 Int)) Bool
   (or
    (and
-    (pto x_1 (c_node y_2 (+ l_3)))
+    (pto x_1 (c_node y_2 l_3))
     (= l_3 u_4))
    (exists
     ((t_5 Refnode) (a_6 Int))
     (and
      (sep
-      (pto x_1 (c_node t_5 (+ l_3)))
-      (ls t_5 y_2 (+ a_6) (+ u_4)))
+      (pto x_1 (c_node t_5 l_3))
+      (ls t_5 y_2 a_6 u_4))
      (and
-      (<= 0 (+ (* (- 1) a_6) u_4))
-      (<= (+ l_3) (+ a_6)))))))
+      (<= a_6 u_4)
+      (<= l_3 a_6))))))
 
 (check-sat)
 

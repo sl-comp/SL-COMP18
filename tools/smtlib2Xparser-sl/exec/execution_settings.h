@@ -35,15 +35,15 @@ namespace slcompparser {
             SL_COMP14 = 0, ASTERIX, CYCLIST, SLIDE, SL_COMP18
         };
     private:
-        bool coreTheoryEnabled;
-        std::string filename;
+        bool coreTheoryEnabled = true;
+        std::string filename = "";
 
         smtlib::ast::NodePtr ast;
         smtlib::ast::ISortCheckContextPtr sortCheckContext;
 
-        InputMethod inputMethod;
+        InputMethod inputMethod = INPUT_NONE;
 
-        OutputFormat outputFormat;
+        OutputFormat outputFormat = SL_COMP18;
     public:
         /** Default constructor */
         ExecutionSettings();

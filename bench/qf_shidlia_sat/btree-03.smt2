@@ -30,9 +30,7 @@
 		(and 
 			(= x (as nil RefTree_t))
 			(= len1 0)
-			(sep
                              (_ emp RefTree_t Tree_t)
-                        )
 		)
 
 	(exists ((l RefTree_t)(r RefTree_t)(n1 Int)(n2 Int))
@@ -40,7 +38,7 @@
 		(and 
 			(= len1 (+ (+ n1 n2) 1 ) )
 		(sep 
-			(pto x (c_Tree_t l)(c_Tree_t r))
+			(pto x (c_Tree_t l r))
 			(btree l n1 )
                         (btree r n2)
 		)

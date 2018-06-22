@@ -30,9 +30,7 @@
 		(and 
 			(= y (as nil RefSll_t))
 			(= len1 1)
-			(sep
-                                (pto x (as nil RefSll_t) (c_Sll_t y1))
-                        )
+                                (pto x (c_Sll_t (as nil RefSll_t) y))
 		)
 
 	(exists ((x1 RefSll_t)(y1 RefSll_t)(n1 Int))
@@ -40,7 +38,7 @@
 		(and 
 			(= len1 (+ n1 2 ) )
 		(sep 
-			(pto y (c_Sll_t x1)(c_Sll_t y1))
+			(pto y (c_Sll_t x1 y1))
 			(lss x y1 n1 )
 		)
 

@@ -25,7 +25,7 @@
 (declare-heap (RefSll_t Sll_t) 
 )
 ; User defined predicate
-(define-fun-rec ls ((in RefSll_t)(len1 Int)) Bool
+(define-fun-rec els ((in RefSll_t)(len1 Int)) Bool
 	(or 
 		(and 
 			(= in (as nil RefSll_t))
@@ -40,7 +40,7 @@
 		(sep 
 			(pto in (c_Sll_t u1 ))
                         (pto u1 (c_Sll_t u2 ))
-			(ls u2 len3 )
+			(els u2 len3 )
 		)
 
 		)

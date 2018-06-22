@@ -63,4 +63,4 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 
 (assert (R x0 x1 y0)
 )
-
+(check-sat)

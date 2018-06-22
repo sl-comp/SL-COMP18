@@ -54,4 +54,4 @@ Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 
 (assert (atll x0 (as nil RefAtll_t) x0)
 )
-
+(check-sat)

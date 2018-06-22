@@ -172,14 +172,20 @@ bool Execution::translate() {
         return false;
     }
 
-    if (settings->getOutputFormat() == ExecutionSettings::OutputFormat::SL_COMP14) {
-        sep::Pp_SLCOMP14Ptr pp = make_shared<sep::Pp_SLCOMP14>();
-        return pp->run(sepScript);
-    }
-    else {
-        std::string msg = "Translation to the " + settings->toStringOutputFormat()
-            + " format is not supported yet!";
-        Logger::warning("SmtExecution::translate()", msg.data());
-        return false; // TODO
+    switch (settings->getOutputFormat()) {
+	case ExecutionSettings::OutputFormat::SL_COMP14 : {
+            sep::Pp_SLCOMP14Ptr pp = make_shared<sep::Pp_SLCOMP14>();
+            return pp->run(sepScript);
+	}
+	case ExecutionSettings::OutputFormat::SL_COMP18 : {
+	    std::cout << sepScript->toString();
+	    return true;
+	}
+	default: {
+            std::string msg = "Translation to the " + settings->toStringOutputFormat()
+                + " format is not supported yet!";
+            Logger::warning("SmtExecution::translate()", msg.data());
+            return false; // TODO
+	}
     }
 }

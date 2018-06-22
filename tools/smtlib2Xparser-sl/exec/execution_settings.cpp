@@ -16,7 +16,8 @@ using namespace smtlib::ast;
 
 ExecutionSettings::ExecutionSettings()
 : coreTheoryEnabled(true)
-, inputMethod(INPUT_NONE) {
+, inputMethod(INPUT_NONE)
+, outputFormat(SL_COMP18) {
 }
 
 ExecutionSettings::ExecutionSettings(const ExecutionSettingsPtr& settings) {
