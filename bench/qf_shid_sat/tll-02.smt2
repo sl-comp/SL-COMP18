@@ -1,7 +1,7 @@
 (set-logic QF_SHID)
 
 (set-info :source |
-Jens Katelaan, Harrsh, https://bitbucket.org/jkatelaan/harrsh
+Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 |)
 (set-info :smt-lib-version 2.6)
 (set-info :category "crafted")
@@ -45,7 +45,6 @@ Jens Katelaan, Harrsh, https://bitbucket.org/jkatelaan/harrsh
 
 ;; variables
 (declare-const x0 RefTll_t)
-(declare-const y0 RefTll_t)
 
 (assert (tll x0 (as nil RefTll_t) (as nil RefTll_t))
 )

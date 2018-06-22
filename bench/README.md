@@ -16,7 +16,13 @@ in the directory `input/Logics/`):
 	sat problems for `QF_SHID` logic, 
 	SL-COMP'14 division `UDB_sat`
 - `qf_shidlia_sat`: 
-	entailment problems for `QF_SHIDLIA` logic,
+	sat problems for `QF_SHIDLIA` logic,
+	**NEW** division
+- `qf_bsl_sat`:
+	sat problems for `QF_BSL`logic,
+	**NEW** division
+- `qf_bsllia_sat`:
+	sat problems for `QF_BSLLIA`logic,
 	**NEW** division
 
 * Entailment problems:
@@ -31,6 +37,9 @@ in the directory `input/Logics/`):
 	**NEW** division
 - `qf_shidlia_entl`: 
 	entailment problems for `QF_SHIDLIA` logic,
+	**NEW** division
+- `shidlia_entl`:
+	entailment problems for `SHIDLIA` logic,
 	**NEW** division
 
 

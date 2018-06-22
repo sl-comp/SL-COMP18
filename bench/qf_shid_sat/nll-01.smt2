@@ -1,12 +1,12 @@
 (set-logic QF_SHID)
 
 (set-info :source |
-Jens Katelaan, Harrsh, https://bitbucket.org/jkatelaan/harrsh
+Jens Katelaan, Harrsh, https://github.com/katelaan/harrsh/
 |)
 (set-info :smt-lib-version 2.6)
 (set-info :category "crafted")
-(set-info :status unknown)
-(set-info :version "2018-06-18")
+(set-info :status sat)
+(set-info :version "2018-06-21")
 
 ;; Nested singly-linked list of acyclic singly-linked lists
 ;; and acyclic Singly-linked lists
