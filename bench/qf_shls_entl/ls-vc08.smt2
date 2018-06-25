@@ -51,8 +51,9 @@ Quang Loc Le Q.Le@tees.ac.uk
 
 (check-sat) 
 ;; variables
+(declare-const x_emp RefSll_t)
 (declare-const y_emp RefSll_t)
-(declare-const w_emp RefSll_t)
+(declare-const z_emp RefSll_t)
 
 (assert
         (and

@@ -16,7 +16,12 @@
 
 ;; heap predicates
 
-(define-fun-rec ls ((x_1 Refnode) (y_2 Refnode)) Bool
+(define-funs-rec (
+	(ls ((x_1 Refnode) (y_2 Refnode)) Bool)
+        (leven ((x_4 Refnode) (y_5 Refnode)) Bool)
+	(lodd ((x_7 Refnode) (y_8 Refnode)) Bool)
+		)
+		(
   (or
    (and
     (_ emp Refnode node)
@@ -25,11 +30,10 @@
     ((u_3 Refnode))
     (sep
      (pto x_1 (c_node u_3))
-     (ls u_3 y_2)))))
+     (ls u_3 y_2))))
 
 ;; heap predicates
 
-(define-fun-rec leven ((x_4 Refnode) (y_5 Refnode)) Bool
   (or
    (and
     (_ emp Refnode node)
@@ -38,18 +42,19 @@
     ((u_6 Refnode))
     (sep
      (pto x_4 (c_node u_6))
-     (lodd u_6 y_5)))))
+     (lodd u_6 y_5))))
 
 ;; heap predicates
 
-(define-fun-rec lodd ((x_7 Refnode) (y_8 Refnode)) Bool
   (or
    (pto x_7 (c_node y_8))
    (exists
     ((u_9 Refnode))
     (sep
      (pto x_7 (c_node u_9))
-     (leven u_9 y_8)))))
+     (leven u_9 y_8))))
+     		)
+)
 
 (check-sat)
 

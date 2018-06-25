@@ -74,10 +74,7 @@ Quang Loc Le Q.Le@tees.ac.uk
 )
 
 (assert (not 
-		(and 
 			(dll x_emp y_emp (as nil RefDll_t) z_emp )
-		)
-
 ))
 
 (check-sat)

@@ -24,25 +24,26 @@
    (exists
     ((anon_4 Int) (t_5 Refnode))
     (sep
-     (pto x_2 (c_node t_5 (+ anon_4)))
+     (pto x_2 (c_node t_5 anon_4))
      (ls t_5 y_3)))))
 
 ;; heap predicates
 
-(define-fun-rec sls ((x_6 Refnode) (y_7 Refnode) (l_8 Int) (u_9 Int)) Bool
+(define-fun-rec sls ((x_1 Refnode) (y_2 Refnode) (l_3 Int) (u_4 Int)) Bool
   (or
    (and
-    (pto x_6 (c_node y_7 (+ l_8)))
-    (= l_8 u_9))
+    (pto x_1 (c_node y_2 l_3))
+    (= l_3 u_4))
    (exists
-    ((t_10 Refnode) (a_11 Int))
+    ((t_5 Refnode) (a_6 Int))
     (and
      (sep
-      (pto x_6 (c_node t_10 (+ l_8)))
-      (sls t_10 y_7 (+ a_11) (+ u_9)))
+      (pto x_1 (c_node t_5 l_3))
+      (sls t_5 y_2 a_6 u_4))
      (and
-      (<= 0 (+ (* (- 1) a_11) u_9))
-      (<= (+ l_8) (+ a_11)))))))
+      (<= a_6 u_4)
+      (<= l_3 a_6))))))
+
 
 (check-sat)
 
