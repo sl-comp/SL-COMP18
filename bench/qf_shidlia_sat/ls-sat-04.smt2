@@ -5,7 +5,7 @@
 |)
 (set-info :smt-lib-version 2.6)
 (set-info :category "crafted")
-(set-info :status sat)
+(set-info :status unsat)
 (set-info :version "2018-06-21")
 
 
