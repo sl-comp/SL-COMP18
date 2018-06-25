@@ -62,14 +62,13 @@ sl_var_2sleek (sl_var_array * args, sl_var_array * lvars, uid_t vid,
   if (inpred && vid == 1)
     return "self";
 
-  if (vid == VNIL_ID)
+  if ((vid == VNIL_ID) ||
+      (vid == 0 && inpred))
     return "null";
 
   uid_t fstlocal = (args == NULL) ? 0 : sl_vector_size (args);
   if (vid >= fstlocal)
-    {
       vname = sl_var_name (lvars, vid - fstlocal, SL_TYP_RECORD);
-    }
   else
     vname = sl_var_name (args, vid, SL_TYP_RECORD);
   return (vname[0] == '?') ? vname + 1 : vname;
@@ -85,8 +84,9 @@ sl_var_array_2sleek (FILE * fout, sl_var_array * args, sl_var_array * lvars,
     {
       if (i > start)
 	fprintf (fout, ",");
-      fprintf (fout, "%s", sl_var_2sleek (args, lvars,
-                                          sl_vector_at (va, i), inpred));
+      char* vname = sl_var_2sleek (args, lvars, sl_vector_at (va, i), inpred);
+      fprintf (fout, "%s", vname);
+      SL_DEBUG("%s(vid:%d)", vname, sl_vector_at (va, i));
     }
 }
 
