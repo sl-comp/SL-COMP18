@@ -30,6 +30,19 @@
 
 
 /* ====================================================================== */
+/* Globals */
+/* ====================================================================== */
+
+#define NUM_KEYWORDS 3
+
+const char *keywords[] = {
+  "head",
+  "tail",
+  "data"
+};
+
+
+/* ====================================================================== */
 /* Records */
 /* ====================================================================== */
 
@@ -386,6 +399,21 @@ sl_prob_2sleek (const char *fname)
   assert (sl_prob != NULL);
 
   sl_message ("*** Translation to sleek");
+
+  /* Rename all field names that are keywords */
+  for (size_t i = 0; i < sl_vector_size (fields_array); i++)
+    {
+      sl_field_t *f = sl_vector_at (fields_array, i);
+      for (int j = 0; j < NUM_KEYWORDS; j++)
+        {
+          if (!strcmp(keywords[j], f->name))
+            {
+              char *old_name = f->name;
+              f->name = (char *) malloc (strlen (old_name) + 10);
+              snprintf (f->name, strlen (old_name) + 10, "%s_slk", old_name);
+            }
+        }
+    }
 
   /* Output filename */
   char *fname_out = (char *) malloc (strlen (fname) + 10);
