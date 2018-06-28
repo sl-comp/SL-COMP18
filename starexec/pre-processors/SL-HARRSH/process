@@ -1,0 +1,16 @@
+#!/bin/sh
+# Included in bin
+
+#SOLVER
+#EXT
+
+FILE=`basename $1`
+SL2SL=./bin/slcomp-parser
+SL2SOLVER=./bin/compile
+
+cp $1 ${FILE}
+$SL2SL --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14
+$SL2SOLVER -$SOLVER $FILE.sl14
+rm ${FILE} $FILE.sl14
+cat ${FILE}.$EXT
+
