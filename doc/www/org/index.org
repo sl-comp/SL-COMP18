@@ -30,16 +30,16 @@
    Boolean constraints for {{{SAT-COMP}}}.
 
 * News
+  - *June 25*: Solver registration ended. 
   - *June 18*: [[https://github.com/sl-comp/SL-COMP18/master/tree/bench][New benchmarks]] have been added. /Many thanks to contributors!/
   - *May 23*: [[file:CFP.md][Call for comments, solvers, and benchmarks]] issued.
   - *January 2018*: Announcement of the second edition of SL-COMP: it will
     be hosted by [[http://adsl.univ-grenoble-alpes.fr][ADSL workshop]] at [[http://www.floc2018.org][FLOC'18]] in July 13th 2018.
 
-* Key Dates 
-  - *June 24*: deadline for solver registration
+* Key Dates
   - *July 1*: first round of the competition
   - *July 8*: last round of the competition
-  - *July 13*: presentation at [[http://adsl.univ-grenoble-alpes.fr][ADSL 2018]]; 
+  - *July 13*: presentation at [[http://adsl.univ-grenoble-alpes.fr][ADSL 2018]];
     *all participants are welcome to present their solver!*
 
 * Introduction
@@ -92,7 +92,7 @@ constructs. This format has been changed for the second edition of
   the solver's format. The input problems are not scrambled.
 
 * Benchmarks and divisions
-
+#+NAME: bench
 - SL-COMP 2018 collected [[https://github.com/sl-comp/SL-COMP18/tree/master/bench][a set of 1296 problems]].
    This set includes the one in the 2014 edition (678 problems, see below) and new problems.
    The current set of problems is split into the following divisions:
@@ -130,7 +130,7 @@ constructs. This format has been changed for the second edition of
 - The contributions to the benchmark of SL-COMP are summarized below:
 
 #+ATTR_HTML: :border 2 :rules all :frame border
-| Division          | #problems | Asterix | CompSpen | CVC4 | Cyclist | Harrsh |   Le | Sleek | Slide | Songbird | Spen |
+| Division          | #problems | Asterix | CompSPEN | CVC4 | Cyclist | Harrsh |  S2S | Sleek | Slide | Songbird | SPEN |
 |                   |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |
 |-------------------+------+------+------+------+------+------+------+------+------+------+------|
 | =bsl_sat=         |    3 |    0 |    0 |    3 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
@@ -152,25 +152,65 @@ constructs. This format has been changed for the second edition of
 
 
 * Participants
-  The final list of participants will be announces June 25th, 2018.
-  Some participants already confimed their presence to SL-COMP'18:
-  - Asterix: divisions /=qf_shls_sat=/ and /=qf_shls_entl=/
-  - CompSpen: divisions /=qf_shidlia_entl=/ and /=qf_shidlia_sat=/
-  - CVC4: all divisions on /=bsl=/
-  - Cyclist: all divisions except /=bsl=/
-  - Harrsh: divisions /=qf_shls_sat=/, /=qf_shid_sat=/
-  - Sleek: all divisions except /=bsl=/
-  - Slide: divisions /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_shid_sat=/ and /=qf_shid_entl=/
-  - Sloth: divisions /=qf_shls_sat=/, /=qf_shls_entl=/, and all divisions for /=bsl=/
-  - SongBird: all divisions except /=bsl=/
-  - Spen: divisions /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_shlid_entl=/, and /=qf_shidlia_entl=/
+#+Name: solvers
+  These are the solvers participating in the SL-COMP 2018.
+
+#+ATTR_HTML: :border 2 :rules all :frame border
+|------------+-------------+------------+--------------------+---------|
+| Solver     | Preliminary | Final      | System description | Contact |
+|            | version id  | version id |                    | for StarExec |
+|------------+-------------+------------+--------------------+---------|
+| Asterix    |             |            | [[file:solvers.org::Asterix][Asterix]] | [[mailto:juannavarroperez@gmail.com][Juan Antonio Navarro Pérez]] |
+|------------+-------------+------------+--------------------+---------|
+| Comp-SPEN  |             |            | [[file:solvers.org::CompSPEN][Comp-SPEN]] | [[mailto:gaochong@ios.ac.cn][Chong Gao]] |
+|------------+-------------+------------+--------------------+---------|
+| Cyclist-SL |             |            | [[file:solvers.org::Cyclist-SL][Cyclist-SL]] | [[mailto:nikos.gorogiannis@gmail.com][Nikos Gorogiannis]] |
+|------------+-------------+------------+--------------------+---------|
+| CVC4       |             |            | [[file:solvers.org::CVC4-SL][CVC4-SL]] | [[mailto:Cristina.Serban@univ-grenoble-alpes.fr,andrew.j.reynolds@gmail.com][Cristina Serban,Andrew Reynolds]] |
+|------------+-------------+------------+--------------------+---------|
+| Harrsh     |             |            | [[file:solvers.org::Harrsh][Harrsh]] | [[mailto:jkatelaan@forsyte.at][Jens Katelaan]] |
+|------------+-------------+------------+--------------------+---------|
+| S2S        |             |            | [[file:solvers.org::S2S][S2S]] | [[mailto:lequangloc@gmail.com][Le Quang Loc]] |
+|------------+-------------+------------+--------------------+---------|
+| Sleek      |             |            | [[file:solvers.org::Sleek][Sleek]] | [[mailto:benedictleejh@gmail.com][Benedict Lee]] |
+|------------+-------------+------------+--------------------+---------|
+| Slide      |             |            | [[file:solvers.org::Slide][Slide]] | [[mailto:rogalew@fit.vutbr.cz][Adam Rogalewicz]] |
+|------------+-------------+------------+--------------------+---------|
+| Sloth      |             |            | [[file:solvers.org::Sloth][Sloth]] | [[mailto:jkatelaan@forsyte.at][Jens Katelaan]] |
+|------------+-------------+------------+--------------------+---------|
+| Songbird   |             |            | [[file:solvers.org::Songbird][Songbird]] | [[mailto:taquangtrungvn@gmail.com][Ta Quang Trung]] |
+|------------+-------------+------------+--------------------+---------|
+| SPEN       |             |            | [[file:solvers.org::SPEN][SPEN]] | [[mailto:mihaela.sighireanu@gmail.com][Mihaela Sighireanu]] |
+|------------+-------------+------------+--------------------+---------|
+
+
+These are the benchmark divisions in which each solver is competing:
+
+#+ATTR_HTML: :border 2 :rules all :frame border
+|-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
+| Division          | #prob | Asterix | CompSPEN | CVC4 | Cyclist | Harrsh | S2S  | Sleek | Slide | Sloth | Songbird | SPEN |
+|                   |  <4> | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  |
+|-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
+| =bsl_sat=         |    3 |      |      | X    |      |      |      |      |      | X    |      |      |
+| =qf_bsl_sat=      |   46 |      |      | X    |      |      |      |      |      | X    |      |      |
+| =qf_bsllia_sat=   |   24 |      |      |      |      |      |      |      |      | X    |      |      |
+| =qf_shid_entl=    |  311 |      |      |      | X    |      | X    | X    | X    |      | X    | X    |
+| =qf_shid_sat=     |   99 |      |      |      | X    | X    | X    | X    |      |      | X    | X    |
+| =qf_shidlia_entl= |   75 |      | X    |      |      |      | X    | X    |      |      | X    | X    |
+| =qf_shidlia_sat=  |   33 |      | X    |      |      |      | X    | X    |      |      | X    |      |
+| =qf_shlid_entl=   |   59 |      | X    |      | X    |      | X    | X    | X    |      | X    | X    |
+| =qf_shls_entl=    |  296 | X    | X    |      | X    |      | X    | X    | X    | X    | X    | X    |
+| =qf_shls_sat=     |  110 | X    | X    |      | X    | X    | X    | X    |      | X    | X    | X    |
+| =shid_entl=       |   73 |      |      |      | X    |      | X    | X    | X    |      | X    |      |
+| =shidlia_entl=    |  167 |      |      |      |      |      | X    | X    |      |      | X    |      |
+|-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
 
 
   The list of participants at SL-COMP 2014 is provided 
   [[https://www.irif.fr/~sighirea/sl-comp/14/participants.html][here]].
 
 * Results
-  The results will be announces July 13th, 2018, at the [[http://adsl.univ-grenoble-alpes.fr][ADSL workshop]].
+  The results will be announced July 13th, 2018, at the [[http://adsl.univ-grenoble-alpes.fr][ADSL workshop]].
   
 
 * Committee

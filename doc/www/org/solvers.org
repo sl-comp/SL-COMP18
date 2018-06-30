@@ -1,0 +1,221 @@
+#+TITLE:      Participants to SL-COMP
+#+AUTHOR:     Mihaela Sighireanu                                                
+#+EMAIL:      sl-comp@googlegroups.com                                          
+#+LANGUAGE:   en
+#+CATEGORY:   competition
+#+OPTIONS:    H:2 num:nil
+#+OPTIONS:    toc:nil
+#+OPTIONS:    \n:nil ::t |:t ^:t -:t f:t *:t d:(HIDE)
+#+OPTIONS:    tex:t
+#+OPTIONS:    html-preamble:nil
+#+OPTIONS:    html-postamble:auto
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
+
+#+NAME: Asterix
+* Asterix
+** Description
+#+BEGIN_QUOTE
+Asterix implements a model-based approach to decide separation logic
+satisfiability and entailment queries. Our procedure, relying on SMT
+solving technology to untangle potential aliasing between program
+variables, has at its core a _matching_ function that checks whether a
+concrete valuation is a model of the input formula and, if so,
+generalises it to a larger class of models where the formula is also
+valid. The version submitted to this competition is dynamically linked
+with Z3 and implements support for the acyclic list segment predicate
+only. Details about the algorithm and its correctness are described in
+
+J. A. Navarro Perez and A. Rybalchenko. Separation Logic Modulo Theories.
+In Proc. APLAS'13, 2013.
+#+END_QUOTE
+
+** Contact
+   - Juan Antonio Navarro Pérez <juannavarroperez@gmail.com>
+   - Andrey Rybalchenko <rybal@microsoft.com>	
+
+** Participation
+   - 2014: /=sll0a_sat=/, /=sll0a_entl=/
+   - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/
+
+#+NAME: CompSPEN
+* Comp-SPEN
+**  Description
+#+BEGIN_QUOTE
+#+END_QUOTE
+
+** Contact
+   - Zhilin Wu <wuzl@ios.ac.cn>
+   - Chong Gao <gaochong@ios.ac.cn>
+
+** Participation
+   - 2018: /=qf_shidlia_sat=/, /=qf_shidlia_entl=/
+
+#+NAME: Cyclist-SL
+* Cyclist-SL
+** Description
+#+BEGIN_QUOTE
+An entailment prover for separation logic with inductive predicates
+based on cyclic proof.  The theory and design is described in
+
+J. Brotherston, N. Gorogiannis, and R. L. Petersen. A generic cyclic
+theorem prover. In Proc. APLAS-10, pages 350-367. Springer, 2012.
+#+END_QUOTE
+
+** Contact
+   - Nikos Gorogiannis <nikos.gorogiannis@gmail.com>
+
+** Participation
+   - 2014: /=UDB_entl=/, /=sll0a_entl=/, /=FDB_entl=/
+   - 2018: /=qf_shid_entl=/, /=qf_shls_entl=/, /=qf_shlid_entl=/
+
+#+NAME: CVC4-SL
+* CVC4-SL
+** Description
+#+BEGIN_QUOTE
+#+END_QUOTE
+
+** Contact
+   - Andrew J. Reynolds <andrew.j.reynolds@gmail.com>
+
+** Participation
+   - 2018: /=qf_bsl_sat=/, /=bsl_sat=/
+
+#+NAME: Harrsh
+* Harrsh
+** Description
+#+BEGIN_QUOTE
+#+END_QUOTE
+
+** Contact
+   - Jens Katelaan <jkatelaan@forsyte.at>
+
+** Participation
+   - 2018: /=qf_shid_sat=/, /=qf_shls_sat=/
+
+#+NAME: Inductor
+* Inductor
+** Description
+#+BEGIN_QUOTE
+#+END_QUOTE
+
+** Contact
+   - Radu Iosif <radu.iosif@univ-grenoble-alpes.fr>
+   - Cristina Serban <Cristina.Serban@univ-grenoble-alpes.fr>
+
+** Participation
+
+#+NAME: S2S
+* S2S
+** Description
+#+BEGIN_QUOTE
+#+END_QUOTE
+
+** Contact
+   - Le Quang Loc <lequangloc@gmail.com>
+
+** Participation
+   - 2018: /=qf_shid_entl=/, /=qf_shid_sat=/, 
+   		/=qf_shidlia_entl=/, /=qf_shidlia_sat=/,
+		/=qf_shls_entl=/, /=qf_shls_sat=/,
+		/=shid_entl=/, /=shidlia_entl=/
+
+#+NAME: SeLoger
+* SeLoger
+** Description
+#+BEGIN_QUOTE
+#+END_QUOTE
+
+** Contact
+   - Christoph Hasse
+
+** Participation
+   - 2014: /=qf_shls_entl=/, /=qf_shls_sat=/
+
+
+#+NAME: Sleek
+* Sleek
+** Description
+#+BEGIN_QUOTE
+#+END_QUOTE
+
+** Contact
+   - Benedict Lee <benedictleejh@gmail.com>
+   - Chin Wei Ngan <chinwn@comp.nus.edu.sg>
+
+** Participation
+   - 2014: all
+   - 2018: all
+
+
+#+NAME: Slide
+* Slide
+** Description
+#+BEGIN_QUOTE
+SLIDE is a tool for deciding entailments between two given predicates,
+from a larger system of inductively defined predicates, written in an
+existential fragment of Separation Logic. The proof method relies on
+converting both the left hand and right hand sides of the entailment
+into two tree automata AutLHS and AutRHS, respectively, and checking
+the tree language inclusion of the automaton AutLHS in the automaton
+AutRHS.
+#+END_QUOTE
+
+** Contact
+   - Adam Rogalewicz <rogalew@fit.vutbr.cz>
+
+** Participation
+   - 2014: /=UDB_entl=/, /=FDB_entl=/
+   - 2018: /=qf_shid_entl=/, /=qf_shlid_entl=/, /=shid_entl=/
+
+
+#+NAME: Sloth
+* Sloth
+** Description
+#+BEGIN_QUOTE
+#+END_QUOTE
+
+** Contact
+   - Jens Katelaan <jkatelaan@forsyte.at>
+
+** Participation
+   - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/, /=qfbsl_sat=/, /=bsl_sat=/
+
+
+#+NAME: Songbird
+* Songbird
+** Description
+#+BEGIN_QUOTE
+#+END_QUOTE
+
+** Contact
+   - Ta Quang Trung <taquangtrungvn@gmail.com>
+   - Chin Wei Ngan <chinwn@comp.nus.edu.sg>
+
+** Participation
+   - 2018: all
+
+#+NAME: SPEN
+* SPEN
+** Description
+#+BEGIN_QUOTE
+SPEN is an open source solver for checking validity of entailments between formulas 
+in a fragment of Separation Logic with inductive definitions and linear integer
+constraints. The internals are published in
+
+Constantin Enea, Ondrej Lengal, Mihaela Sighireanu, and Tomas Vojnar. 
+Compositional entailment checking for a fragment of separation logic. 
+In Proc. of APLAS’14, volume 8858 of LNCS, pages 314–333. Springer, 2014
+
+Constantin Enea, Mihaela Sighireanu, and Zhilin Wu.
+On automated lemma generation for separation logic with inductive definitions. 
+In ATVA’15, volume 9364 of LNCS, pages 80–96. Springer, 2015.
+#+END_QUOTE
+
+** Contact
+   - Mihaela Sighireanu <mihaela.sighireanu@gmail.com>
+
+** Participation
+   - 2014: /=FDB_entl=/, /=sll0a_entl=/, /=sll0a_sat=/
+   - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_shlid_entl=/, /=qf_shidlia_entl=/
+
