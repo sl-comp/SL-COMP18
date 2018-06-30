@@ -35,7 +35,12 @@ deconflict_songbird_keyword (char* str) {
     char* out = str;
     /* strcpy(out, str); */
     if ((strcmp(str, "data") == 0) ||
-        (strcmp(str, "pred") == 0))
+        (strcmp(str, "pred") == 0) ||
+        (strcmp(str, "max") == 0) ||
+        (strcmp(str, "min") == 0) ||
+        (strcmp(str, "abs") == 0) ||
+        (strcmp(str, "lhs") == 0) ||
+        (strcmp(str, "rhs") == 0))
         strcat(out, "_sbd");
     return out;
 }
