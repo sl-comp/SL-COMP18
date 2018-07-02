@@ -9,9 +9,10 @@ SL2SL=./bin/slcomp-parser
 SL2SOLVER=./bin/compile
 
 cp $1 ${FILE}
+rm $FILE.sl14*
 $SL2SL --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14 2>/dev/null
 $SL2SOLVER -$SOLVER $FILE.sl14 &>/dev/null
 rm ${FILE} 
-#rm $FILE.sl14 
+rm $FILE.sl14 
 cat ${FILE}.sl14.$EXT
 

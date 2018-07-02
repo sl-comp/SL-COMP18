@@ -93,6 +93,31 @@ sl_var_2sleek (sl_var_array * args, sl_var_array * lvars, uid_t vid,
 }
 
 
+uid_t
+sl_vartype_2sleek (sl_var_array * args, sl_var_array * lvars, uid_t vid,
+               	   bool inpred)
+{
+  if (vid == VNIL_ID)
+    return SL_TYP_VOID; // TODO : type
+  
+  uid_t fstlocal = (args == NULL) ? 0 : sl_vector_size (args);
+  uid_t lstlocal = fstlocal + ((lvars == NULL) ? 0 : sl_vector_size(lvars));
+  if (vid < fstlocal && inpred)
+    // arguments   
+    return sl_var_record (args, vid);
+
+  if (vid >= fstlocal && vid < lstlocal) {
+    sl_type_t* vty = sl_var_type (lvars, vid - fstlocal);
+    return (vty->kind == SL_TYP_RECORD) ? sl_vector_at(vty->args, 0) : 
+	    vty->kind; // TODO
+  }
+  else {
+    // error
+    sl_error (1, "sl_vartype_2sleek:", "unknown type for variable");
+    return SL_TYP_VOID;
+  }
+}
+
 void
 sl_var_array_2sleek (FILE * fout, sl_var_array * args, sl_var_array * lvars,
 		     sl_uid_array * va, uint_t start, bool inpred)
@@ -196,20 +221,29 @@ sl_space_2sleek (FILE * fout, sl_var_array * args, sl_var_array * lvars,
 	sl_var_array *src_vars = (args == NULL
 				  || (form->m.pto.sid >
 				      sl_vector_size (args))) ? lvars : args;
-	fprintf (fout, "%s::%s",
-		 sl_var_2sleek (args, lvars, form->m.pto.sid, inpred),
-		 sl_record_name (sl_var_record (src_vars, form->m.pto.sid)));
+	fprintf (fout, "%s::",
+		 sl_var_2sleek (args, lvars, form->m.pto.sid, inpred));
+        uid_t rid = sl_vartype_2sleek (args, lvars, form->m.pto.sid, inpred);
 	// print destinations
-	fprintf (fout, "<");
-	for (size_t i = 0; i < sl_vector_size (form->m.pto.dest); i++)
-	  {
-	    uid_t fi = sl_vector_at (form->m.pto.fields, i);
-	    uid_t vi = sl_vector_at (form->m.pto.dest, i);
-	    fprintf (fout, "%s%s:%s", (i > 0) ? "," : "",
-		     sl_var_2sleek (args, lvars, vi, inpred),
-         sl_field_name (fi));
-	  }
-	fprintf (fout, ">");
+	if (rid != SL_TYP_VOID && rid != 0) {
+          // the type of the variable is a record 
+          sl_record_t* r = sl_vector_at (records_array, rid);
+          fprintf (fout, "%s", r->name);
+          for (size_t i = 0; i < sl_vector_size (form->m.pto.dest); i++)
+            {
+              uid_t fi = sl_vector_at (form->m.pto.fields, i);
+              uid_t vi = sl_vector_at (form->m.pto.dest, i);
+              fprintf (fout, "%s%s:%s", (i > 0) ? "," : "",
+                       sl_var_2sleek (args, lvars, vi, inpred),
+                       sl_field_name (fi));
+            }
+          fprintf (fout, ">");
+        }
+        else {
+          // the type of the variable is Int 
+          fprintf (fout, "%s", sl_var_2sleek (args, lvars, 
+				  sl_vector_at (form->m.pto.dest, 0), inpred));
+        }
 	break;
       }
 

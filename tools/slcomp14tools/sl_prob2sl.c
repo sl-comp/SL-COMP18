@@ -134,7 +134,7 @@ sl_var_2sl (FILE* fout, sl_var_array * args, sl_var_array * lvars, uid_t vid,
 	    bool inpred, uid_t rctx)
 {
   char *vname;
-  
+
   char * rname = (rctx == SL_TYP_VOID) ? "" : sl_record_name(rctx);
   if (vid == VNIL_ID && 
       (inpred || !inpred)) // to silent compiler
@@ -147,7 +147,7 @@ sl_var_2sl (FILE* fout, sl_var_array * args, sl_var_array * lvars, uid_t vid,
   // printf("fstlocal = %d, vid = %d\n", fstlocal, vid);
   if (vid >= fstlocal)
     vname = sl_var_name (lvars, vid - fstlocal, rctx);
-  else 
+  else
     vname = sl_var_name (args, vid, rctx);
   if (vname[0] == '?')
     fprintf (fout, "%s", vname + 1); 
@@ -162,12 +162,6 @@ uid_t
 sl_vartype_2sl (sl_var_array * args, sl_var_array * lvars, uid_t vid,
                bool inpred)
 {
-  /*
-  if (inpred && vid == 1) {
-    return sl_var_record(args, vid);
-  } 
-  */
-
   if (vid == VNIL_ID)
     return (heap_rid == UNDEFINED_ID) ? SL_TYP_VOID : heap_rid; // TODO : type
   

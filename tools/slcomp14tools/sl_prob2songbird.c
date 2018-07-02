@@ -60,8 +60,12 @@ sl_record_2songbird (FILE * fout, sl_record_t * r)
     {
       uid_t fi = sl_vector_at (r->flds, i);
       sl_field_t *fldi = sl_vector_at (fields_array, fi);
-      fprintf (fout, "\n%s%s %s;", indent, sl_record_name (fldi->pto_r),
-               deconflict_songbird_keyword(fldi->name));
+      fprintf (fout, "\n%s", indent);
+      if (fldi->pto_ty == SL_TYP_RECORD)
+        fprintf (fout, "%s", sl_record_name(fldi->pto_r));
+      else
+        sl_typ_fprint (fout, fldi->pto_ty);
+      fprintf (fout, " %s;", deconflict_songbird_keyword(fldi->name));
     }
   fprintf (fout, "\n};\n");
 }
@@ -74,9 +78,7 @@ char *
 sl_var_2songbird (sl_var_array * args, sl_var_array * lvars, uid_t vid,
                   bool inpred)
 {
-
   char *vname;
-
   if ((vid == VNIL_ID) &&
       (inpred || !inpred)) // to silent the compiler
     return "null";
@@ -89,6 +91,31 @@ sl_var_2songbird (sl_var_array * args, sl_var_array * lvars, uid_t vid,
   else
       vname = sl_var_name (args, vid, SL_TYP_RECORD);
   return (vname[0] == '?') ? vname + 1 : vname;
+}
+
+uid_t
+sl_vartype_2songbird (sl_var_array * args, sl_var_array * lvars, uid_t vid,
+                      bool inpred)
+{
+  if (vid == VNIL_ID)
+    return SL_TYP_VOID; // TODO : type
+
+  uid_t fstlocal = (args == NULL) ? 0 : sl_vector_size (args);
+  uid_t lstlocal = fstlocal + ((lvars == NULL) ? 0 : sl_vector_size(lvars));
+  if (vid < fstlocal && inpred)
+    // arguments
+    return sl_var_record (args, vid);
+
+  if (vid >= fstlocal && vid < lstlocal) {
+    sl_type_t* vty = sl_var_type (lvars, vid - fstlocal);
+    return (vty->kind == SL_TYP_RECORD) ? sl_vector_at(vty->args, 0) : 
+	    vty->kind; // TODO
+  }
+  else {
+    // error
+    sl_error (1, "sl_vartype_2songbird:", "unknown type for variable");
+    return SL_TYP_VOID;
+  }
 }
 
 
@@ -163,16 +190,18 @@ sl_pure_2songbird (FILE * fout, sl_var_array * args, sl_var_array * lvars,
 {
   assert (NULL != form);
 
-  // same as sleek
-  if (form->kind != SL_DATA_EQ && form->kind != SL_DATA_NEQ)
-    {  fprintf (fout, "error");
-       return;
-    }
   // shall always start by the local vars
   // contains only two args
   sl_term_2songbird (fout, args, lvars, sl_vector_at(form->targs,0), inpred);
-  // for the moment, only = and <>
-  fprintf (fout, "%s", (form->kind == SL_DATA_EQ) ? "=" : "!=");
+  switch (form->kind) {
+    case SL_DATA_EQ:   fprintf (fout, "="); break;
+    case SL_DATA_NEQ:  fprintf (fout, "!="); break;
+    case SL_DATA_LT:   fprintf (fout, "<"); break;
+    case SL_DATA_GT:   fprintf (fout, ">"); break;
+    case SL_DATA_LE:   fprintf (fout, "<="); break;
+    case SL_DATA_GE:   fprintf (fout, ">="); break;
+    default: fprintf (fout, "error"); break;
+  }
   sl_term_2songbird (fout, args, lvars, sl_vector_at(form->targs,1), inpred);
 }
 
@@ -192,20 +221,31 @@ sl_space_2songbird (FILE * fout, sl_var_array * args, sl_var_array * lvars,
         sl_var_array *src_vars = (args == NULL
                                   || (form->m.pto.sid >
                                       sl_vector_size (args))) ? lvars : args;
-        fprintf (fout, "%s->%s",
-                 sl_var_2songbird (args, lvars, form->m.pto.sid, inpred),
-                 sl_record_name (sl_var_record (src_vars, form->m.pto.sid)));
-        // print destinations
-        fprintf (fout, "{");
-        for (size_t i = 0; i < sl_vector_size (form->m.pto.dest); i++)
-          {
-            uid_t fi = sl_vector_at (form->m.pto.fields, i);
-            uid_t vi = sl_vector_at (form->m.pto.dest, i);
-            fprintf (fout, "%s%s:%s", (i > 0) ? "," : "",
-                     deconflict_songbird_keyword (sl_field_name (fi)),
-                     sl_var_2songbird (args, lvars, vi, inpred));
-          }
-        fprintf (fout, "}");
+        fprintf (fout, "%s->",
+                 sl_var_2songbird (args, lvars, form->m.pto.sid, inpred));
+        uid_t rid = sl_vartype_2songbird (args, lvars, form->m.pto.sid, inpred);
+        if (rid != SL_TYP_VOID && rid != 0) {
+          sl_record_t* r = sl_vector_at (records_array, rid);
+          // the type of the variable is a record 
+          fprintf (fout, "%s", r->name);
+          // print destinations
+          fprintf (fout, "{");
+          for (size_t i = 0; i < sl_vector_size (form->m.pto.dest); i++)
+            {
+              uid_t fi = sl_vector_at (form->m.pto.fields, i);
+              uid_t vi = sl_vector_at (form->m.pto.dest, i);
+              fprintf (fout, "%s%s:%s", (i > 0) ? "," : "",
+                       deconflict_songbird_keyword (sl_field_name (fi)),
+                       sl_var_2songbird (args, lvars, vi, inpred));
+            }
+          fprintf (fout, "}");
+        }
+        else {
+          // the type of the variable is Int
+          fprintf (fout, "%s", sl_var_2songbird (args, lvars,
+                                                 sl_vector_at (form->m.pto.dest, 0),
+                                                 inpred));
+        }
         break;
       }
 

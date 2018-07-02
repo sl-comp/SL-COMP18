@@ -353,7 +353,7 @@ sl_field_name (uid_t fid)
     {
       sl_warning("sl_field_name", "identifier not in the environment.\n");
       SL_DEBUG ("\t(field identifier %u)\n", fid);
-      return "unknown";
+      return "unknown-fld";
     }
   return sl_vector_at (fields_array, fid)->name;
 }
@@ -368,7 +368,7 @@ sl_record_name (uid_t rid)
     {
       sl_warning("sl_record_name", "Record identifier not in the environment.\n");
       SL_DEBUG ("\t(record identifier %u)\n", rid);
-      return "unknown";
+      return "unknown-rec";
     }
   return sl_vector_at (records_array, rid)->name;
 }
