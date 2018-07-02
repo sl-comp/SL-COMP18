@@ -159,15 +159,18 @@ sl_pure_2sleek (FILE * fout, sl_var_array * args, sl_var_array * lvars,
 {
   assert (NULL != form);
 
-  if (form->kind != SL_DATA_EQ && form->kind != SL_DATA_NEQ)
-    {  fprintf (fout, "error");
-       return;
-    }
   // shall always start by the local vars
   // contains only two args
   sl_term_2sleek (fout, args, lvars, sl_vector_at(form->targs,0), inpred);
-  // for the moment, only = and <>
-  fprintf (fout, "%s", (form->kind == SL_DATA_EQ) ? "=" : "!=");
+  switch (form->kind) {
+    case SL_DATA_EQ:   fprintf (fout, "="); break;
+    case SL_DATA_NEQ:  fprintf (fout, "!="); break;
+    case SL_DATA_LT:   fprintf (fout, "<"); break;
+    case SL_DATA_GT:   fprintf (fout, ">"); break;
+    case SL_DATA_LE:   fprintf (fout, "<="); break;
+    case SL_DATA_GE:   fprintf (fout, ">="); break;
+    default: fprintf (fout, "error"); break;
+  }
   sl_term_2sleek (fout, args, lvars, sl_vector_at(form->targs,1), inpred);
 
 }
