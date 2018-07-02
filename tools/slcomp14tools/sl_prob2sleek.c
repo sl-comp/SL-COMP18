@@ -30,6 +30,19 @@
 
 
 /* ====================================================================== */
+/* Globals */
+/* ====================================================================== */
+
+#define NUM_KEYWORDS 3
+
+const char *keywords[] = {
+  "head",
+  "tail",
+  "data"
+};
+
+
+/* ====================================================================== */
 /* Records */
 /* ====================================================================== */
 
@@ -96,7 +109,7 @@ sl_term_2sleek(FILE * fout, sl_var_array * args,
 
 void
 sl_term_array_2sleek (FILE * fout, sl_var_array * args,
-                      sl_var_array * lvars, sl_term_array * ta, 
+                      sl_var_array * lvars, sl_term_array * ta,
                       char * op, bool inpred)
 {
   assert (NULL != ta);
@@ -153,7 +166,7 @@ sl_pure_2sleek (FILE * fout, sl_var_array * args, sl_var_array * lvars,
   // shall always start by the local vars
   // contains only two args
   sl_term_2sleek (fout, args, lvars, sl_vector_at(form->targs,0), inpred);
-  // for the moment, only = and <> 
+  // for the moment, only = and <>
   fprintf (fout, "%s", (form->kind == SL_DATA_EQ) ? "=" : "!=");
   sl_term_2sleek (fout, args, lvars, sl_vector_at(form->targs,1), inpred);
 
@@ -185,8 +198,8 @@ sl_space_2sleek (FILE * fout, sl_var_array * args, sl_var_array * lvars,
 	    uid_t fi = sl_vector_at (form->m.pto.fields, i);
 	    uid_t vi = sl_vector_at (form->m.pto.dest, i);
 	    fprintf (fout, "%s%s:%s", (i > 0) ? "," : "",
-		     sl_field_name (fi),
-		     sl_var_2sleek (args, lvars, vi, inpred));
+		     sl_var_2sleek (args, lvars, vi, inpred),
+         sl_field_name (fi));
 	  }
 	fprintf (fout, ">");
 	break;
@@ -285,7 +298,6 @@ sl_pred_case_2sleek (FILE * fout, sl_var_array * args, sl_pred_case_t * c)
 
   size_t nbc = 0;
 
-  fprintf (fout, "(");
   // start with existentials
   if (c->lvars != NULL && !sl_vector_empty (c->lvars))
     {
@@ -323,7 +335,7 @@ sl_pred_case_2sleek (FILE * fout, sl_var_array * args, sl_pred_case_t * c)
       fflush (fout);
       nbc++;
     }
-    
+
   if (nbc == 0) {
     // maybe emp or junk
     if (c->is_precise)
@@ -333,7 +345,6 @@ sl_pred_case_2sleek (FILE * fout, sl_var_array * args, sl_pred_case_t * c)
     nbc++;
   }
 
-  fprintf (fout, ")");
 
   SL_DEBUG ("\t nbc=%zu\n", nbc);
 
@@ -351,7 +362,7 @@ sl_pred_2sleek (FILE * fout, sl_pred_t * p)
   SL_DEBUG ("Defs %s ...\n", p->pname);
 
   assert (NULL != p->def);
-  
+
   // print predicate instance
   fprintf (fout, "\npred %s<", p->pname);
   for (size_t vi = 2; vi <= p->def->argc; vi++)
@@ -389,6 +400,21 @@ sl_prob_2sleek (const char *fname)
 
   sl_message ("*** Translation to sleek");
 
+  /* Rename all field names that are keywords */
+  for (size_t i = 0; i < sl_vector_size (fields_array); i++)
+    {
+      sl_field_t *f = sl_vector_at (fields_array, i);
+      for (int j = 0; j < NUM_KEYWORDS; j++)
+        {
+          if (!strcmp(keywords[j], f->name))
+            {
+              char *old_name = f->name;
+              f->name = (char *) malloc (strlen (old_name) + 10);
+              snprintf (f->name, strlen (old_name) + 10, "%s_slk", old_name);
+            }
+        }
+    }
+
   /* Output filename */
   char *fname_out = (char *) malloc (strlen (fname) + 10);
   snprintf (fname_out, strlen (fname) + 10, "%s.sle", fname);
@@ -403,7 +429,7 @@ sl_prob_2sleek (const char *fname)
       return;
     }
 
-  // Translates records, without void  
+  // Translates records, without void
   for (size_t i = 1; i < sl_vector_size (records_array); i++)
     {
       sl_record_2sleek (fout, sl_vector_at (records_array, i));
