@@ -57,7 +57,12 @@ sl_record_2sleek (FILE * fout, sl_record_t * r)
     {
       uid_t fi = sl_vector_at (r->flds, i);
       sl_field_t *fldi = sl_vector_at (fields_array, fi);
-      fprintf (fout, "\n\t%s %s;", sl_record_name (fldi->pto_r), fldi->name);
+      fprintf (fout, "\n\t");
+      if (fldi->pto_ty == SL_TYP_RECORD)
+        fprintf (fout, "%s", sl_record_name(fldi->pto_r));
+      else
+        sl_typ_fprint (fout, fldi->pto_ty);
+      fprintf (fout, " %s;", fldi->name);
     }
   fprintf (fout, "\n}.\n");
 }
