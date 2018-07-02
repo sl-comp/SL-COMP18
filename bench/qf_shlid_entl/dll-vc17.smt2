@@ -7,7 +7,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 |)
 (set-info :smt-lib-version 2.0)
 (set-info :category "crafted")
-(set-info :status sat)
+(set-info :status unsat)
 (set-info :version "2014-05-28")
 
 ; Sorts for locations, one by cell sort
@@ -58,7 +58,6 @@ http://www.liafa.univ-paris-diderot.fr/spen
 (declare-const x_emp RefDll_t)
 (declare-const w_emp RefDll_t)
 (declare-const y_emp RefDll_t)
-(declare-const z_emp RefDll_t)
 (declare-const u_emp RefDll_t)
 
 (assert 
@@ -69,7 +68,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 		(sep 
 			(pto x_emp (c_Dll_t w_emp (as nil RefDll_t) ))
 			(dll w_emp u_emp x_emp y_emp )
-			(pto y_emp (c_Dll_t z_emp u_emp ))
+			(pto y_emp (c_Dll_t (as nil RefDll_t) u_emp ))
 		)
 
 		)
@@ -77,7 +76,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 )
 
 (assert (not 
-			(dll x_emp y_emp (as nil RefDll_t) z_emp )
+			(dll x_emp y_emp (as nil RefDll_t) (as nil RefDll_t) )
 ))
 
 (check-sat)

@@ -1,5 +1,0 @@
-(logic SL
- :theories (SepLogic)
-)
-
-

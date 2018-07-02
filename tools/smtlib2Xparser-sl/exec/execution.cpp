@@ -88,7 +88,8 @@ bool Execution::checkSyntax() {
         return false;
     }
 
-    SyntaxCheckerPtr chk = make_shared<SyntaxChecker>();
+    //SyntaxCheckerPtr chk = make_shared<SyntaxChecker>();
+    SyntaxCheckerPtr chk = shared_ptr<SyntaxChecker>(new SyntaxChecker());
     syntaxCheckSuccessful = chk->check(ast);
 
     if (!syntaxCheckSuccessful) {

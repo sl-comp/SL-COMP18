@@ -1,16 +1,19 @@
 #!/bin/sh
 # Included in bin
 
-#SOLVER
-#EXT
+SOLVER=s2s
+#TODO: check the extension
+EXT=sld
 
 FILE=`basename $1`
 SL2SL=./bin/slcomp-parser
-SL2SOLVER=./bin/compile
+SL2SOLVER=./bin/smt2s2
 
 cp $1 ${FILE}
-$SL2SL --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14
-$SL2SOLVER -$SOLVER $FILE.sl14
-rm ${FILE} $FILE.sl14
-cat ${FILE}.$EXT
+$SL2SL --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14 2>/dev/null
+$SL2SOLVER $FILE.sl14 &>/dev/null
+rm ${FILE} 
+rm $FILE.sl14 
+#TODO: not sure that the file is output 
+cat ${FILE}.sl14.$EXT
 

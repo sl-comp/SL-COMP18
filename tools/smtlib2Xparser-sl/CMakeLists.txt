@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.4)
 project(slcomp-parser)
 
 set(LIB_FLEX fl)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-deprecated")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-deprecated -fsanitize=undefined")
 
 # CVC4 with `make install`
 include_directories(${CMAKE_SOURCE_DIR} "smtlib" "smtlib/ast" "smtlib/sep")
