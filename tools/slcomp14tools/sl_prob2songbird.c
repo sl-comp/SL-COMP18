@@ -30,6 +30,21 @@
 
 char* indent = "    ";
 
+char*
+deconflict_songbird_keyword (char* str) {
+    char* out = str;
+    /* strcpy(out, str); */
+    if ((strcmp(str, "data") == 0) ||
+        (strcmp(str, "pred") == 0) ||
+        (strcmp(str, "max") == 0) ||
+        (strcmp(str, "min") == 0) ||
+        (strcmp(str, "abs") == 0) ||
+        (strcmp(str, "lhs") == 0) ||
+        (strcmp(str, "rhs") == 0))
+        strcat(out, "_sbd");
+    return out;
+}
+
 /* ====================================================================== */
 /* Records */
 /* ====================================================================== */
@@ -45,7 +60,8 @@ sl_record_2songbird (FILE * fout, sl_record_t * r)
     {
       uid_t fi = sl_vector_at (r->flds, i);
       sl_field_t *fldi = sl_vector_at (fields_array, fi);
-      fprintf (fout, "\n%s%s %s;", indent, sl_record_name (fldi->pto_r), fldi->name);
+      fprintf (fout, "\n%s%s %s;", indent, sl_record_name (fldi->pto_r),
+               deconflict_songbird_keyword(fldi->name));
     }
   fprintf (fout, "\n};\n");
 }
@@ -97,7 +113,7 @@ sl_term_2songbird(FILE * fout, sl_var_array * args,
 
 void
 sl_term_array_2songbird (FILE * fout, sl_var_array * args,
-                      sl_var_array * lvars, sl_term_array * ta, 
+                      sl_var_array * lvars, sl_term_array * ta,
                       char * op, bool inpred)
 {
   assert (NULL != ta);
@@ -122,7 +138,7 @@ sl_term_2songbird (FILE * fout, sl_var_array * args,
   switch (t->kind)
     {
     case SL_DATA_INT: fprintf (fout, "%ld", t->p.value); break;
-    case SL_DATA_VAR: 
+    case SL_DATA_VAR:
       fprintf (fout, "%s", sl_var_2songbird (args, lvars, t->p.sid, inpred));
       break;
     case SL_DATA_PLUS:
@@ -186,7 +202,7 @@ sl_space_2songbird (FILE * fout, sl_var_array * args, sl_var_array * lvars,
             uid_t fi = sl_vector_at (form->m.pto.fields, i);
             uid_t vi = sl_vector_at (form->m.pto.dest, i);
             fprintf (fout, "%s%s:%s", (i > 0) ? "," : "",
-                     sl_field_name (fi),
+                     deconflict_songbird_keyword (sl_field_name (fi)),
                      sl_var_2songbird (args, lvars, vi, inpred));
           }
         fprintf (fout, "}");
