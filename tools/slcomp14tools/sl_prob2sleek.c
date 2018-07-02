@@ -244,7 +244,6 @@ sl_form_2sleek (FILE * fout, sl_form_t * form)
 	case SL_SPACE_PTO:
 	case SL_SPACE_LS:
 	  {
-
 	    if (nbc > 0)
 	      fprintf (fout, " * ");
 	    sl_space_2sleek (fout, NULL, form->lvars, form->space, false);
@@ -283,6 +282,11 @@ sl_form_2sleek (FILE * fout, sl_form_t * form)
       nbc++;
     }
 
+  if (nbc == 0) 
+    {
+      fprintf (fout, " emp ");
+      nbc++;
+    }
 
 }
 
