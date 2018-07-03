@@ -60,8 +60,10 @@ sl_record_2sleek (FILE * fout, sl_record_t * r)
       fprintf (fout, "\n\t");
       if (fldi->pto_ty == SL_TYP_RECORD)
         fprintf (fout, "%s", sl_record_name(fldi->pto_r));
+      else if (fldi->pto_ty == SL_TYP_INT)
+	fprintf (fout, "int");
       else
-        sl_typ_fprint (fout, fldi->pto_ty);
+	fprintf (fout, "unknown");
       fprintf (fout, " %s;", fldi->name);
     }
   fprintf (fout, "\n}.\n");
@@ -153,6 +155,14 @@ sl_term_array_2sleek (FILE * fout, sl_var_array * args,
     }
   if (sz > 1)
     sl_term_2sleek (fout, args, lvars, sl_vector_at(ta, sz-1), inpred);
+  else if (sz == 1) {
+    fprintf (fout, "%s", (strcmp(op, "-")==0) ? op : "");
+    sl_term_2sleek (fout, args, lvars, sl_vector_at(ta, 0), inpred);
+  }
+  else {
+    // sz == 0
+    fprintf (fout, "0");
+  }
 }
 
 void

@@ -251,15 +251,24 @@ sl_term_2sl (FILE * fout, sl_var_array * args,
       break;
     }
     case SL_DATA_PLUS: {
-      fprintf (fout, "(+ ");
-      sl_term_array_2sl (fout, args, lvars, t->args, inpred, SL_TYP_INT);
-      fprintf (fout, ") ");
+      if (t->args == NULL || sl_vector_size(t->args) == 0)
+        fprintf (fout, "0");
+      else {
+        fprintf (fout, "(+ ");
+        if (sl_vector_size(t->args) == 1) fprintf (fout, "0 ");
+        sl_term_array_2sl (fout, args, lvars, t->args, inpred, SL_TYP_INT);
+        fprintf (fout, ") ");
+      }
       break;
     }
     case SL_DATA_MINUS: {
-      fprintf (fout, "(- ");
-      sl_term_array_2sl (fout, args, lvars, t->args, inpred, SL_TYP_INT);
-      fprintf (fout, ") ");
+      if (t->args == NULL || sl_vector_size(t->args) == 0)
+        fprintf (fout, "0");
+      else {
+        fprintf (fout, "(- ");
+        sl_term_array_2sl (fout, args, lvars, t->args, inpred, SL_TYP_INT);
+        fprintf (fout, ") ");
+      }
       break;
     }
     default:

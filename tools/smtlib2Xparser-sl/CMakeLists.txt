@@ -4,16 +4,7 @@ project(slcomp-parser)
 set(LIB_FLEX fl)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-deprecated -fsanitize=undefined")
 
-# CVC4 with `make install`
 include_directories(${CMAKE_SOURCE_DIR} "smtlib" "smtlib/ast" "smtlib/sep")
-
-# CVC4 with `make install` at a non-standard prefix
-# include_directories(${CMAKE_SOURCE_DIR} "smtlib" "smtlib/ast" "smtlib/sep" "PATH-TO-CVC4-PREFIX/include")
-# link_directories("PATH-TO-CVC4-PREFIX/lib")
-
-# CVC4 without `make install`
-# include_directories(${CMAKE_SOURCE_DIR} "smtlib" "smtlib/ast" "smtlib/sep" "PATH-TO-CVC4/src" "PATH-TO-CVC4/src/include" "PATH-TO-CVC4/builds/src" "PATH-TO-CVC4/builds/src/include")
-# link_directories("PATH-TO-CVC4/builds/lib")
 
 set(SOURCE_FILES
         main.cpp
@@ -144,4 +135,3 @@ set(SOURCE_FILES
         util/logger.cpp)
 
 add_executable(slcomp-parser ${SOURCE_FILES})
-target_link_libraries(slcomp-parser ${LIB_CVC4})
