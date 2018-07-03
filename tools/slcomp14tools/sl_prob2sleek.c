@@ -304,7 +304,7 @@ sl_form_2sleek (FILE * fout, sl_form_t * form)
       }
     }
     if (isquant >= 1)
-      fprintf (fout, ". ");
+      fprintf (fout, ": ");
   }
 
   // start with spatial formulas
