@@ -47,15 +47,15 @@ void
 sl_fields_2spen(FILE* fout, sl_field_array* fields_array) {
   assert (NULL != fout);
   assert (NULL != fields_array);
-  
+
   for (size_t i = 0; i < sl_vector_size(fields_array); i++) {
     sl_field_t* f = sl_vector_at(fields_array,i);
     fprintf (fout, "(declare-fun %s () (Field %s ", 
-      f->name, sl_record_name(f->src_r));
+             f->name, sl_record_name(f->src_r));
     if (f->pto_ty == SL_TYP_RECORD)
-	    fprintf (fout, "%s", sl_record_name(f->pto_r));
+      fprintf (fout, "%s", sl_record_name(f->pto_r));
     else
-	    sl_typ_fprint (fout, f->pto_ty);
+      sl_typ_fprint (fout, f->pto_ty);
     fprintf (fout, "))\n");
   }
   fprintf (fout, "\n");
@@ -244,14 +244,31 @@ sl_form_2spen (FILE * fout, sl_form_t * form, int idx)
   int nbls = 0;
 
   // expected type: boolean
-  
+
+  // print existentials
+  int isquant = 0;
+  if (form->lvars != NULL &&
+      (sl_vector_size(form->lvars) >= 1)) {
+    for (size_t i = 0; i < sl_vector_size (form->lvars); i++) {
+      sl_var_t* v = sl_vector_at(form->lvars, i);
+      if (v->scope != SL_SCOPE_GLOBAL) {
+        if (isquant == 0) {
+          isquant = 1;
+          fprintf (fout, "\n\t(exists (");
+        }
+        fprintf (fout, "(%s ", v->vname);
+        sl_type_fprint (fout, v->vty);
+      }
+    }
+    if (isquant == 1) 
+      fprintf (fout, ")\n");
+  }
+
   // print 'and', if needed
   if (form->pure != NULL && 
-      (sl_vector_size(form->pure) >= 1)) // ||
-       // (sl_vector_size (form->pure) == 1 && form->space != NULL)
-      //))
+      (sl_vector_size(form->pure) >= 1)) 
     fprintf (fout, "\n\t(and ");
-  
+
   // start with pure formula
   for (size_t i = 0; i < sl_vector_size (form->pure); i++)
     {
@@ -262,51 +279,50 @@ sl_form_2spen (FILE * fout, sl_form_t * form, int idx)
     }
 
   if (form->space != NULL) {
-  // continue with spatial formulas
-  fprintf (fout, "\n\t(tobool ");
-  nbc++;
-  // Only ssep atomic formulas
-  switch (form->space->kind)
-    {
-    case SL_SPACE_LS:  {
+    // continue with spatial formulas
+    fprintf (fout, "\n\t(tobool ");
+    nbc++;
+    // Only ssep atomic formulas
+    switch (form->space->kind)
+      {
+      case SL_SPACE_LS:  {
 	nbls += sl_space_2spen (fout, NULL, form->lvars, form->space, idx + nbls);
 	break;
-    }
-    case SL_SPACE_PTO:
-      {
-	sl_space_2spen (fout, NULL, form->lvars, form->space, idx+nbls);
+      }
+      case SL_SPACE_PTO: {
+        sl_space_2spen (fout, NULL, form->lvars, form->space, idx+nbls);
+        break;
+      }
+      case SL_SPACE_SSEP: {
+	if (sl_vector_size (form->space->m.sep) > 1)
+          fprintf (fout, "\n\t(ssep ");
+	for (size_t i = 0; i < sl_vector_size (form->space->m.sep); i++) {
+          nbls += sl_space_2spen (fout, NULL, form->lvars,
+                                  sl_vector_at (form->space->m.sep, i), idx + nbls);
+          fflush (fout);
+        }
+	if (sl_vector_size (form->space->m.sep) > 1)
+          fprintf (fout, "\n\t)\n"); // end:ssep
 	break;
       }
-    case SL_SPACE_SSEP:
-      {
-	if (sl_vector_size (form->space->m.sep) > 1)
-	      fprintf (fout, "\n\t(ssep ");
-	for (size_t i = 0; i < sl_vector_size (form->space->m.sep); i++)
-	  {
-	    nbls += sl_space_2spen (fout, NULL, form->lvars,
-			       sl_vector_at (form->space->m.sep, i), idx + nbls);
-	    fflush (fout);
-	  }
-	if (sl_vector_size (form->space->m.sep) > 1)
-	      fprintf (fout, "\n\t)\n"); // end:ssep
-	break;
-      }
-    default:
-      {
+      default: {
 	sl_error (1, "sl_form_2spen:", "not a PTO, LS, SSEP formula");
 	return nbls;
       }
-    }
-  fprintf (fout, "\n\t)\n"); // end:tobool
+      }
+    fprintf (fout, "\n\t)\n"); // end:tobool
   }
   else  {
-  fprintf (fout, "\n\t(tobool emp)\n"); 
-  nbc++;
-}
-  
+    fprintf (fout, "\n\t(tobool emp)\n");
+    nbc++;
+  }
+
   if (nbc > 1)
-  fprintf (fout, "\n\t)\n"); // end:and
-  
+    fprintf (fout, "\n\t)\n"); // end:and
+
+  if (isquant == 1)
+    fprintf (fout, "\n)"); // end:exists
+
   return nbls;
 }
 
@@ -445,11 +461,11 @@ sl_prob_2spen (const char *fname)
   // Translates sorts
   fprintf (fdef, "\n;; declare sorts\n");
   sl_types_2spen(fdef, records_array);
-  
+
   // Translates fields
   fprintf (fdef, "\n;; declare fields\n");
   sl_fields_2spen(fdef, fields_array);
-  
+
   // Translates predicates
   fprintf (fdef, "\n;; declare predicates\n");
   for (size_t i = 0; i < sl_vector_size (preds_array); i++)
@@ -460,12 +476,13 @@ sl_prob_2spen (const char *fname)
   // Translate global vars
   fprintf (fdef, "\n;; declare variables\n");
   for (size_t vi = 1; vi < sl_vector_size(sl_prob->pform->lvars); vi++) {
-	  sl_var_t* v = sl_vector_at (sl_prob->pform->lvars, vi);
-	  if (v->scope == SL_SCOPE_GLOBAL) {
-	    fprintf (fdef, "(declare-fun %s () ", v->vname);
-            sl_type_fprint (fdef, v->vty);
-	  } else
-	    break;
+    sl_var_t* v = sl_vector_at (sl_prob->pform->lvars, vi);
+    if (v->scope == SL_SCOPE_GLOBAL) {
+      fprintf (fdef, "(declare-fun %s () ", v->vname);
+      sl_type_fprint (fdef, v->vty);
+      fprintf (fdef, ")\n");
+    } else
+      break;
   }
 
   // Translated the problem and register SetLoc variables
@@ -477,25 +494,24 @@ sl_prob_2spen (const char *fname)
     }
 
   int nbalpha = 0;
-  
+
   // translate positive formula
-      if (sl_prob->pform != NULL) {
-      fprintf (fprob, "\n(assert ");
-      nbalpha += sl_form_2spen (fprob, sl_prob->pform, 0);
-      fprintf (fprob, "\n)\n"); // end:assert
+  if (sl_prob->pform != NULL) {
+    fprintf (fprob, "\n(assert ");
+    nbalpha += sl_form_2spen (fprob, sl_prob->pform, 0);
+    fprintf (fprob, "\n)\n"); // end:assert
   }
 
   // translate negative formula
-      if (sl_prob->nform != NULL && !sl_vector_empty(sl_prob->nform)) {
-      fprintf (fprob, "\n(assert (not ");
-      nbalpha += sl_form_2spen (fprob, sl_vector_at (sl_prob->nform, 0), nbalpha);
-      fprintf (fprob, "\n))\n"); // end:assert, not
+  if (sl_prob->nform != NULL && !sl_vector_empty(sl_prob->nform)) {
+    fprintf (fprob, "\n(assert (not ");
+    nbalpha += sl_form_2spen (fprob, sl_vector_at (sl_prob->nform, 0), nbalpha);
+    fprintf (fprob, "\n))\n"); // end:assert, not
   }
-      
+
   // print command
-      fprintf (fprob, "\n(check-sat)\n"); 
-  
-  
+  fprintf (fprob, "\n(check-sat)\n");
+
   fclose (fprob);
 
   // declare SetLoc variables
@@ -504,7 +520,7 @@ sl_prob_2spen (const char *fname)
     fprintf (fdef, "\n(declare-fun alpha%d () SetLoc)", i);
   fprintf (fdef, "\n");
   fclose (fdef);
-  
+
   // concat declaration files with problem file
   char *command = malloc (200 * sizeof (char));
   sprintf (command, "cat file_decl file_prob > %s", fname_out);
@@ -514,6 +530,5 @@ sl_prob_2spen (const char *fname)
       printf ("Error writing the file %s!\nquit.", fname_out);
     }
 
-  
   sl_message ("\nDone\n");
 }

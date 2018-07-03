@@ -1,6 +1,6 @@
 /**************************************************************************/
 /*                                                                        */
-/*  Compiler for SMTLIB2 frmat for Separation Logic                       */
+/*  Compiler for SMTLIB2 format for Separation Logic                      */
 /*                                                                        */
 /*  you can redistribute it and/or modify it under the terms of the GNU   */
 /*  Lesser General Public License as published by the Free Software       */
@@ -284,6 +284,27 @@ sl_form_2songbird (FILE * fout, sl_form_t * form)
 
   size_t nbc = 0;
 
+  // start with local variables, if any
+  int isquant = 0;
+  if (form->lvars != NULL &&
+      (sl_vector_size(form->lvars) >= 1)) {
+    for (size_t i = 0; i < sl_vector_size (form->lvars); i++) {
+      sl_var_t* v = sl_vector_at(form->lvars, i);
+      if (v->scope != SL_SCOPE_GLOBAL) {
+        if (isquant == 0) {
+          isquant = 1;
+          fprintf (fout, "(exists ");
+        }
+        if (isquant > 1)
+          fprintf (fout, ",");
+        fprintf (fout, "%s", v->vname + 1);
+        isquant++;
+      }
+    }
+    if (isquant >= 1)
+      fprintf (fout, ". ");
+  }
+
   // start with spatial formulas
   // Only ssep atomic formulas
 
@@ -338,6 +359,8 @@ sl_form_2songbird (FILE * fout, sl_form_t * form)
       nbc++;
     }
 
+  if (isquant >= 1)
+    fprintf (fout, " ) ");
 
 }
 
