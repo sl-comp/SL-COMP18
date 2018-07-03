@@ -156,8 +156,9 @@ sl_term_array_2sleek (FILE * fout, sl_var_array * args,
   if (sz > 1)
     sl_term_2sleek (fout, args, lvars, sl_vector_at(ta, sz-1), inpred);
   else if (sz == 1) {
-    fprintf (fout, "%s", (strcmp(op, "-")==0) ? op : "");
+    if (strcmp(op, "-")==0) fprintf (fout, "(- ");
     sl_term_2sleek (fout, args, lvars, sl_vector_at(ta, 0), inpred);
+    if (strcmp(op, "-")==0) fprintf (fout, ")");
   }
   else {
     // sz == 0
