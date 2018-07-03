@@ -452,16 +452,25 @@ sl_prob_2s2s (const char *fname)
   assert (sl_prob != NULL);
 
   sl_message ("*** Translation to s2s");
+  char s2s_str[1024] = "./smt2s2 ";
 
    if (sl_vector_empty (sl_prob->nform)) {
     // Translated the problem for sat
-    
+     strcat(s2s_str, "-sat ");
 
   }
-  else {
+   //  else {
     // Translated the problem for entailment
-    
-  }
 
-  sl_message ("\nDone\n");
+   //}
+
+  strcat(s2s_str, fname);
+  //exc
+  int status = system(s2s_str);
+
+  if (1 != WIFEXITED(status) || 0 != WEXITSTATUS(status)) {
+    sl_message ("failed, halt system");
+  }
+  else
+    sl_message ("\nDone\n");
 }
