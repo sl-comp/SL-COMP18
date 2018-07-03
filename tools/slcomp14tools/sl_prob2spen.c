@@ -134,10 +134,14 @@ sl_term_2spen (FILE * fout, sl_var_array * args,
       fprintf (fout, "%s", sl_var_2spen (args, lvars, t->p.sid));
       break;
     case SL_DATA_PLUS:
+      fprintf (fout, "(+ ");
       sl_term_array_2spen (fout, args, lvars, t->args);
+      fprintf (fout, ") ");
       break;
     case SL_DATA_MINUS:
+      fprintf (fout, "(- ");
       sl_term_array_2spen (fout, args, lvars, t->args);
+      fprintf (fout, ") ");
       break;
     default:
       fprintf (fout, "unknTerm");

@@ -1090,8 +1090,8 @@ sl_mk_plus (sl_context_t * ctx, sl_exp_t ** args, uint_t size)
       assert (0);
     }
 
-  if (size < 2)
-    sl_error_args (1, "sl_mk_plus", size, "< 2");
+  if (size < 1)
+    sl_error_args (1, "sl_mk_plus", size, "< 1");
   return sl_mk_op (SL_F_PLUS, args, size);
 }
 
@@ -1103,8 +1103,8 @@ sl_mk_minus (sl_context_t * ctx, sl_exp_t ** args, uint_t size)
       assert (0);
     }
 
-  if (size != 2)
-    sl_error_args (1, "sl_mk_minus", size, "= 2");
+  if (size < 1)
+    sl_error_args (1, "sl_mk_minus", size, "< 1");
   return sl_mk_op (SL_F_MINUS, args, size);
 }
 
