@@ -24,11 +24,12 @@
      (= (+ len_5 (- 1)) 0)
      (= hd_1 tl_3)))
    (exists
-    ((x_6 Refnode))
+    ((x_6 Refnode) (k Int))
     (and
      (sep
       (pto hd_1 (c_node x_6 p_2))
-      (dll x_6 hd_1 tl_3 n_4 (+ len_5 (- 1))))
+      (dll x_6 hd_1 tl_3 n_4 k))
+     (= k (+ len_5 (- 1)))
      (<= 1 (+ len_5 (- 1)))))))
 
 ;; heap predicates
@@ -41,11 +42,12 @@
      (= (+ len_11 (- 1)) 0)
      (= hd_7 tl_9)))
    (exists
-    ((x_12 Refnode))
+    ((x_12 Refnode) (k Int))
     (and
      (sep
       (pto tl_9 (c_node n_10 x_12))
-      (dll_rev hd_7 p_8 x_12 tl_9 (+ len_11 (- 1))))
+      (dll_rev hd_7 p_8 x_12 tl_9 k))
+     (= k (+ len_11 (- 1)))
      (<= 1 (+ len_11 (- 1)))))))
 
 (check-sat)
