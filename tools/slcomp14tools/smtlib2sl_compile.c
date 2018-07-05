@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include "smtlib2sl.h"
 #include "sl_prob2cyclist.h"
+#include "sl_prob2s2s.h"
 #include "sl_prob2sleek.h"
 #include "sl_prob2songbird.h"
 #include "sl_prob2slide.h"
@@ -34,6 +35,7 @@ typedef enum sl_format_t
 {
   SL_FORMAT_SL = 0,
   SL_FORMAT_CYCLIST,
+  SL_FORMAT_S2S,
   SL_FORMAT_SLEEK,
   SL_FORMAT_SONGBIRD,
   SL_FORMAT_SLIDE,
@@ -44,7 +46,7 @@ typedef enum sl_format_t
 } sl_format_t;
 
 /* set by options */
-bool sl_compile[SL_FORMAT_OTHER] = { true, false, false, false, false, false, false };
+bool sl_compile[SL_FORMAT_OTHER] = { true, false, false, false, false, false, false, false };
 
 /* ====================================================================== */
 /* MAIN/Main/main */
@@ -58,6 +60,8 @@ sl_set_option (char *option)
 {
   if (0 == strcmp (option, "-cyclist"))
     sl_compile[SL_FORMAT_CYCLIST] = true;
+  else if (0 == strcmp (option, "-s2s"))
+    sl_compile[SL_FORMAT_S2S] = true;
   else if (0 == strcmp (option, "-sleek"))
     sl_compile[SL_FORMAT_SLEEK] = true;
   else if (0 == strcmp (option, "-songbird"))
@@ -83,7 +87,7 @@ print_help (void)
 {
   printf
     ("smtlib2sl_compile: compiling SMTLIB v2 format for Separation Logic\n");
-  printf ("Usage: smtlib2sl_compile [-cyclist|-sleek|-songbird|-slide|-slp|-sl18|-spen] <file>\n");
+  printf ("Usage: smtlib2sl_compile [-cyclist|-s2s|-sleek|-songbird|-slide|-slp|-sl18|-spen] <file>\n");
   printf ("\t<file>: input file in the SMTLIB v2 format for QF_S\n");
 }
 
@@ -110,6 +114,7 @@ main (int argc, char **argv)
   // Step 1: Parse the file and initialize the problem
   // pre: the file shall exists.
   sl_message ("Parse input file");
+ 
   FILE *f = fopen (argv[arg_file], "r");
   if (!f)
     {
@@ -121,6 +126,7 @@ main (int argc, char **argv)
   sl_prob_init ();
   sl_prob_set_fname (argv[arg_file]);
   // call the parser
+
   smtlib2_sl_parser *sp = smtlib2_sl_parser_new ();
   smtlib2_abstract_parser_parse ((smtlib2_abstract_parser *) sp, f);
 
@@ -136,12 +142,15 @@ main (int argc, char **argv)
 	case SL_FORMAT_CYCLIST:
 	  sl_prob_2cyclist (argv[arg_file]);
 	  break;
+	case SL_FORMAT_S2S:
+	  sl_prob_2s2s (argv[arg_file]);
+	  break;
 	case SL_FORMAT_SLEEK:
 	  sl_prob_2sleek (argv[arg_file]);
 	  break;
 	case SL_FORMAT_SONGBIRD:
-      sl_prob_2songbird (argv[arg_file]);
-      break;
+	  sl_prob_2songbird (argv[arg_file]);
+	  break;
 	case SL_FORMAT_SLIDE:
 	  sl_prob_2slide (argv[arg_file]);
 	  break;
@@ -160,6 +169,7 @@ main (int argc, char **argv)
 
   // Step 4: finish (free memory, etc.)
   smtlib2_sl_parser_delete (sp);
+
   fclose (f);
   sl_prob_free ();
 
