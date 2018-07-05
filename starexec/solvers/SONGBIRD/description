@@ -1,1 +1,12 @@
 * Description of SONGBIRD solver for SLCOMP'18
+
+Songbird is an automated theorem prover for Separation Logic entailments. At its core, Songbird employs mathematical induction to prove entailments involving user defined inductive heap predicates. It is also equipped with a mutual induction proof technique to speculate lemmas from entailments derived in proof trees and a lemma synthesis framework to synthesize necessary lemmas from scratch.
+
+* Contact:
+
+ - Ta Quang Trung <taqt@comp.nus.edu.sg>
+ - Chin Wei Ngan <chinwn@comp.nus.edu.sg>
+
+* Participation:
+
+ - 2018: qf_shid_entl, qf_shidlia_entl, qf_shlid_entl, qf_shls_entl, qf_shid_sat, qf_shidlia_sat, qf_shls_sat, shid_entl, shidlia_entl
