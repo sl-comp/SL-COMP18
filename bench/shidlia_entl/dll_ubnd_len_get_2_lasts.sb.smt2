@@ -21,15 +21,16 @@
    (and
     (pto hd_1 (c_node n_4 p_2))
     (and
-     (= (+ len_5 (- 1)) 0)
+     (= (- len_5 1) 0)
      (= hd_1 tl_3)))
    (exists
-    ((x_6 Refnode))
+    ((x_6 Refnode) (k Int))
     (and
      (sep
       (pto hd_1 (c_node x_6 p_2))
-      (dll x_6 hd_1 tl_3 n_4 (+ len_5 (- 1))))
-     (<= 1 (+ len_5 (- 1)))))))
+      (dll x_6 hd_1 tl_3 n_4 k))
+     (= k (- len_5 1))
+     (<= 1 (- len_5 1))))))
 
 (check-sat)
 
@@ -49,10 +50,11 @@
 (assert
  (not
   (exists
-   ((u1 Refnode) (u2 Refnode))
+   ((u1 Refnode) (u2 Refnode) (k Int))
+   (and
    (sep
     (pto u2 (c_node z u1))
     (pto z (c_node t u2))
-    (dll x y u1 u2 (+ n (- 2)))))))
+    (dll x y u1 u2 k)) (= k (+ n (- 2)))))))
 
 (check-sat)

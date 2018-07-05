@@ -46,15 +46,18 @@
 (declare-const u2 Int)
 (declare-const l3 Int)
 (declare-const u3 Int)
+(declare-const k100 Int)
+(declare-const k101 Int)
+(declare-const k301 Int)
 
 (assert
  (and
   (sep
-   (sls t w 301 u4)
-   (sls x y l1 100)
-   (sls y z 101 u2)
+   (sls t w k301 u4)
+   (sls x y l1 k100)
+   (sls y z k101 u2)
    (sls z t l3 u3))
-  (and
+  (and (= k100 100) (= k101 101) (= k301 301)
    (<= u2 l3)
    (<= u3 301))))
 

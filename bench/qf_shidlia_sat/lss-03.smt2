@@ -59,7 +59,7 @@
 
 (assert 
 		(and 
-                        (= n1 (* 2 k))
+                        (= n1 (+ k k))
 			(lss x y n1)
 		)
 

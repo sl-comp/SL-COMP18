@@ -41,16 +41,18 @@
 (declare-const l1 Int)
 (declare-const z Refnode)
 (declare-const l2 Int)
+(declare-const k100 Int)
+(declare-const k300 Int)
 
 (assert
  (and
   (sep
-   (sls x y l1 100)
-   (sls y z l2 300))
-  (<= 100 l2)))
+   (sls x y l1 k100)
+   (sls y z l2 k300))
+  (<= 100 l2) (= k100 100) (= k300 300)))
 
 (assert
  (not
-  (sls x z l1 300)))
+  (sls x z l1 k300)))
 
 (check-sat)

@@ -1,5 +1,0 @@
-LOC_LOGICS=../input/Logics/
-LOC_THEORIES=../input/Theories/
-FILE_EXT_LOGIC=.smt2
-FILE_EXT_THEORY=.smt2
-

@@ -24,15 +24,15 @@
      (= (as nil Refnode) x_5)
      (= s_6 0)))
    (exists
-    ((l_7 Refnode) (r_8 Refnode) (s2_10 Int))
+    ((l_7 Refnode) (r_8 Refnode) (s2_10 Int) (k Int))
     (and
      (sep
       (pto x_5 (c_node l_7 r_8))
-      (tree l_7 (+ (* (- 1) s2_10) s_6 (- 1)))
+      (tree l_7 k)
       (tree r_8 s2_10))
-     (and
+      (= k (- s_6 s2_10 1))
       (<= 0 s2_10)
-      (<= 0 (+ (* (- 1) s2_10) s_6 (- 1))))))))
+      (<= 0 k)))))
 
 ;; heap predicates
 
@@ -44,20 +44,22 @@
      (= s_13 0)
      (= x_11 y_12)))
    (exists
-    ((l_14 Refnode) (r_15 Refnode) (s2_17 Int))
+    ((l_14 Refnode) (r_15 Refnode) (s2_17 Int) (k Int))
     (and
      (sep
       (pto x_11 (c_node l_14 r_15))
-      (tree l_14 (+ (* (- 1) s2_17) s_13 (- 1)))
+      (tree l_14 k)
       (tseg r_15 y_12 s2_17))
-     (<= 0 (+ (* (- 1) s2_17) s_13 (- 1)))))
+     (= k (- s_13 s2_17 1))
+     (<= 0 k )))
    (exists
-    ((l_18 Refnode) (r_19 Refnode) (s2_21 Int))
+    ((l_18 Refnode) (r_19 Refnode) (s2_21 Int) (k Int))
     (and
      (sep
       (pto x_11 (c_node l_18 r_19))
       (tree r_19 s2_21)
-      (tseg l_18 y_12 (+ (* (- 1) s2_21) s_13 (- 1))))
+      (tseg l_18 y_12 k))
+     (= k (- s_13 s2_21 1))
      (<= 0 s2_21)))))
 
 (check-sat)
@@ -85,7 +87,7 @@
 (assert
  (not
   (exists
-   ((a TVar_25) (b Refnode) (c Refnode) (d Refnode) (p Int) (q Int))
+   ((b Refnode) (c Refnode) (d Refnode) (p Int) (q Int))
    (sep
     (tseg c d q)
     (tseg x b p)))))

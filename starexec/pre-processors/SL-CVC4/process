@@ -1,16 +1,14 @@
 #!/bin/sh
 # Included in bin
 
-#SOLVER
-#EXT
+SOLVER=cvc4
+EXT=smt2
 
 FILE=`basename $1`
-SL2SL=./bin/slcomp-parser
-SL2SOLVER=./bin/compile
+SL2SMT=./bin/tosmt2.sh
 
 cp $1 ${FILE}
-$SL2SL --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14
-$SL2SOLVER -$SOLVER $FILE.sl14
-rm ${FILE} $FILE.sl14
-cat ${FILE}.$EXT
+$SL2SMT $FILE 
+cvc4 $FILE
+#cat ${FILE}
 

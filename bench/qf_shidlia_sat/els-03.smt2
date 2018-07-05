@@ -60,7 +60,7 @@
 
 (assert 
 		(and 
-			(= n1 (+ (* n2 2) 1) )
+			(= n1 (+ n2 n2 1) )
                     (sep
 			(els u_emp n1)
                         (els t_emp n2)

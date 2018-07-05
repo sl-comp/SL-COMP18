@@ -63,8 +63,6 @@ http://www.liafa.univ-paris-diderot.fr/spen
 (assert 
 		(and 
 			(distinct x_emp w_emp)
-			(distinct x_emp z_emp)
-			(distinct y_emp z_emp)
 		(sep 
 			(pto x_emp (c_Dll_t w_emp (as nil RefDll_t) ))
 			(dll w_emp u_emp x_emp y_emp )

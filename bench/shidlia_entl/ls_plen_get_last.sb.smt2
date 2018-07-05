@@ -24,12 +24,13 @@
      (= n_3 0)
      (= x_1 y_2)))
    (exists
-    ((u_4 Refnode))
+    ((u_4 Refnode) (k Int))
     (and
      (sep
       (pto x_1 (c_node u_4))
-      (ls u_4 y_2 (+ n_3 (- 5))))
-     (<= 0 (+ n_3 (- 5)))))))
+      (ls u_4 y_2 k))
+      (= k (- n_3 1))
+     (<= 0 (- n_3 1))))))
 
 (check-sat)
 
@@ -37,9 +38,12 @@
 
 (declare-const x Refnode)
 (declare-const y Refnode)
+(declare-const k1000 Int)
+(declare-const k995 Int)
 
 (assert
- (ls x y 1000))
+ (and (= k1000 1000) (= k995 995)
+ (ls x y k1000)))
 
 (assert
  (not
@@ -47,6 +51,6 @@
    ((u Refnode))
    (sep
     (pto u (c_node y))
-    (ls x u 995)))))
+    (ls x u k995)))))
 
 (check-sat)

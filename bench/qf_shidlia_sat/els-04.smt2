@@ -59,7 +59,7 @@
 
 (assert 
 		(and 
-			(= n1 (+ (* k 2) 1) )
+			(= n1 (+ k k 1) )
 			(els u_emp n1)
 		)
 
