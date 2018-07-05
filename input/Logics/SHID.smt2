@@ -1,6 +1,6 @@
 (logic SHID
 
- :smt-lib-version 2.5
+ :smt-lib-version 2.6
  :written-by "Mihaela Sighireanu"
  :date "2014-05-22"
  :last-updated "2018-05-05"
