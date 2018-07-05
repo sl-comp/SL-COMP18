@@ -6,6 +6,7 @@
 
 
 (declare-sort Loc 0)
+(declare-const loc0 Loc)
 (declare-const c0 Loc)
 (declare-datatypes (
         (Node 0)

@@ -1,6 +1,7 @@
 #!/bin/sh
 # Included in bin
 
+# ASTERIX's input format is SL-COMP'14 formar
 #SOLVER
 EXT=smt
 
