@@ -24,12 +24,13 @@
      (= n_3 0)
      (= x_1 y_2)))
    (exists
-    ((u_4 Refnode))
+    ((u_4 Refnode) (k Int))
     (and
      (sep
       (pto x_1 (c_node u_4))
-      (ls u_4 y_2 (+ n_3 (- 1))))
-     (<= 0 (+ n_3 (- 1)))))))
+      (ls u_4 y_2 k))
+      (= k (- n_3 1))
+     (<= 0 (- n_3 1))))))
 
 (check-sat)
 
@@ -47,10 +48,12 @@
 (assert
  (not
   (exists
-   ((u Refnode) (v Refnode))
+   ((u Refnode) (v Refnode) (k Int))
+   (and
    (sep
     (pto u (c_node v))
     (pto v (c_node y))
-    (ls x u (+ n (- 2)))))))
+    (ls x u k))
+    (= k (- n 2))))))
 
 (check-sat)

@@ -24,11 +24,12 @@
      (= (+ l_5 (- 1)) 0)
      (= hd_1 tl_3)))
    (exists
-    ((x_6 Refnode))
+    ((x_6 Refnode) (k Int))
     (and
      (sep
       (pto hd_1 (c_node x_6 p_2))
-      (dll x_6 hd_1 tl_3 n_4 (+ l_5 (- 1))))
+      (dll x_6 hd_1 tl_3 n_4 k))
+      (= k (+ l_5 (- 1)))
      (<= 1 (+ l_5 (- 1)))))))
 
 ;; heap predicates
@@ -41,11 +42,12 @@
      (= (+ l_11 (- 1)) 0)
      (= hd_7 tl_9)))
    (exists
-    ((x_12 Refnode))
+    ((x_12 Refnode) (k Int))
     (and
      (sep
       (pto tl_9 (c_node n_10 x_12))
-      (dll_rev hd_7 p_8 x_12 tl_9 (+ l_11 (- 1))))
+      (dll_rev hd_7 p_8 x_12 tl_9 k))
+      (= k (+ l_11 (- 1)))
      (<= 1 (+ l_11 (- 1)))))))
 
 ;; heap predicates
@@ -56,11 +58,12 @@
     (pto hd_13 (c_node (as nil Refnode) p_14))
     (= (+ l_15 (- 1)) 0))
    (exists
-    ((x_16 Refnode))
+    ((x_16 Refnode) (k Int))
     (and
      (sep
       (pto hd_13 (c_node x_16 p_14))
-      (dllnull x_16 hd_13 (+ l_15 (- 1))))
+      (dllnull x_16 hd_13 k))
+      (= k (+ l_15 (- 1)))
      (<= 1 (+ l_15 (- 1)))))))
 
 (check-sat)

@@ -16,20 +16,21 @@
 
 ;; heap predicates
 
-(define-fun-rec dll ((hd_2 Refnode) (p_3 Refnode) (tl_4 Refnode) (n_5 Refnode) (len_6 Int)) Bool
+(define-fun-rec dll ((hd_1 Refnode) (p_2 Refnode) (tl_3 Refnode) (n_4 Refnode) (l_5 Int)) Bool
   (or
    (and
-    (pto hd_2 (c_node n_5 p_3))
+    (pto hd_1 (c_node n_4 p_2))
     (and
-     (= (+ len_6 (- 1)) 0)
-     (= hd_2 tl_4)))
+     (= (+ l_5 (- 1)) 0)
+     (= hd_1 tl_3)))
    (exists
-    ((x_7 Refnode))
+    ((x_6 Refnode) (k Int))
     (and
      (sep
-      (pto hd_2 (c_node x_7 p_3))
-      (dll x_7 hd_2 tl_4 n_5 (+ len_6 (- 1))))
-     (<= 1 (+ len_6 (- 1)))))))
+      (pto hd_1 (c_node x_6 p_2))
+      (dll x_6 hd_1 tl_3 n_4 k))
+     (= k (+ l_5 (- 1)))
+     (<= 1 (+ l_5 (- 1)))))))
 
 ;; heap predicates
 
@@ -41,12 +42,13 @@
      (= len_10 0)
      (= x_8 y_9)))
    (exists
-    ((anon_11 Refnode) (u_12 Refnode))
+    ((anon_11 Refnode) (u_12 Refnode) (k Int))
     (and
      (sep
       (pto x_8 (c_node u_12 anon_11))
-      (ls u_12 y_9 (+ len_10 (- 1))))
-     (<= 0 (+ len_10 (- 1)))))))
+      (ls u_12 y_9 k))
+     (= k (- len_10 1))
+     (<= 0 (- len_10 1))))))
 
 (check-sat)
 
@@ -64,9 +66,10 @@
 (assert
  (not
   (exists
-   ((u Refnode))
+   ((u Refnode) (k Int))
+   (and
    (sep
     (pto z (c_node t u))
-    (ls x z (+ n (- 1)))))))
+    (ls x z k)) (= k (+ n (- 1)))))))
 
 (check-sat)

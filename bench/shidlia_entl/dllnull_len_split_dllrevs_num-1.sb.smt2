@@ -16,20 +16,21 @@
 
 ;; heap predicates
 
-(define-fun-rec dll_rev ((hd_1 Refnode) (p_2 Refnode) (tl_3 Refnode) (n_4 Refnode) (l_5 Int)) Bool
+(define-fun-rec dll_rev ((hd_7 Refnode) (p_8 Refnode) (tl_9 Refnode) (n_10 Refnode) (l_11 Int)) Bool
   (or
    (and
-    (pto hd_1 (c_node n_4 p_2))
+    (pto hd_7 (c_node n_10 p_8))
     (and
-     (= (+ l_5 (- 1)) 0)
-     (= hd_1 tl_3)))
+     (= (- l_11 1) 0)
+     (= hd_7 tl_9)))
    (exists
-    ((x_6 Refnode))
+    ((x_12 Refnode) (k Int))
     (and
      (sep
-      (pto tl_3 (c_node n_4 x_6))
-      (dll_rev hd_1 p_2 x_6 tl_3 (+ l_5 (- 1))))
-     (<= 1 (+ l_5 (- 1)))))))
+      (pto tl_9 (c_node n_10 x_12))
+      (dll_rev hd_7 p_8 x_12 tl_9 k))
+     (= k (- l_11 1))
+     (<= 1 (- l_11 1))))))
 
 ;; heap predicates
 
@@ -37,14 +38,15 @@
   (or
    (and
     (pto hd_7 (c_node (as nil Refnode) p_8))
-    (= (+ l_9 (- 1)) 0))
+    (= (- l_9 1) 0))
    (exists
-    ((x_10 Refnode))
+    ((x_10 Refnode) (k Int))
     (and
      (sep
       (pto hd_7 (c_node x_10 p_8))
-      (dllnull x_10 hd_7 (+ l_9 (- 1))))
-     (<= 1 (+ l_9 (- 1)))))))
+      (dllnull x_10 hd_7 k))
+     (= k (- l_9 1))
+     (<= 1 (- l_9 1))))))
 
 (check-sat)
 
@@ -52,9 +54,11 @@
 
 (declare-const x Refnode)
 (declare-const y Refnode)
+(declare-const k100 Int)
 
 (assert
- (dllnull x y 100))
+ (and (= k100 100)
+ (dllnull x y k100)))
 
 (assert
  (not
