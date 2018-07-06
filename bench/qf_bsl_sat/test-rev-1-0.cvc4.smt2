@@ -21,6 +21,8 @@
         )
 )
 (declare-heap (Loc Node))
+(declare-const loc0 Loc)
+(declare-const data0 Node)
 
 (declare-const u Loc)
 (declare-const v Loc)

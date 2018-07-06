@@ -1,8 +1,8 @@
 #!/bin/sh
 # Included in bin
 
-SOLVER=sleek
-EXT=sle
+SOLVER=songbird
+EXT=sb
 
 FILE=`basename $1`
 SL2SL=./bin/slcomp-parser

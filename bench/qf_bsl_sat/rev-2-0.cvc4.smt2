@@ -8,6 +8,7 @@
 (declare-sort Loc 0)
 
 (declare-heap (Loc Loc))
+(declare-const loc0 Loc)
 
 (declare-const u Loc)
 (declare-const v Loc)

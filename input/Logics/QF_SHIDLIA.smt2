@@ -18,7 +18,7 @@
   - 'wand' is not used, and
   - the inductively defined predicates are `well formed` like in SMT-LIB standard,
   - integers may apear as content of the heap and parameters of predicates,
-  - only lieanr constraints are allowed on integers.
+  - only linear constraints are allowed on integers.
  "
 
  :extensions 

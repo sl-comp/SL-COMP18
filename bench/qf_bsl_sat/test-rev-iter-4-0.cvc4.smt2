@@ -16,6 +16,7 @@
         )
 )
 (declare-heap (Loc Node))
+(declare-const loc0 Loc)
 
 (declare-const u Loc)
 (declare-const v Loc)
