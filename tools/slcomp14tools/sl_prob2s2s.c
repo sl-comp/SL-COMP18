@@ -386,7 +386,7 @@ sl_pred_2s2s (FILE * fout, sl_pred_t * p)
 /* Problem */
 /* ====================================================================== */
 void
-sl_prob_2s2s_XX (const char *fname)
+sl_prob_2s2s (const char *fname)
 {
 
   assert (NULL != fname);
@@ -446,7 +446,7 @@ sl_prob_2s2s_XX (const char *fname)
 }
 
 void
-sl_prob_2s2s (const char *fname)
+sl_prob_2s2s_XX (const char *fname)
 {
   assert (NULL != fname);
   assert (sl_prob != NULL);
