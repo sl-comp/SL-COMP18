@@ -64,6 +64,6 @@
 
 (assert
  (not
-  (sls x w l1 u3)))
+  (sls x w l1 u4)))
 
 (check-sat)
