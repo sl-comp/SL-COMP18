@@ -27,7 +27,7 @@
     (and
      (sep
       (pto x_5 (c_node l_7 r_8))
-      (tree l_7 k) 
+      (tree l_7 k)
       (tree r_8 s2_10))
       (= k (- s_6 s2_10 1))
       (<= 0 s2_10)
@@ -69,7 +69,9 @@
 (declare-const n Int)
 
 (assert
- (tree x n))
+ (and
+  (tree x n)
+  (<= 10 n)))
 
 (assert
  (not
