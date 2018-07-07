@@ -9,9 +9,14 @@ FILE=`basename $1`
 SL2SL=./bin/slcomp-parser
 SL2SOLVER=./bin/compile
 
+export DYLD_LIBRARY_PATH="."
+export LD_LIBRARY_PATH="."
+
 cp $1 $FILE
 rm -f $FILE.$EXT file_*
 ./bin/slcomp-parser --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.$EXT 2>err.log
+sed -i "" -e "s/^/;/g" err.log
+cat err.log
 rm $FILE 
 cat $FILE.$EXT
 

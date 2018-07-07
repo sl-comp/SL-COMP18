@@ -1,8 +1,8 @@
-(set-logic QF_BSL)
+(set-logic BSL)
 (set-info :source | CVC4 - Andrew Reynolds |)
 (set-info :smt-lib-version 2.6)
 (set-info :category "crafted")
-(set-info :status sat)
+(set-info :status unsat)
 
 (declare-sort Loc 0)
 
