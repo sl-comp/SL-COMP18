@@ -1,0 +1,4 @@
+#!/bin/sh
+
+./spen -syn $1
+

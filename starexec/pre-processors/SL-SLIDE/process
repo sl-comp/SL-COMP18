@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Included in bin
 
 SOLVER=slide
@@ -8,10 +8,10 @@ FILE=`basename $1`
 SL2SL=./bin/slcomp-parser
 SL2SOLVER=./bin/compile
 
-cp $1 ${FILE}
-$SL2SL --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14 2>/dev/null
-$SL2SOLVER -$SOLVER $FILE.sl14 &>/dev/null
-rm ${FILE} 
-rm $FILE.sl14 
-cat ${FILE}.sl14.$EXT
+cp $1 $FILE
+rm -f $FILE.sl14* file_*
+./bin/slcomp-parser --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14 2>err1.log 
+./bin/compile -slide $FILE.sl14 &>err2.log
+rm -f $FILE $FILE.sl14 
+cat $FILE.sl14.$EXT
 

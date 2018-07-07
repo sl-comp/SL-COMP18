@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Included in bin
 
 # ASTERIX's input format is SL-COMP'14 formar
@@ -9,8 +9,9 @@ FILE=`basename $1`
 SL2SL=./bin/slcomp-parser
 SL2SOLVER=./bin/compile
 
-cp $1 ${FILE}
-$SL2SL --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.$EXT 2>/dev/null
-rm ${FILE} 
-cat ${FILE}.$EXT
+cp $1 $FILE
+rm -f $FILE.$EXT file_*
+./bin/slcomp-parser --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.$EXT 2>err.log
+rm $FILE 
+cat $FILE.$EXT
 

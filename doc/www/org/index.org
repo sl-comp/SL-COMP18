@@ -130,7 +130,7 @@ constructs. This format has been changed for the second edition of
 - The contributions to the benchmark of SL-COMP are summarized below:
 
 #+ATTR_HTML: :border 2 :rules all :frame border
-| Division          | #problems | Asterix | CompSPEN | CVC4 | Cyclist | Harrsh |  S2S | Sleek | Slide | Songbird | SPEN |
+| Division          | #problems | Asterix | ComSPEN | CVC4 | Cyclist | Harrsh |  S2S | Sleek | Slide | Songbird | SPEN |
 |                   |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |
 |-------------------+------+------+------+------+------+------+------+------+------+------+------|
 | =bsl_sat=         |    3 |    0 |    0 |    3 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
@@ -162,7 +162,7 @@ constructs. This format has been changed for the second edition of
 |------------+-------------+------------+--------------------+---------|
 | Asterix    |             |            | [[file:solvers.org::Asterix][Asterix]] | [[mailto:juannavarroperez@gmail.com][Juan Antonio Navarro Pérez]] |
 |------------+-------------+------------+--------------------+---------|
-| Comp-SPEN  |             |            | [[file:solvers.org::CompSPEN][Comp-SPEN]] | [[mailto:gaochong@ios.ac.cn][Chong Gao]] |
+| ComSPEN  |             |            | [[file:solvers.org::ComSPEN][ComSPEN]] | [[mailto:gaochong@ios.ac.cn][Chong Gao]] |
 |------------+-------------+------------+--------------------+---------|
 | Cyclist-SL |             |            | [[file:solvers.org::Cyclist-SL][Cyclist-SL]] | [[mailto:nikos.gorogiannis@gmail.com][Nikos Gorogiannis]] |
 |------------+-------------+------------+--------------------+---------|
@@ -188,7 +188,7 @@ These are the benchmark divisions in which each solver is competing:
 
 #+ATTR_HTML: :border 2 :rules all :frame border
 |-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
-| Division          | #prob | Asterix | CompSPEN | CVC4 | Cyclist | Harrsh | S2S  | Sleek | Slide | Sloth | Songbird | SPEN |
+| Division          | #prob | Asterix | ComSPEN | CVC4 | Cyclist | Harrsh | S2S  | Sleek | Slide | Sloth | Songbird | SPEN |
 |                   |  <4> | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  |
 |-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
 | =bsl_sat=         |    3 |      |      | X    |      |      |      |      |      | X    |      |      |
@@ -210,7 +210,9 @@ These are the benchmark divisions in which each solver is competing:
   [[https://www.irif.fr/~sighirea/sl-comp/14/participants.html][here]].
 
 * Results
-  The results will be announced July 13th, 2018, at the [[http://adsl.univ-grenoble-alpes.fr][ADSL workshop]].
+  - The StarExec configuration is fixed to: 120 sec of timeout and 1 GB of memory.
+  - Several rounds will take place between July 7th and July 11th.
+  - The final results will be announced July 13th, 2018, at the [[http://adsl.univ-grenoble-alpes.fr][ADSL workshop]].
   
 
 * Committee

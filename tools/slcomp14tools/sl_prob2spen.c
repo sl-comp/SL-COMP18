@@ -346,6 +346,7 @@ sl_pred_case_2spen (FILE * fout, sl_var_array * args, sl_pred_case_t * c)
 	  sl_var_t* v = sl_vector_at(c->lvars, i);
 	  fprintf (fout, "(%s ", v->vname);
 	  sl_type_fprint (fout, v->vty);
+          fprintf (fout, ") ");
 	}
       fprintf (fout, ") ");
     }
@@ -456,7 +457,7 @@ sl_prob_2spen (const char *fname)
       return;
     }
   // Translates logic
-  fprintf (fdef, "\n(set-logic QF_S)\n");
+  fprintf (fdef, "\n(set-logic QF_SLRD)\n");
   
   // Translates sorts
   fprintf (fdef, "\n;; declare sorts\n");

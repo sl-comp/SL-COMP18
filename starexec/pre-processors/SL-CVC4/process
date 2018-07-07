@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Included in bin
 
 SOLVER=cvc4
@@ -7,8 +7,7 @@ EXT=smt2
 FILE=`basename $1`
 SL2SMT=./bin/tosmt2.sh
 
-cp $1 ${FILE}
-$SL2SMT $FILE 
-cvc4 $FILE
-#cat ${FILE}
+cp $1 $FILE
+./bin/tosmt2.sh $FILE &> err.log
+cat $FILE
 

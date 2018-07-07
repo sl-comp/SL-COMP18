@@ -38,8 +38,8 @@ In Proc. APLAS'13, 2013.
    - 2014: /=sll0a_sat=/, /=sll0a_entl=/
    - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/
 
-#+NAME: CompSPEN
-* Comp-SPEN
+#+NAME: ComSPEN
+* ComSPEN
 **  Description
 #+BEGIN_QUOTE
 #+END_QUOTE
