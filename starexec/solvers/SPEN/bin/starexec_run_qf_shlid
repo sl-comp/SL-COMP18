@@ -1,4 +1,12 @@
-#!/bin/sh
+#!/bin/bash
+
+
+export DYLD_LIBRARY_PATH="."
+export LD_LIBRARY_PATH="."
+export PATH=".":$PATH
+
+ROOT=../..
+
 
 ./spen -b $1
 

@@ -6,20 +6,5 @@ export PATH=".":$PATH
 
 ROOT=../..
 
-echo "** $1"
-cat $1
-
-echo "** err1.log"
-cat $ROOT/output/preProcessor/err1.log
-
-echo "** err2.log"
-cat $ROOT/output/preProcessor/err2.log
-
-echo "** pre-processor"
-ls -l $ROOT/output/preProcessor/*
-
-echo "** $2"
-ls -l $2
-
 ./spen -sll $1
 
