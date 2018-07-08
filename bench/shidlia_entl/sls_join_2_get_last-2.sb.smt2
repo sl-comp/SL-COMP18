@@ -1,4 +1,4 @@
-(set-logic QF_SHIDLIA)
+(set-logic SHIDLIA)
 (set-info :source | Songbird - https://songbird-prover.github.io/ |)
 (set-info :smt-lib-version 2)
 (set-info :category "crafted")

@@ -1,4 +1,4 @@
-(set-logic QF_SHIDLIA)
+(set-logic SHIDLIA)
 (set-info :source | Songbird - https://songbird-prover.github.io/ |)
 (set-info :smt-lib-version 2)
 (set-info :category "crafted")
@@ -50,8 +50,8 @@
       (pto x_11 (c_node l_14 r_15))
       (tree l_14 k)
       (tseg r_15 y_12 s2_17))
-     (= k (- s_13 s2_17))
-     (<= 0 k)))
+     (= k (- s_13 s2_17 1))
+     (<= 0 k )))
    (exists
     ((l_18 Refnode) (r_19 Refnode) (s2_21 Int) (k Int))
     (and
@@ -64,7 +64,7 @@
 
 (check-sat)
 
-;; entailment: tree(x,n) * tseg(u,v,m) * tseg(v,t,l) & 10<=n & 20<=m |- (exists a,b,c,d,p,q. tseg(a,b,p) * tseg(c,d,q))
+;; entailment: tree(x,n) * tseg(u,v,m) * tseg(v,t,l) & 10<=n & 20<=m |- (exists a,b,c,d,p,q. tseg(c,d,q) * tseg(x,b,p))
 
 (declare-const x Refnode)
 (declare-const n Int)
@@ -87,9 +87,9 @@
 (assert
  (not
   (exists
-   ((a Refnode) (b Refnode) (c Refnode) (d Refnode) (p Int) (q Int))
+   ((b Refnode) (c Refnode) (d Refnode) (p Int) (q Int))
    (sep
-    (tseg a b p)
-    (tseg c d q)))))
+    (tseg c d q)
+    (tseg x b p)))))
 
 (check-sat)

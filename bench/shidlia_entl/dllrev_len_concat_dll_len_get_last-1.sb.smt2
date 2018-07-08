@@ -1,4 +1,4 @@
-(set-logic QF_SHIDLIA)
+(set-logic SHIDLIA)
 (set-info :source | Songbird - https://songbird-prover.github.io/ |)
 (set-info :smt-lib-version 2)
 (set-info :category "crafted")
@@ -52,25 +52,25 @@
 
 (check-sat)
 
-;; entailment: dll(x,y,u,v,100) * dll_rev(v,u,z,t,m) & 1000<m |- (exists u_1. z->node{t,u_1} * dll(x,y,u_1,z,m+99))
+;; entailment: dll(v,u,z,t,200) * dll_rev(x,y,u,v,n) & 100<=n |- (exists u_1. z->node{t,u_1} * dll(x,y,u_1,z,n+199))
 
-(declare-const x Refnode)
-(declare-const y Refnode)
-(declare-const u Refnode)
 (declare-const v Refnode)
+(declare-const u Refnode)
 (declare-const z Refnode)
 (declare-const t Refnode)
-(declare-const m Int)
-(declare-const k100 Int)
+(declare-const x Refnode)
+(declare-const y Refnode)
+(declare-const n Int)
+(declare-const k200 Int)
 (declare-const k Int)
 
 (assert
  (and
   (sep
-   (dll x y u v k100)
-   (dll_rev v u z t m))
-  (= k100 100) (= k (+ m 99))
-  (< 1000 m)))
+   (dll v u z t k200)
+   (dll_rev x y u v n))
+  (= k200 200) (= k (+ n 199))
+  (<= 100 n)))
 
 (assert
  (not

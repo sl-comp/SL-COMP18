@@ -1,4 +1,4 @@
-(set-logic QF_SHIDLIA)
+(set-logic SHIDLIA)
 (set-info :source | Songbird - https://songbird-prover.github.io/ |)
 (set-info :smt-lib-version 2)
 (set-info :category "crafted")
@@ -28,12 +28,11 @@
     (and
      (sep
       (pto x_5 (c_node l_7 r_8))
-      (tree l_7 k) 
+      (tree l_7 k)
       (tree r_8 s2_10))
-     (and
       (= k (- s_6 s2_10 1))
       (<= 0 s2_10)
-      (<= 0 (- s_6 s2_10 1)))))))
+      (<= 0 k)))))
 
 ;; heap predicates
 
@@ -49,10 +48,10 @@
     (and
      (sep
       (pto x_11 (c_node l_14 r_15))
-      (tree l_14 k) 
+      (tree l_14 k)
       (tseg r_15 y_12 s2_17))
-     (= k (- s_13 s2_17 1))
-     (<= 0 (- s_13 s2_17 1))))
+     (= k (- s_13 s2_17))
+     (<= 0 k)))
    (exists
     ((l_18 Refnode) (r_19 Refnode) (s2_21 Int) (k Int))
     (and
@@ -65,26 +64,32 @@
 
 (check-sat)
 
-;; entailment: tree(x,n) & 10<=n |- (exists u,m,l. tree(u,l) * tseg(x,u,m) & 1<=m & 2<=l)
+;; entailment: tree(x,n) * tseg(u,v,m) * tseg(v,t,l) & 10<=n & 20<=m |- (exists a,b,c,d,p,q. tseg(a,b,p) * tseg(c,d,q))
 
 (declare-const x Refnode)
 (declare-const n Int)
+(declare-const u Refnode)
+(declare-const v Refnode)
+(declare-const m Int)
+(declare-const t Refnode)
+(declare-const l Int)
 
 (assert
  (and
-  (tree x n)
-  (<= 10 n)))
+  (sep
+   (tree x n)
+   (tseg u v m)
+   (tseg v t l))
+  (and
+   (<= 10 n)
+   (<= 20 m))))
 
 (assert
  (not
   (exists
-   ((u Refnode) (m Int) (l Int))
-   (and
-    (sep
-     (tree u l)
-     (tseg x u m))
-    (and
-     (<= 1 m)
-     (<= 2 l))))))
+   ((a Refnode) (b Refnode) (c Refnode) (d Refnode) (p Int) (q Int))
+   (sep
+    (tseg a b p)
+    (tseg c d q)))))
 
 (check-sat)

@@ -1,9 +1,12 @@
 #!/bin/bash
 # Included in bin
 
+ROOT=../..
+
 SOLVER=cvc4
 EXT=smt2
 
+#FILE=$ROOT/output/preProcessor/`basename $1`
 FILE=`basename $1`
 SL2SMT=./bin/tosmt2.sh
 
