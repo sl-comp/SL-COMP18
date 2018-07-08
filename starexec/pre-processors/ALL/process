@@ -1,5 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 # Included in bin
+
+export DYLD_LIBRARY_PATH="."
+export LD_LIBRARY_PATH="."
 
 #SOLVER
 #EXT
@@ -8,9 +11,11 @@ FILE=`basename $1`
 SL2SL=./bin/slcomp-parser
 SL2SOLVER=./bin/compile
 
-cp $1 ${FILE}
-$SL2SL --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14
-$SL2SOLVER -$SOLVER $FILE.sl14
-rm ${FILE} $FILE.sl14
-cat ${FILE}.$EXT
+# StarExec does not allow execution of commands in bash variables
+cp $1 $FILE
+rm $FILE.sl14*
+./bin/slcomp-parser --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14 2>err1.log
+./bin/compile -$SOLVER $FILE.sl14 &>err2.log
+rm $FILE $FILE.sl14
+cat $FILE.sl14.$EXT
 
