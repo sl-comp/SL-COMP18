@@ -10,9 +10,7 @@
 (declare-datatypes (
                 (Node 0)
                 ) (
-                (
-                (node (left Loc) (right Loc))
-                )
+                ((node (left Loc) (right Loc)))
                 )
 )
 (declare-heap (Loc Node))
