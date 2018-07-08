@@ -1,12 +1,12 @@
 (set-logic QF_SHIDLIA)
 (set-info :source |
-  Zhilin Wu.
+  Zhilin Wu and Gao Chong.
   COMPSPEN benchmark.
 |)
 (set-info :smt-lib-version 2.6)
 (set-info :category "crafted")
-(set-info :status unsat)
-(set-info :version "2018-06-21")
+(set-info :status sat)
+(set-info :version "2018-07-07")
 
 
 ; Sorts for locations, one by cell sort
