@@ -1,6 +1,9 @@
 #!/bin/bash
 # Included in bin
 
+export DYLD_LIBRARY_PATH="."
+export LD_LIBRARY_PATH="."
+
 SOLVER=cyclist
 EXT=defs
 
