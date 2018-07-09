@@ -191,7 +191,6 @@ These are the benchmark divisions in which each solver is competing:
 | Division          | #prob | Asterix | ComSPEN | CVC4 | Cyclist | Harrsh | S2S  | Sleek | Slide | Sloth | Songbird | SPEN |
 |                   |  <4> | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  |
 |-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
-| =bsl_sat=         |    3 |      |      | X    |      |      |      |      |      | X    |      |      |
 | =qf_bsl_sat=      |   46 |      |      | X    |      |      |      |      |      | X    |      |      |
 | =qf_bsllia_sat=   |   24 |      |      |      |      |      |      |      |      | X    |      |      |
 | =qf_shid_entl=    |  311 |      |      |      | X    |      | X    | X    | X    |      | X    | X    |
@@ -210,10 +209,65 @@ These are the benchmark divisions in which each solver is competing:
   [[https://www.irif.fr/~sighirea/sl-comp/14/participants.html][here]].
 
 * Results
-  - The StarExec configuration is fixed to: 120 sec of timeout and 1 GB of memory.
+  - The StarExec configuration is fixed to: 600 sec of timeout and 4 GB of memory.
   - Several rounds will take place between July 7th and July 11th.
   - The final results will be announced July 13th, 2018, at the [[http://adsl.univ-grenoble-alpes.fr][ADSL workshop]].
   
+|-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
+| Division          | #prob | Asterix | ComSPEN | CVC4 | Cyclist | Harrsh | S2S  | Sleek | Slide | Sloth | Songbird | SPEN |
+|                   |  <4> | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  |
+|-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
+| =qf_bsl_sat=      |   46 |      |      | 
+					  [[file:qf_bsl_sat.org::CVC4][R1]]] 
+					  	|      |      |      |      |      | X    |      |      |
+| =qf_bsllia_sat=   |   24 |      |      | [[file:qf_bsllia_sat.org::CVC4][R1]] 
+						|      |      |      |      |      | X    |      |      |
+| =qf_shid_entl=    |  311 |      |      |      | [[file:qf_shid_entl::CYCLIST][R1]] 
+						       |      | X    | [[file:qf_shid_entl::SLEEK][R1]] 
+						       			    | [[file:qf_shid_entl::SLIDE][R1]] 
+									    	   |      | [[file:qf_shid_entl::SB][R1]]
+										   		 | [[file:qf_shid_entl::SPEN][R1]] |
+| =qf_shid_sat=     |   99 |      |      |      | [[file:qf_shid_sat::CYCLIST][R1]]
+						       | X    | X    | [[file:qf_shid_sat::SLEEK][R1]] 
+						       			    |      |      | [[file:qf_shid_sat::SB][R1]]
+									    			 | [[file:qf_shid_sat::SPEN][R1]] |
+| =qf_shidlia_entl= |   75 |      | [[file:qf_shidlia_entl.org::CSPEN][R1]] 
+                                         |      |      |      | X    | [[file:qf_shidlia_entl.org::SLEEK][R1]]
+						       	                    |      |      | [[file:qf_shidlia_entl.org::SB][R1]]
+									    			 | [[file:qf_shidlia_entl.org::SPEN][R1]] |
+| =qf_shidlia_sat=  |   33 |      | [[file:qf_shidlia_sat.org::CSPEN][R1]] 
+                                         |      |      |      | X    | [[file:qf_shidlia_sat.org::SLEEK][R1]] 
+					 				    |      |      | [[file:qf_shidlia_sat.org::SB][R1]]
+									    			 |      |
+| =qf_shlid_entl=   |   59 |      | [[file:qf_shlid_sat.org::CSPEN][R1]] 
+                                         |      | [[file:qf_shlid_entl::CYCLIST][R1]]
+					               |      | X    | [[file:qf_shlid_entl.org::SLEEK][R1]]
+						       		            | [[file:qf_shlid_entl.org::SLIDE][R1]]
+									    	   |      | [[file:qf_shlid_entl.org::SB][R1]] 
+										   	         | [[file:qf_shlid_entl.org::SPEN][R1]] |
+| =qf_shls_entl=    |  296 | [[file:qf_shls_entl.org::AST][R1]]
+				  |  [[file:qf_shls_entl.org::CSPEN][R1]]
+				         |      | [[file:qf_shls_entl.org::CYCLIST][R1]]
+                                                       |      | X    | [[file:qf_shls_entl.org::SLEEK][R1]]
+						       			    | [[file:qf_shls_entl.org::SLIDE][R1]]
+									           | X    | [[file:qf_shls_entl.org::SB][R1]] 
+										   		 | [[file:qf_shls_entl.org::SPEN][R1]] |
+| =qf_shls_sat=     |  110 | [[file:qf_shls_sat.org::AST][R1]]
+				  | [[file:qf_shls_sat.org::CSPEN][R1]] 
+				         |      | [[file:qf_shls_sat.org::CYCLIST][R1]]
+					               | X    | X    | [[file:qf_shls_sat.org::SLEEK][R1]] 
+						       			    |      | X    | [[file:qf_shls_sat.org::SB][R1]]
+									    		         | [[file:qf_shls_sat.org::SPEN][R1]] |
+| =shid_entl=       |   73 |      |      |      | [[file:shid_entl.org::CYCLIST][R1]]
+						       |      | X    | [[file:shid_entl.org::SLEEK][R1]]
+						       		            | [[file:shid_entl.org::SLIDE][R1]] 
+									    	   |      | [[file:shid_entl.org::SB][R1]]
+										   		 |      |
+| =shidlia_entl=    |  167 |      |      |      |      |      | X    | [[file:shidlia_entl.org::SLEEK][R1]] 
+									    |      |      | [[file:shidlia_entl.org::SB][R1]]
+									    			 |      |
+|-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
+
 
 * Committee
 

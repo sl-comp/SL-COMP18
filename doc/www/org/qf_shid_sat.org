@@ -92,7 +92,7 @@ HARRSH is a prover for symbolic heap separation logic with user defined predicat
    - Jens Katelaan <jkatelaan@forsyte.at>
 
 ** Participation
-   - 2018: /=qf_bsl_sat=/, /=qf_shid_sat=/, /=qf_shls_sat=/
+   - 2018: /=qf_shid_sat=/, /=qf_shls_sat=/
 
 #+NAME: Inductor
 * Inductor
