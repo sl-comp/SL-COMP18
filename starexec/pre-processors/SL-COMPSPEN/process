@@ -4,8 +4,8 @@
 export DYLD_LIBRARY_PATH="."
 export LD_LIBRARY_PATH="."
 
-SOLVER=spen
-EXT=spn
+#SOLVER
+#EXT
 
 FILE=`basename $1`
 SL2SL=./bin/slcomp-parser
@@ -14,7 +14,7 @@ SL2SOLVER=./bin/compile
 cp $1 $FILE
 rm -f $FILE.sl14* file_*
 ./bin/slcomp-parser --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14 2>err1.log
-./bin/compile -spen $FILE.sl14 &>err2.log
-rm -f $FILE $FILE.sl14 
-cat $FILE.sl14.$EXT
+rm -f $FILE 
+sed -i "" -e "s/(check-sat)//" $FILE.sl14
+cat $FILE.sl14
 

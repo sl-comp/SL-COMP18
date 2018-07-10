@@ -1,6 +1,6 @@
 #+TITLE:      Participants to SL-COMP
-#+AUTHOR:     Mihaela Sighireanu                                                
-#+EMAIL:      sl-comp@googlegroups.com                                          
+#+AUTHOR:     Mihaela Sighireanu
+#+EMAIL:      sl-comp@googlegroups.com
 #+LANGUAGE:   en
 #+CATEGORY:   competition
 #+OPTIONS:    H:2 num:nil
@@ -12,8 +12,8 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
-#+NAME: Asterix
 * Asterix
+#+NAME: Asterix
 ** Description
 #+BEGIN_QUOTE
 Asterix implements a model-based approach to decide separation logic
@@ -38,8 +38,9 @@ In Proc. APLAS'13, 2013.
    - 2014: /=sll0a_sat=/, /=sll0a_entl=/
    - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/
 
-#+NAME: ComSPEN
+
 * ComSPEN
+#+NAME: ComSPEN
 **  Description
 #+BEGIN_QUOTE
 #+END_QUOTE
@@ -51,8 +52,9 @@ In Proc. APLAS'13, 2013.
 ** Participation
    - 2018: /=qf_shidlia_sat=/, /=qf_shidlia_entl=/
 
-#+NAME: Cyclist-SL
+
 * Cyclist-SL
+#+NAME: Cyclist-SL
 ** Description
 #+BEGIN_QUOTE
 An entailment prover for separation logic with inductive predicates
@@ -60,19 +62,23 @@ based on cyclic proof.  The theory and design is described in
 
 J. Brotherston, N. Gorogiannis, and R. L. Petersen. A generic cyclic
 theorem prover. In Proc. APLAS-10, pages 350-367. Springer, 2012.
+
+It includes SLSAT, a prover for satisfiability.
 #+END_QUOTE
 
 ** Contact
    - Nikos Gorogiannis <nikos.gorogiannis@gmail.com>
 
 ** Participation
-   - 2014: /=UDB_entl=/, /=sll0a_entl=/, /=FDB_entl=/
-   - 2018: /=qf_shid_entl=/, /=qf_shls_entl=/, /=qf_shlid_entl=/
+   - 2014: /=UDB_entl=/, /=UDB_sat=/, /=sll0a_entl=/, /=sll0a_sat=/, /=FDB_entl=/
+   - 2018: /=qf_shid_entl=/, /=qf_shid_sat=/, /=qf_shls_entl=/, /=qf_shls_sat=/, /=qf_shlid_entl=/, /=shid_entl=/
 
-#+NAME: CVC4-SL
+
 * CVC4-SL
+#+NAME: CVC4-SL
 ** Description
 #+BEGIN_QUOTE
+The SL procedure of the famous CVC4 solver.
 #+END_QUOTE
 
 ** Contact
@@ -81,8 +87,9 @@ theorem prover. In Proc. APLAS-10, pages 350-367. Springer, 2012.
 ** Participation
    - 2018: /=qf_bsl_sat=/, /=bsl_sat=/
 
-#+NAME: Harrsh
+
 * Harrsh
+#+NAME: Harrsh
 ** Description
 #+BEGIN_QUOTE
 HARRSH is a prover for symbolic heap separation logic with user defined predicates. It can prove satisfiability as well as various reachability based properties of symbolic heaps, including garbage freedom and acyclicity. HARRSH is based on Heap Automata, as introduced in our ESOP 2017 paper, Unified Reasoning about Robustness Properties of Symbolic Heap Separation Logic.
@@ -92,10 +99,11 @@ HARRSH is a prover for symbolic heap separation logic with user defined predicat
    - Jens Katelaan <jkatelaan@forsyte.at>
 
 ** Participation
-   - 2018: /=qf_bsl_sat=/, /=qf_shid_sat=/, /=qf_shls_sat=/
+   - 2018: /=qf_shid_sat=/, /=qf_shls_sat=/
 
-#+NAME: Inductor
+
 * Inductor
+#+NAME: Inductor
 ** Description
 #+BEGIN_QUOTE
 #+END_QUOTE
@@ -106,8 +114,9 @@ HARRSH is a prover for symbolic heap separation logic with user defined predicat
 
 ** Participation
 
-#+NAME: S2S
+
 * S2S
+#+NAME: S2S
 ** Description
 #+BEGIN_QUOTE
 #+END_QUOTE
@@ -116,13 +125,14 @@ HARRSH is a prover for symbolic heap separation logic with user defined predicat
    - Le Quang Loc <lequangloc@gmail.com>
 
 ** Participation
-   - 2018: /=qf_shid_entl=/, /=qf_shid_sat=/, 
+   - 2018: /=qf_shid_entl=/, /=qf_shid_sat=/,
    		/=qf_shidlia_entl=/, /=qf_shidlia_sat=/,
 		/=qf_shls_entl=/, /=qf_shls_sat=/,
 		/=shid_entl=/, /=shidlia_entl=/
 
-#+NAME: SeLoger
+
 * SeLoger
+#+NAME: SeLoger
 ** Description
 #+BEGIN_QUOTE
 #+END_QUOTE
@@ -131,11 +141,12 @@ HARRSH is a prover for symbolic heap separation logic with user defined predicat
    - Christoph Hasse
 
 ** Participation
-   - 2014: /=qf_shls_entl=/, /=qf_shls_sat=/
+   - 2014: pull out from /=qf_shls_entl=/, /=qf_shls_sat=/
 
 
-#+NAME: Sleek
+
 * Sleek
+#+NAME: Sleek
 ** Description
 #+BEGIN_QUOTE
 #+END_QUOTE
@@ -149,8 +160,8 @@ HARRSH is a prover for symbolic heap separation logic with user defined predicat
    - 2018: all
 
 
-#+NAME: Slide
 * Slide
+#+NAME: Slide
 ** Description
 #+BEGIN_QUOTE
 SLIDE is a tool for deciding entailments between two given predicates,
@@ -170,8 +181,8 @@ AutRHS.
    - 2018: /=qf_shid_entl=/, /=qf_shlid_entl=/, /=shid_entl=/
 
 
-#+NAME: Sloth
 * Sloth
+#+NAME: Sloth
 ** Description
 #+BEGIN_QUOTE
 #+END_QUOTE
@@ -180,11 +191,12 @@ AutRHS.
    - Jens Katelaan <jkatelaan@forsyte.at>
 
 ** Participation
-   - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/, /=qfbsl_sat=/, /=bsl_sat=/
+   - 2018: pull out from /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_bsl_sat=/, /=bsl_sat=/
 
 
-#+NAME: Songbird
+
 * Songbird
+#+NAME: Songbird
 ** Description
 #+BEGIN_QUOTE
 #+END_QUOTE
@@ -196,8 +208,9 @@ AutRHS.
 ** Participation
    - 2018: all
 
-#+NAME: SPEN
+
 * SPEN
+#+NAME: SPEN
 ** Description
 #+BEGIN_QUOTE
 SPEN is an open source solver for checking validity of entailments between formulas 

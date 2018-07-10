@@ -1,6 +1,6 @@
-#+TITLE:      Participants to SL-COMP
-#+AUTHOR:     Mihaela Sighireanu                                                
-#+EMAIL:      sl-comp@googlegroups.com                                          
+#+TITLE:      Results for SL-COMP'18 division =qf_shid_sat=
+#+AUTHOR:     Mihaela Sighireanu
+#+EMAIL:      sl-comp@googlegroups.com
 #+LANGUAGE:   en
 #+CATEGORY:   competition
 #+OPTIONS:    H:2 num:nil
@@ -12,211 +12,125 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
-#+NAME: Asterix
-* Asterix
-** Description
-#+BEGIN_QUOTE
-Asterix implements a model-based approach to decide separation logic
-satisfiability and entailment queries. Our procedure, relying on SMT
-solving technology to untangle potential aliasing between program
-variables, has at its core a _matching_ function that checks whether a
-concrete valuation is a model of the input formula and, if so,
-generalises it to a larger class of models where the formula is also
-valid. The version submitted to this competition is dynamically linked
-with Z3 and implements support for the acyclic list segment predicate
-only. Details about the algorithm and its correctness are described in
 
-J. A. Navarro Perez and A. Rybalchenko. Separation Logic Modulo Theories.
-In Proc. APLAS'13, 2013.
-#+END_QUOTE
+* [[file:solvers.org:Cyclist-SL][CYCLIST-SLSAT]]
+#+NAME: CYCLIST
+** Round 2: July 9th, APPROVED?
+   + Version: SLSAT (id 1137)
+   + Configuration: quiet
+   + Pre-processor: SL-CYCLIST (id 437)
+   + Job Id: 29706
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=379a3ca8-49c3-4817-bfd2-991b96d2812c][StarExec]]
+   + Comments: run with 600 sec of timeout and 4GB, 0 ressourced out, 90/99 solved
 
-** Contact
-   - Juan Antonio Navarro Pérez <juannavarroperez@gmail.com>
-   - Andrey Rybalchenko <rybal@microsoft.com>	
+** Round 1: July 8th
+   + Version: SLSAT (id 1137)
+   + Configuration: default
+   + Pre-processor: SL-CYCLIST (id 437)
+   + Job Id: 29572
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=a1438319-e192-4510-88bd-8538b96c9e42][StarExec]]
+   + Comments: run with 120 sec of timeout and 1 GB, 0 ressourced out, 90 solved
 
-** Participation
-   - 2014: /=sll0a_sat=/, /=sll0a_entl=/
-   - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/
 
-#+NAME: ComSPEN
-* ComSPEN
-**  Description
-#+BEGIN_QUOTE
-#+END_QUOTE
+* [[file:solvers.org::Harrsh][Harrsh]]
+#+NAME: HARRSH
+** Round 3: July 10th
+   + Version: Harrsh-inc (id )
 
-** Contact
-   - Zhilin Wu <wuzl@ios.ac.cn>
-   - Chong Gao <gaochong@ios.ac.cn>
+** Round 2: July 9th
+   + Version: Harrsh (id 20535)
+   + Configuration: harrsh_default
+   + Pre-processor: none
+   + Job Id: 29707
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=fa1c5ca5-7ec5-4053-a5db-4f9e2cd112c2][StarExec]]
+   + Comments: run with 600 sec of timeout and 4GB, 0 ressourced out, 69/99 solved
 
-** Participation
-   - 2018: /=qf_shidlia_sat=/, /=qf_shidlia_entl=/
+** Round 1: July 8th, absent
 
-#+NAME: Cyclist-SL
-* Cyclist-SL
-** Description
-#+BEGIN_QUOTE
-An entailment prover for separation logic with inductive predicates
-based on cyclic proof.  The theory and design is described in
 
-J. Brotherston, N. Gorogiannis, and R. L. Petersen. A generic cyclic
-theorem prover. In Proc. APLAS-10, pages 350-367. Springer, 2012.
-#+END_QUOTE
-
-** Contact
-   - Nikos Gorogiannis <nikos.gorogiannis@gmail.com>
-
-** Participation
-   - 2014: /=UDB_entl=/, /=sll0a_entl=/, /=FDB_entl=/
-   - 2018: /=qf_shid_entl=/, /=qf_shls_entl=/, /=qf_shlid_entl=/
-
-#+NAME: CVC4-SL
-* CVC4-SL
-** Description
-#+BEGIN_QUOTE
-#+END_QUOTE
-
-** Contact
-   - Andrew J. Reynolds <andrew.j.reynolds@gmail.com>
-
-** Participation
-   - 2018: /=qf_bsl_sat=/, /=bsl_sat=/
-
-#+NAME: Harrsh
-* Harrsh
-** Description
-#+BEGIN_QUOTE
-HARRSH is a prover for symbolic heap separation logic with user defined predicates. It can prove satisfiability as well as various reachability based properties of symbolic heaps, including garbage freedom and acyclicity. HARRSH is based on Heap Automata, as introduced in our ESOP 2017 paper, Unified Reasoning about Robustness Properties of Symbolic Heap Separation Logic.
-#+END_QUOTE
-
-** Contact
-   - Jens Katelaan <jkatelaan@forsyte.at>
-
-** Participation
-   - 2018: /=qf_shid_sat=/, /=qf_shls_sat=/
-
-#+NAME: Inductor
-* Inductor
-** Description
-#+BEGIN_QUOTE
-#+END_QUOTE
-
-** Contact
-   - Radu Iosif <radu.iosif@univ-grenoble-alpes.fr>
-   - Cristina Serban <Cristina.Serban@univ-grenoble-alpes.fr>
-
-** Participation
-
+* [[file:solvers.org:S2S][S2S]]
 #+NAME: S2S
-* S2S
-** Description
-#+BEGIN_QUOTE
-#+END_QUOTE
+** Round 3: July 10th
+   + Version: S2S (id 20562)
+   + Configuration: default
+   + Pre-processor: SL-S2S (id 445)
+   + Job Id: 29761
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=769d4b46-feb1-49f8-954a-dad3e93fe521][StarExec]]
+   + Comments: run with 2400 sec of timeout and 4 GB
 
-** Contact
-   - Le Quang Loc <lequangloc@gmail.com>
+** Round 2: July 9th
+   + Version: S2S (id 20562)
+   + Configuration: default
+   + Pre-processor: SL-S2S (id 445)
+   + Job Id: 29741
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=364e085e-905c-415f-aa83-8b1cc666b6f7][StarExec]]
+   + Comments: run with 600 sec of timeout and 4 GB, 28 problems ressourced out
 
-** Participation
-   - 2018: /=qf_shid_entl=/, /=qf_shid_sat=/, 
-   		/=qf_shidlia_entl=/, /=qf_shidlia_sat=/,
-		/=qf_shls_entl=/, /=qf_shls_sat=/,
-		/=shid_entl=/, /=shidlia_entl=/
-
-#+NAME: SeLoger
-* SeLoger
-** Description
-#+BEGIN_QUOTE
-#+END_QUOTE
-
-** Contact
-   - Christoph Hasse
-
-** Participation
-   - 2014: /=qf_shls_entl=/, /=qf_shls_sat=/
+** Round 1: July 8th, absent
 
 
-#+NAME: Sleek
-* Sleek
-** Description
-#+BEGIN_QUOTE
-#+END_QUOTE
+* [[file:solvers.org:Sleek][SLEEK]]
+#+NAME: SLEEK
+** Round 3: July 10th
+   + Version: SLEEK (id ) 
+   + Configuration: default
+   + Pre-processors: SL-SLEEK (id 438)
+   + Job Id: 29763
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=72a14478-e79a-407c-b5f9-222dfc6d2420][StarExec]]
+   + Comments: run with 2400 sec of timeout and 4 GB
 
-** Contact
-   - Benedict Lee <benedictleejh@gmail.com>
-   - Chin Wei Ngan <chinwn@comp.nus.edu.sg>
+** Round 2: July 9th
+   + Version: SLEEK (id 20432 deleted)
+   + Configuration: default
+   + Pre-processors: SL-SLEEK (id 438)
+   + Job Id: 29709
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=ed67ad70-1ca1-43ac-a315-2315b482403e][StarExec]]
+   + Comments: run with 600 sec of timeout and 4 GB, 17/99 ressourced out
 
-** Participation
-   - 2014: all
-   - 2018: all
-
-
-#+NAME: Slide
-* Slide
-** Description
-#+BEGIN_QUOTE
-SLIDE is a tool for deciding entailments between two given predicates,
-from a larger system of inductively defined predicates, written in an
-existential fragment of Separation Logic. The proof method relies on
-converting both the left hand and right hand sides of the entailment
-into two tree automata AutLHS and AutRHS, respectively, and checking
-the tree language inclusion of the automaton AutLHS in the automaton
-AutRHS.
-#+END_QUOTE
-
-** Contact
-   - Adam Rogalewicz <rogalew@fit.vutbr.cz>
-
-** Participation
-   - 2014: /=UDB_entl=/, /=FDB_entl=/
-   - 2018: /=qf_shid_entl=/, /=qf_shlid_entl=/, /=shid_entl=/
+** Round 1: July 8th
+   + Version: SLEEK (id 20432)
+   + Configuration: default
+   + Pre-processor: SL-SLEEK (id 438)
+   + Job Id: 29568
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=f925f6c0-ceb2-406f-8ef9-c27b46fa76c7][StarExec]]
+   + Comments: run with 120 sec of timeout and 1 GB, 18/99 ressourced out, 90 solved
 
 
-#+NAME: Sloth
-* Sloth
-** Description
-#+BEGIN_QUOTE
-#+END_QUOTE
-
-** Contact
-   - Jens Katelaan <jkatelaan@forsyte.at>
-
-** Participation
-   - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/, /=qfbsl_sat=/, /=bsl_sat=/
-
-
-#+NAME: Songbird
 * Songbird
-** Description
-#+BEGIN_QUOTE
-#+END_QUOTE
+#+NAME: SB
+** Round 3: July 10th
+   + Version: Songbird (id )
+   + Configuration: songbird.sh
+   + Pre-processor: SL-SONGBIRD (id 440)
+   + Job Id: 29742
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=6c4cc147-cecf-49eb-8988-e8a90d37368f][StarExec]]
+   + Comments: run with 2400 sec of timeout and 4 GB, 31 problems ressourced out
 
-** Contact
-   - Ta Quang Trung <taquangtrungvn@gmail.com>
-   - Chin Wei Ngan <chinwn@comp.nus.edu.sg>
+** Round 2: July 9th
+   + Version: Songbird (id 20545)
+   + Configuration: songbird.sh
+   + Pre-processor: SL-SONGBIRD (id 440)
+   + Job Id: 29710
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=facf3bb7-9daf-48b7-b888-27eebd29b589][StarExec]]
+   + Comments: run with 600 sec of timeout and 4 GB, 36/99 ressourced out
 
-** Participation
-   - 2018: all
+** Round 1: July 8th
+   + Version: Songbird (deleted)
+   + Configuration: deleted
+   + Pre-processor: SL-SONGBIRD (id 440)
+   + Job Id: 29575
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=ad943c8d-dcc8-4504-ae8a-1ddf441b6885][StarExec]]
+   + Comments: run with 120 sec of timeout and 1 GB, problem with
+     execution path
 
-#+NAME: SPEN
+
 * SPEN
-** Description
-#+BEGIN_QUOTE
-SPEN is an open source solver for checking validity of entailments between formulas 
-in a fragment of Separation Logic with inductive definitions and linear integer
-constraints. The internals are published in
-
-Constantin Enea, Ondrej Lengal, Mihaela Sighireanu, and Tomas Vojnar. 
-Compositional entailment checking for a fragment of separation logic. 
-In Proc. of APLAS’14, volume 8858 of LNCS, pages 314–333. Springer, 2014
-
-Constantin Enea, Mihaela Sighireanu, and Zhilin Wu.
-On automated lemma generation for separation logic with inductive definitions. 
-In ATVA’15, volume 9364 of LNCS, pages 80–96. Springer, 2015.
-#+END_QUOTE
-
-** Contact
-   - Mihaela Sighireanu <mihaela.sighireanu@gmail.com>
-
-** Participation
-   - 2014: /=FDB_entl=/, /=sll0a_entl=/, /=sll0a_sat=/
-   - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_shlid_entl=/, /=qf_shidlia_entl=/
-
+#+NAME: SPEN
+** Round 2: July 9th
+   + Version: SPEN (id 20561)
+   + Configuration: qf_shlid
+   + Pre-processor: SL-SPEN
+   + Job Id: 29743
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=e15d5f2c-b07e-4f15-8e13-43e81e4f4f59][StarExec]]
+   + Comments: run with 600 sec of timeout and 4 GB, 0 ressourced out,
+     3/99 solved

@@ -1,6 +1,6 @@
-#+TITLE:      Results of SL-COMP division QF_BSL
-#+AUTHOR:     Mihaela Sighireanu                                                
-#+EMAIL:      sl-comp@googlegroups.com                                          
+#+TITLE:      Results of SL-COMP'18 division =qf_bsl_sat=
+#+AUTHOR:     Mihaela Sighireanu
+#+EMAIL:      sl-comp@googlegroups.com
 #+LANGUAGE:   en
 #+CATEGORY:   competition
 #+OPTIONS:    H:2 num:nil
@@ -12,16 +12,17 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
-#+NAME: CVC4
+
 * [[file:solvers.org:CVC4-SL][CVC4]]
+#+NAME: CVC4
 ** Round 3: July 9th
    + Version: CVC4-070618
    + Configuration: def
    + Pre-processors: SL-CVC4
    + Job Id: 29698
    + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=9cd1ab13-4373-4bb4-b7f9-6c2600fa6e6f][StarExec]]
-   + Comments: run with 600 sec of timeout and 4 GB
-  
+   + Comments: run with 600 sec of timeout and 4 GB, 2/46 ressourced out
+
 ** Round 2: July 8th
    + Version: CVC4-070618
    + Configuration: def
@@ -29,7 +30,7 @@
    + Job Id: 29551
    + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=bcd3ceba-0377-4c82-91a4-91a6fa5365b7][StarExec]]
    + Comments: run with 120 sec of timeout and 1 GB, 3/46 cases ressources out
-  
+
 ** Round 1: July 7th
    + Version: CVC4-070618
    + Configuration: def
@@ -37,11 +38,8 @@
    + Job Id: 29541
    + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=694657b6-b78f-4868-a8e3-dd0c5c4f827c][StarExec]]
    + Comments: some results all 'unknown' because of a bug in the pre-processor
-  
 
-#+NAME: Sloth
-* [[file:solvers.org::Sloth][Sloth]]
-** Round 3: July 9th, absent
-** Round 2: July 8th, absent
-** Round 1: July 7th, absent
+
+* Sloth (pull out)
+#+NAME: SLOTH
 
