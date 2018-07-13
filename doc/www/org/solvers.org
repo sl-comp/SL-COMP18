@@ -40,9 +40,12 @@ In Proc. APLAS'13, 2013.
 
 
 * ComSPEN
-#+NAME: ComSPEN
+#+NAME: CSPEN
 **  Description
 #+BEGIN_QUOTE
+ComSPEN (for Compositional SPEN) is a solver for the symbolic heap
+fragment of SL with compositional ID. It also supports linear integer
+arithmetics.
 #+END_QUOTE
 
 ** Contact
@@ -50,11 +53,12 @@ In Proc. APLAS'13, 2013.
    - Chong Gao <gaochong@ios.ac.cn>
 
 ** Participation
-   - 2018: /=qf_shidlia_sat=/, /=qf_shidlia_entl=/
+   - 2018: /=qf_shidlia_sat=/, /=qf_shidlia_entl=/,
+   /=qf_shlid_entl=/, /=qf_shls_entl=/, /=qf_shls_sat=/
 
 
 * Cyclist-SL
-#+NAME: Cyclist-SL
+#+NAME: CYCLIST
 ** Description
 #+BEGIN_QUOTE
 An entailment prover for separation logic with inductive predicates
@@ -71,14 +75,17 @@ It includes SLSAT, a prover for satisfiability.
 
 ** Participation
    - 2014: /=UDB_entl=/, /=UDB_sat=/, /=sll0a_entl=/, /=sll0a_sat=/, /=FDB_entl=/
-   - 2018: /=qf_shid_entl=/, /=qf_shid_sat=/, /=qf_shls_entl=/, /=qf_shls_sat=/, /=qf_shlid_entl=/, /=shid_entl=/
+   - 2018: /=qf_shid_entl=/, /=qf_shid_sat=/, 
+   /=qf_shls_entl=/, /=qf_shls_sat=/, /=qf_shlid_entl=/, 
+   /=shid_entl=/
 
 
-* CVC4-SL
-#+NAME: CVC4-SL
+* CVC4
+#+NAME: CVC4
 ** Description
 #+BEGIN_QUOTE
-The SL procedure of the famous CVC4 solver.
+CVC4-SL includes a procedure for the boolean combination of
+SL atoms without inductive definitions. 
 #+END_QUOTE
 
 ** Contact
@@ -141,7 +148,7 @@ HARRSH is a prover for symbolic heap separation logic with user defined predicat
    - Christoph Hasse
 
 ** Participation
-   - 2014: pull out from /=qf_shls_entl=/, /=qf_shls_sat=/
+   - 2014: (lastly pull out) /=qf_shls_entl=/, /=qf_shls_sat=/
 
 
 
@@ -191,12 +198,13 @@ AutRHS.
    - Jens Katelaan <jkatelaan@forsyte.at>
 
 ** Participation
-   - 2018: pull out from /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_bsl_sat=/, /=bsl_sat=/
+   - 2018: (lastly pull out) 
+   	/=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_bsl_sat=/, /=bsl_sat=/
 
 
 
 * Songbird
-#+NAME: Songbird
+#+NAME: SB
 ** Description
 #+BEGIN_QUOTE
 #+END_QUOTE
@@ -231,5 +239,7 @@ In ATVA’15, volume 9364 of LNCS, pages 80–96. Springer, 2015.
 
 ** Participation
    - 2014: /=FDB_entl=/, /=sll0a_entl=/, /=sll0a_sat=/
-   - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_shlid_entl=/, /=qf_shidlia_entl=/
+   - 2018: /=qf_shls_sat=/, /=qf_shls_entl=/, /=qf_shlid_entl=/, 
+   /=qf_shid_entl=/, /=qf_shid_sat=/
+
 

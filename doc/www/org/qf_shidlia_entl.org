@@ -15,26 +15,42 @@
 
 * ComSPEN
 #+NAME: CSPEN
+** Round 3: July 11th
+   + Version: ComSPEN (id )
+   + Configuration: cspen
+   + Pre-processor: SL-ASTERIX (451)
+   + Job Id:
+   + Page: 
+   + Comments: run with 600 sec of timeout and 4 GB, waiting new version
+
 ** Round 2: July 9th
-   + Version: ComSPEN
+   + Version: ComSPEN (id 20429)
    + Configuration: default
    + Pre-processor: SL-COMSPEN (id 446)
    + Job Id: 29720
    + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=5b7462ff-fb3c-41fc-9ba9-057eecfb353a][StarExec]]
-   + Comments: run with 600 sec of timeout and 4 GB
+   + Comments: run with 600 sec of timeout and 4 GB, problem with pre-processor
 
 ** Round 1: July 8th, problem with pre-processor
 
 
 * S2S
 #+NAME: S2S
+** Round 4: July 11th
+   + Version: s2s v2 (id )
+   + Configuration: default
+   + Pre-processor: SL-S2S (id 445)
+   + Job Id: 29903
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=101ae550-997d-4823-a7b8-287a860506a7][StarExec]]
+   + Comments: run with 2400 sec of timeout and 4 GB
+
 ** Round 3: July 10th
-   + Version: s2s (id )
+   + Version: s2s (id 20539)
    + Configuration: default
    + Pre-processor: SL-S2S (id 445)
    + Job Id: 29755
    + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=5bcf50e2-d49f-42a2-837c-db4d9bfde585][StarExec]]
-   + Comments: run  with 2400 sec of timeout and 4 GB
+   + Comments: run  with 2400 sec of timeout and 4 GB, 9 problems ressourced out, contact asks to replay with new version
 
 ** Round 2: July 9th
    + Version: s2s (id 20562)
@@ -49,13 +65,13 @@
 
 * Sleek
 #+NAME: SLEEK
-** Round 3: July 10th
+** Round 3: July 10th, FINAL?
    + Version: Sleek (id 20564)
    + Configuration: default
    + Pre-processors: SL-SLEEK (id 438)
    + Job Id: 29756
    + [TODO] Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=f479a12e-17ec-4f6b-bc39-f0c45e0982cd][StarExec]]
-   + Comments: run with 2400 sec of timeout and 4 GB
+   + Comments: run with 2400 sec of timeout and 4 GB, 5 problems ressourced out
 
 ** Round 2: July 9th
    + Version: Sleek (id 20432)
@@ -76,16 +92,24 @@
 
 * Songbird
 #+NAME: SB
+** Round 4: July 11th, FINAL
+   + Version: Songbird v2 (id )
+   + Configuration: songbird.sh
+   + Pre-processor: SL-SONGBIRD (id 440)
+   + Job Id: 
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=443ac8ab-7b78-4008-9446-e4cb599ea792][StarExec]]
+   + Comments: run with 2400 sec of timeout and 4 GB, 
+
 ** Round 3: July 10th
-   + Version: Songbird (id 20542)
+   + Version: Songbird (id 20542 deleted)
    + Configuration: songbird.sh
    + Pre-processor: SL-SONGBIRD (id 440)
    + Job Id: 29757
-   + Page: [TODO] [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=443ac8ab-7b78-4008-9446-e4cb599ea792][StarExec]]
-   + Comments: run with 2400 sec of timeout and 4 GB
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=443ac8ab-7b78-4008-9446-e4cb599ea792][StarExec]]
+   + Comments: run with 2400 sec of timeout and 4 GB, 1 problem ressourced out, contact asks to replay with new version
 
 ** Round 2: July 9th
-   + Version: Songbird (id 20542)
+   + Version: Songbird (id 20542 deleted)
    + Configuration: songbird.sh
    + Pre-processor: SL-SONGBIRD (id 440)
    + Job Id: 29725
@@ -100,14 +124,4 @@
    + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=28d03619-08c3-47ba-8fa7-e469a54c5f25][StarExec]]
    + Comments: run with 120 sec of timeout and 1 GB, all 'unknown' problem with execution path
 
-
-* SPEN
-#+NAME: SPEN
-** Round 2: July 9th
-   + Version: SPEN v18 (id 20561)
-   + Pre-processor: SL-SPEN (id 430)
-   + Configuration: qf_shidlia
-   + Job Id: 29726
-   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=23159621-99a4-469e-bc8f-702cfe041778][StarExec]]
-   + Comments: run with 600 sec of timeout and 4 GB, all 'unknown'
 

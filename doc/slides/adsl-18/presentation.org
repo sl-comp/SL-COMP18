@@ -1,0 +1,121 @@
+* Options                :noexport:
+#+OPTIONS:   H:2 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+TITLE:     Separation Logic Compatition \\ SL-COMP 2018
+#+AUTHOR:    Presented by Mihaela Sighireanu
+#+AUTHOR:    joint work with
+#+AUTHOR:    Radu Iosif, Andrew J. Reynolds, Cristina Serban,
+#+AUTHOR:    Chong Gao, Jens Katelaan, Benedict Lee, Le Quang Loc, 
+#+AUTHOR:    Adam Rogalewicz, Ta Quang Trung, and others
+#+EMAIL:     sl-comp@googlegroups.com
+#+DATE:      Workshop ADSL 2018
+#+KEYWORDS:  Sat Modulo Theories, Separation Logic, StarExec
+#+LANGUAGE:  en
+# OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+
+
+** Beamer
+#+STARTUP: beamer
+#+BEAMER_COLOR_THEME: rose
+#+BEAMER_FONT_THEME: professionalfonts
+#+latex_header: \mode<beamer>{\usetheme{Singapore}}
+#+LaTeX_CLASS: beamer
+# LaTeX_CLASS_OPTIONS: [bigger]
+
+** Code Listing
+#+LaTeX_Header: \usepackage{listings}
+#+LaTeX_Header: \usepackage{color}
+#+LaTeX_Header: \lstset{basicstyle={\ttfamily\small},keywordstyle={\color{blue}}}
+
+
+* Introduction
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+** Separation Logic Competition, SL-COMP
+
+Started in 2014 as a satellite event of SMT-COMP 2014:
+# FLOC Olympic Games:
+- Objectives:
+  + promote the implementation effort on solvers for SL
+  + share a benchmark of interesting problems
+  + compare methods
+- Results:
+  + 6 solvers
+  + 678 problems, 25% sat and 75% entailment
+  + common input format based on SMT-LIB 2.0
+  + \alert{5} divisions, mainly \alert{quantifier free} formulas with
+    in \alert{symbolic heap} fragment with specific (e.g., /=lseg=/)
+    or general inductive definitions
+
+
+** The second edition, SL-COMP 2018
+
+Same objectives, \alert{new results}:
+- \alert{new input format}, aligned with SMT-LIB 2.6
+- \alert{+4} (initially +6) solvers
+- \alert{+618} new benchmarks, some fixes on old bench
+- \alert{+6} divisions, better naming
+
+However
+NB: rules are not yet defined, very flexible, on demand
+- solver binary running on StarExec
+- by default: 600 sec of timeout and 4 GB of memory
+  + increased to 2400 then 3600 if ressourced out
+
+* Static Results
+
+** Input Format
+
+** Naming Divisions
+
+** Participants
+
+** Collected Set of Benchmarks
+
+| Division          | #problems | Asterix | ComSPEN | CVC4 | Cyclist | Harrsh |  S2S | Sleek | Slide | Songbird | SPEN |
+|                   |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |
+|-------------------+------+------+------+------+------+------+------+------+------+------+------|
+| =qf_bsl_sat=      |   46 |    0 |    0 |   46 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
+| =qf_bsllia_sat=   |   24 |    0 |    0 |   24 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
+| =qf_shid_entl=    |  311 |    1 |    0 |    0 |   22 |    0 |   59 |   81 |   17 |  132 |   46 |
+| =qf_shid_sat=     |   99 |    0 |    0 |    0 |   61 |   29 |    9 |    0 |    0 |    0 |    0 |
+| =qf_shidlia_entl= |   75 |    0 |   22 |    0 |    0 |    0 |    0 |    0 |    0 |   53 |    0 |
+| =qf_shidlia_sat=  |   33 |    0 |   20 |    0 |    0 |    0 |   13 |    0 |    0 |    0 |    0 |
+| =qf_shlid_entl=   |   59 |    0 |    0 |    0 |    0 |    0 |   59 |    0 |    0 |    0 |   46 |
+| =qf_shls_entl=    |  296 |  287 |    0 |    0 |    0 |    0 |    9 |    0 |    0 |    0 |    5 |
+| =qf_shls_sat=     |  110 |  110 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
+| =shid_entl=       |   73 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    9 |   64 |    0 |
+| =shidlia_entl=    |  167 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |  167 |    0 |
+|-------------------+------+------+------+------+------+------+------+------+------+------+------|
+
+* Dynamic Results
+
+** Execution of StarExec
+
+NB: rules are not yet defined, very flexible, on demand
+- solver binary running on StarExec
+- by default: 600 sec of timeout and 4 GB of memory
+  + increased to 2400 then 3600 if ressourced out
+- one solver (ComSPEN) gave up because of StarExec
+- 3 or 4 rounds, depending on
+  + availability of the final version of the solver
+  + results obtained
+
+
+** Division /=qf_shls_entl=/
+
+- Origin: /=sll0a_entl=/ of SL-COMP'14
+- 7 solvers, 296 problems
+- mainly run with 600 sec and 4GB
+
+\alert{Entry division, may reveal solver's inconsistencies.}
+
+** Division /=qf_shls_sat=/
+
+- Origin: /=sll0a_sat=/ of SL-COMP'14
+- 7 solvers, 110 problems
+- mainly run with 600 sec and 4GB
+
+\alert{PTIME algorithm, not for proof techniques}
+

@@ -16,5 +16,15 @@ cp $1 $FILE
 rm -f $FILE.$EXT file_*
 ./bin/slcomp-parser --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.$EXT 2>err.log
 rm $FILE 
+sed -i -e "s/(check-sat)//g" $FILE.$EXT
+sed -i -e "s/^(set-info.*$//g" $FILE.$EXT
+sed -i -e "s/^A.*$//g" $FILE.$EXT
+sed -i -e "s/^P.*$//g" $FILE.$EXT
+sed -i -e "s/^C.*$//g" $FILE.$EXT
+sed -i -e "s/^Q.*$//g" $FILE.$EXT
+sed -i -e "s/^\[.*$//g" $FILE.$EXT
+sed -i -e "s/^h.*$//g" $FILE.$EXT
+sed -i -e "s/^|.*$//g" $FILE.$EXT
 cat $FILE.$EXT
+echo "(check-sat)"
 

@@ -13,9 +13,9 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
 
-* [[file:solvers.org:Cyclist-SL][CYCLIST-SLSAT]]
+* [[file:solvers.org:CYCLIST][CYCLIST-SLSAT]]
 #+NAME: CYCLIST
-** Round 2: July 9th, APPROVED?
+** Round 2: July 9th, FINAL
    + Version: SLSAT (id 1137)
    + Configuration: quiet
    + Pre-processor: SL-CYCLIST (id 437)
@@ -34,8 +34,14 @@
 
 * [[file:solvers.org::Harrsh][Harrsh]]
 #+NAME: HARRSH
-** Round 3: July 10th
-   + Version: Harrsh-inc (id )
+** Round 3: July 11th, FINAL
+   + Version: Harrsh-inc (id 20573?)
+   + Configuration: harrsh_default
+   + Pre-processor: none
+   + Job Id: 29922
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=1bc67c9d-1685-4579-a60c-2a1a167fa24d][StarExec]]
+   + Comments: run with 2400 sec of timeout and 4GB
+
 
 ** Round 2: July 9th
    + Version: Harrsh (id 20535)
@@ -43,20 +49,28 @@
    + Pre-processor: none
    + Job Id: 29707
    + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=fa1c5ca5-7ec5-4053-a5db-4f9e2cd112c2][StarExec]]
-   + Comments: run with 600 sec of timeout and 4GB, 0 ressourced out, 69/99 solved
+   + Comments: run with 600 sec of timeout and 4GB, 0 ressourced out, 69/99 solved, contact asks to re-run with new version
 
 ** Round 1: July 8th, absent
 
 
 * [[file:solvers.org:S2S][S2S]]
 #+NAME: S2S
+** Round 4: July 11th, FINAL
+   + Version: S2S v2 (id )
+   + Configuration: default
+   + Pre-processor: SL-S2S (id 445)
+   + Job Id: 29923
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=506570c9-14d5-42eb-a984-95dc624caefd][StarExec]]
+   + Comments: run with 2400 sec of timeout and 4 GB
+
 ** Round 3: July 10th
-   + Version: S2S (id 20562)
+   + Version: S2S (id 20539)
    + Configuration: default
    + Pre-processor: SL-S2S (id 445)
    + Job Id: 29761
    + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=769d4b46-feb1-49f8-954a-dad3e93fe521][StarExec]]
-   + Comments: run with 2400 sec of timeout and 4 GB
+   + Comments: run with 2400 sec of timeout and 4 GB, 28 ressourced out, contact asks to re-run with new version
 
 ** Round 2: July 9th
    + Version: S2S (id 20562)
@@ -71,13 +85,21 @@
 
 * [[file:solvers.org:Sleek][SLEEK]]
 #+NAME: SLEEK
+** Round 4: July 11th, FINAL
+   + Version: SLEEK (id 20564) 
+   + Configuration: default
+   + Pre-processors: SL-SLEEK (id 438)
+   + Job Id: 29924
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=004a248a-ffa7-4420-9043-76e1cb1b07f0][StarExec]]
+   + Comments: run with 3600 sec of timeout and 4 GB
+
 ** Round 3: July 10th
-   + Version: SLEEK (id ) 
+   + Version: SLEEK (id 20564) 
    + Configuration: default
    + Pre-processors: SL-SLEEK (id 438)
    + Job Id: 29763
    + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=72a14478-e79a-407c-b5f9-222dfc6d2420][StarExec]]
-   + Comments: run with 2400 sec of timeout and 4 GB
+   + Comments: run with 2400 sec of timeout and 4 GB, 17 problems ressourced out
 
 ** Round 2: July 9th
    + Version: SLEEK (id 20432 deleted)
@@ -98,13 +120,21 @@
 
 * Songbird
 #+NAME: SB
+** Round 4: July 11th, FINAL
+   + Version: Songbird v2 (id )
+   + Configuration: songbird.sh
+   + Pre-processor: SL-SONGBIRD (id 440)
+   + Job Id: 29925
+   + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=a1c3fa53-3c20-4c97-9139-5a6d4a81044d][StarExec]]
+   + Comments: run with 2400 sec of timeout and 4 GB
+
 ** Round 3: July 10th
-   + Version: Songbird (id )
+   + Version: Songbird (id 20545)
    + Configuration: songbird.sh
    + Pre-processor: SL-SONGBIRD (id 440)
    + Job Id: 29742
    + Page: [[https://www.starexec.org/starexec/secure/details/job.jsp?anonId=6c4cc147-cecf-49eb-8988-e8a90d37368f][StarExec]]
-   + Comments: run with 2400 sec of timeout and 4 GB, 31 problems ressourced out
+   + Comments: run with 2400 sec of timeout and 4 GB, 36 problems ressourced out, contact asks to re-run with new version
 
 ** Round 2: July 9th
    + Version: Songbird (id 20545)
@@ -126,7 +156,7 @@
 
 * SPEN
 #+NAME: SPEN
-** Round 2: July 9th
+** Round 2: July 9th, FINAL
    + Version: SPEN (id 20561)
    + Configuration: qf_shlid
    + Pre-processor: SL-SPEN

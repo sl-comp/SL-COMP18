@@ -15,6 +15,7 @@ cp $1 $FILE
 rm -f $FILE.sl14* file_*
 ./bin/slcomp-parser --config ./input/input.prop --output SL_COMP14 $FILE 1> $FILE.sl14 2>err1.log
 rm -f $FILE 
-sed -i "" -e "s/(check-sat)//" $FILE.sl14
+sed -i "" -e "s/(check-sat)//g" $FILE.sl14 2>err3.log
 cat $FILE.sl14
-
+echo ""
+echo "(check-sat)"

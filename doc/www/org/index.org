@@ -103,9 +103,8 @@ constructs. This format has been changed for the second edition of
     - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_sat][=qf_shls_sat=]]: for quantifier free (QF) formulas in the symbolic heaps (SH) fragment using only acyclic singly linked lists
     - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shid_sat][=qf_shid_sat=]]: for QF formulas in the SH fragment using general inductive definitions (ID)
     - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shidlia_sat][=qf_shidlia_sat=]]: for QF formulas in the SH fragment with ID and linear integer constraints (LIA)
-    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_bsl_sat][=qf_bsl_sat=]]: for QF fragment with boolean combination of SL atoms
+    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_bsl_sat][=qf_bsl_sat=]]: for QF fragment with boolean combination of SL atoms; the quantified version of this division [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/bsl_sat][=bsl_sat=]] has not enough problems to be considered by this edition
     - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_bsllia_sat][=qf_bsllia_sat=]]: for QF fragment with boolean combination of SL atoms and LIA
-    - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/bsl_sat][=bsl_sat=]]: for boolean combination of SL atoms
 
   + Entailment checking:
     - [[https://github.com/sl-comp/SL-COMP18/tree/master/bench/qf_shls_entl][=qf_shls_entl=]]: for QF formulas in the SH fragment using only acyclic singly linked lists
@@ -136,14 +135,13 @@ constructs. This format has been changed for the second edition of
 | Division          | #problems | Asterix | ComSPEN | CVC4 | Cyclist | Harrsh |  S2S | Sleek | Slide | Songbird | SPEN |
 |                   |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |
 |-------------------+------+------+------+------+------+------+------+------+------+------+------|
-| =bsl_sat=         |    3 |    0 |    0 |    3 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
 | =qf_bsl_sat=      |   46 |    0 |    0 |   46 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
 | =qf_bsllia_sat=   |   24 |    0 |    0 |   24 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
 | =qf_shid_entl=    |  311 |    1 |    0 |    0 |   22 |    0 |   59 |   81 |   17 |  132 |   46 |
 | =qf_shid_sat=     |   99 |    0 |    0 |    0 |   61 |   29 |    9 |    0 |    0 |    0 |    0 |
 | =qf_shidlia_entl= |   75 |    0 |   22 |    0 |    0 |    0 |    0 |    0 |    0 |   53 |    0 |
 | =qf_shidlia_sat=  |   33 |    0 |   20 |    0 |    0 |    0 |   13 |    0 |    0 |    0 |    0 |
-| =qf_shlid_entl=   |   59 |    0 |    0 |    0 |    0 |    0 |   59 |    0 |    0 |    0 |   46 |
+| =qf_shlid_entl=   |   59 |    0 |    0 |    0 |    0 |    0 |   13 |    0 |    0 |    0 |   46 |
 | =qf_shls_entl=    |  296 |  287 |    0 |    0 |    0 |    0 |    9 |    0 |    0 |    0 |    5 |
 | =qf_shls_sat=     |  110 |  110 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
 | =shid_entl=       |   73 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    9 |   64 |    0 |
@@ -163,27 +161,27 @@ constructs. This format has been changed for the second edition of
 | Solver     | Preliminary | Final      | System description | Contact |
 |            | version id  | version id |                    | for StarExec |
 |------------+-------------+------------+--------------------+---------|
-| Asterix    | 986         |            | [[file:solvers.org::Asterix][Asterix]] | [[mailto:juannavarroperez@gmail.com][Juan Antonio Navarro Pérez]] |
+| Asterix    | 986         |  20618     | [[file:solvers.org::Asterix][Asterix]] | [[mailto:juannavarroperez@gmail.com][Juan Antonio Navarro Pérez]] |
 |------------+-------------+------------+--------------------+---------|
-| ComSPEN  | 20429       |            | [[file:solvers.org::ComSPEN][ComSPEN]] | [[mailto:gaochong@ios.ac.cn][Chong Gao]] |
+| ComSPEN  | 20429       |   20631      | [[file:solvers.org::CSPEN][ComSPEN]] | [[mailto:gaochong@ios.ac.cn][Chong Gao]] |
 |------------+-------------+------------+--------------------+---------|
-| Cyclist-SL | 1136,1137   |            | [[file:solvers.org::Cyclist-SL][Cyclist-SL]] | [[mailto:nikos.gorogiannis@gmail.com][Nikos Gorogiannis]] |
+| Cyclist-SL | 1136,1137   | 1136,1137  | [[file:solvers.org::CYCLIST][Cyclist-SL]] | [[mailto:nikos.gorogiannis@gmail.com][Nikos Gorogiannis]] |
 |------------+-------------+------------+--------------------+---------|
-| CVC4       | 20439       |            | [[file:solvers.org::CVC4-SL][CVC4-SL]] | [[mailto:Cristina.Serban@univ-grenoble-alpes.fr,andrew.j.reynolds@gmail.com][Cristina Serban,Andrew Reynolds]] |
+| CVC4       | 20439       | 20439      | [[file:solvers.org::CVC4][CVC4-SL]] | [[mailto:andrew.j.reynolds@gmail.com][Andrew Reynolds]] |
 |------------+-------------+------------+--------------------+---------|
-| Harrsh     | 20535       |            | [[file:solvers.org::Harrsh][Harrsh]] | [[mailto:jkatelaan@forsyte.at][Jens Katelaan]] |
+| Harrsh     | 20535       | 20573      | [[file:solvers.org::Harrsh][Harrsh]] | [[mailto:jkatelaan@forsyte.at][Jens Katelaan]] |
 |------------+-------------+------------+--------------------+---------|
-| S2S        | 20562       |            | [[file:solvers.org::S2S][S2S]] | [[mailto:lequangloc@gmail.com][Le Quang Loc]] |
+| S2S        | 20562       | 20643      | [[file:solvers.org::S2S][S2S]] | [[mailto:lequangloc@gmail.com][Le Quang Loc]] |
 |------------+-------------+------------+--------------------+---------|
-| Sleek      | 20432       |            | [[file:solvers.org::Sleek][Sleek]] | [[mailto:benedictleejh@gmail.com][Benedict Lee]] |
+| Sleek      | 20432       | 20564      | [[file:solvers.org::Sleek][Sleek]] | [[mailto:benedictleejh@gmail.com][Benedict Lee]] |
 |------------+-------------+------------+--------------------+---------|
-| Slide      | 20428       |            | [[file:solvers.org::Slide][Slide]] | [[mailto:rogalew@fit.vutbr.cz][Adam Rogalewicz]] |
+| Slide      | 20428       | 20628      | [[file:solvers.org::Slide][Slide]] | [[mailto:rogalew@fit.vutbr.cz][Adam Rogalewicz]] |
 |------------+-------------+------------+--------------------+---------|
 | Sloth      | pull out    |            | [[file:solvers.org::Sloth][Sloth]] | [[mailto:jkatelaan@forsyte.at][Jens Katelaan]] |
 |------------+-------------+------------+--------------------+---------|
-| Songbird   | 20552       |            | [[file:solvers.org::Songbird][Songbird]] | [[mailto:taquangtrungvn@gmail.com][Ta Quang Trung]] |
+| Songbird   | 20552       | 20617      | [[file:solvers.org::SB][Songbird]] | [[mailto:taquangtrungvn@gmail.com][Ta Quang Trung]] |
 |------------+-------------+------------+--------------------+---------|
-| SPEN       | 20561       |            | [[file:solvers.org::SPEN][SPEN]] | [[mailto:mihaela.sighireanu@gmail.com][Mihaela Sighireanu]] |
+| SPEN       | 20561       | 20561      | [[file:solvers.org::SPEN][SPEN]] | [[mailto:mihaela.sighireanu@gmail.com][Mihaela Sighireanu]] |
 |------------+-------------+------------+--------------------+---------|
 
 
@@ -194,15 +192,15 @@ These are the benchmark divisions in which each solver is competing:
 | Division          | #prob | Asterix | ComSPEN | CVC4 | Cyclist | Harrsh | S2S  | Sleek | Slide | Sloth | Songbird | SPEN |
 |                   |  <4> | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  | <4>  |
 |-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
-| =qf_bsl_sat=      |   46 |      |      | X    |      |      |      |      |      | X    |      |      |
-| =qf_bsllia_sat=   |   24 |      |      | X    |      |      |      |      |      | X    |      |      |
+| =qf_bsl_sat=      |   46 |      |      | X    |      |      |      |      |      | O    |      |      |
+| =qf_bsllia_sat=   |   24 |      |      | X    |      |      |      |      |      | O    |      |      |
 | =qf_shid_entl=    |  311 |      |      |      | X    |      | X    | X    | X    |      | X    | X    |
 | =qf_shid_sat=     |   99 |      |      |      | X    | X    | X    | X    |      |      | X    | X    |
-| =qf_shidlia_entl= |   75 |      | X    |      |      |      | X    | X    |      |      | X    | X    |
+| =qf_shidlia_entl= |   75 |      | X    |      |      |      | X    | X    |      |      | X    |      |
 | =qf_shidlia_sat=  |   33 |      | X    |      |      |      | X    | X    |      |      | X    |      |
 | =qf_shlid_entl=   |   59 |      | X    |      | X    |      | X    | X    | X    |      | X    | X    |
-| =qf_shls_entl=    |  296 | X    | X    |      | X    |      | X    | X    | X    | X    | X    | X    |
-| =qf_shls_sat=     |  110 | X    | X    |      | X    | X    | X    | X    |      | X    | X    | X    |
+| =qf_shls_entl=    |  296 | X    | X    |      | X    |      | X    | X    | X    | -    | X    | X    |
+| =qf_shls_sat=     |  110 | X    | X    |      | X    | X    | X    | X    |      | -    | X    | X    |
 | =shid_entl=       |   73 |      |      |      | X    |      | X    | X    | X    |      | X    |      |
 | =shidlia_entl=    |  167 |      |      |      |      |      | X    | X    |      |      | X    |      |
 |-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
@@ -220,11 +218,11 @@ These are the benchmark divisions in which each solver is competing:
 
 ** Division =qf_bsl_sat=: 46 problems, 2 solvers
    + [[file:qf_bsl_sat.org::CVC4][CVC4]]
-   + (pull out) [[file:qf_bsl_sat.org::HARRSH][Sloth]]
+   + (pull out) [[file:qf_bsl_sat.org::Sloth][Sloth]]
 
 ** Division =qf_bsllia_sat=: 24 problems, 2 solvers
    + [[file:qf_bsllia_sat.org::CVC4][CVC4]]
-   + (pull out) [[file:qf_bsllia_sat::HARRSH][Sloth]]
+   + (pull out) [[file:qf_bsllia_sat::Sloth][Sloth]]
 
 ** Division =qf_shid_entl=: 311 problems, 6 solvers
    + [[file:qf_shid_entl.org::CYCLIST][CYCLIST-SL]]
@@ -234,7 +232,7 @@ These are the benchmark divisions in which each solver is competing:
    + [[file:qf_shid_entl.org::SB][Songbird]]
    + [[file:qf_shid_entl.org::SPEN][SPEN]]
 
-** Division =qf_shid_sat=: 99 problems, 5 solvers
+** Division =qf_shid_sat=: 99 problems, 6 solvers
    + [[file:qf_shid_sat.org::CYCLIST][CYCLIST-SLSAT]]
    + [[file:qf_shid_sat.org::Harrsh][Harrsh]]
    + [[file:qf_shid_sat.org::S2S][S2S]]
@@ -242,12 +240,12 @@ These are the benchmark divisions in which each solver is competing:
    + [[file:qf_shid_sat.org::SB][Songbird]]
    + [[file:qf_shid_sat.org::SPEN][SPEN]]
 
-** Division =qf_shidlia_entl=: 75 problems, 5 solvers
-   + [[file:qf_shidlia_entl.org::CSPEN][COMSPEN]]
+** Division =qf_shidlia_entl=: 75 problems, 4 solvers
+   + [[file:qf_shidlia_entl.org::CSPEN][ComSPEN]]
    + [[file:qf_shidlia_entl.org::S2S][S2S]]
    + [[file:qf_shidlia_entl.org::SLEEK][SLEEK]]
    + [[file:qf_shidlia_entl.org::SB][Songbird]]
-   + [[file:qf_shidlia_entl.org::SPEN][SPEN]]
+#  + [[file:qf_shidlia_entl.org::SPEN][SPEN]]
 
 ** Division =qf_shidlia_sat=: 33 problems, 4 solvers
    + [[file:qf_shidlia_sat.org::CSPEN][ComSPEN]]
@@ -256,7 +254,7 @@ These are the benchmark divisions in which each solver is competing:
    + [[file:qf_shidlia_sat.org::SB][Songbird]]
 
 ** Division =qf_shlid_entl=: 59 problems, 7 solvers
-   + [[file:qf_shlid_sat.org::CSPEN][ComSPEN]]
+   + [[file:qf_shlid_entl.org::CSPEN][ComSPEN]]
    + [[file:qf_shlid_entl.org::CYCLIST][CYCLIST-SL]]
    + [[file:qf_shlid_entl.org::S2S][S2S]]
    + [[file:qf_shlid_entl.org::SLEEK][SLEEK]]
@@ -265,7 +263,7 @@ These are the benchmark divisions in which each solver is competing:
    + [[file:qf_shlid_entl.org::SPEN][SPEN]]
 
 ** Division =qf_shls_entl=: 296 problems, 8 solvers
-   + [[file:qf_shls_entl.org::ASTERIX][ASTERIX]]
+   + [[file:qf_shls_entl.org::Asterix][Asterix]]
    + [[file:qf_shls_entl.org::CSPEN][ComSPEN]]
    + [[file:qf_shls_entl.org::CYCLIST][CYCLIST-SL]]
    + [[file:qf_shls_entl.org::S2S][S2S]]
@@ -275,10 +273,10 @@ These are the benchmark divisions in which each solver is competing:
    + [[file:qf_shls_entl.org::SPEN][SPEN]]
 
 ** Division =qf_shls_sat=: 110 problems, 8 solvers
-   + [[file:qf_shls_sat.org::ASTERIX][ASTERIX]]
+   + [[file:qf_shls_sat.org::Asterix][Asterix]]
    + [[file:qf_shls_sat.org::CSPEN][ComSPEN]]
    + [[file:qf_shls_sat.org::CYCLIST][CYCLIST-SLSAT]]
-   + [[file:qf_shls_sat.org::HARRSH][HARRSH]]
+   + [[file:qf_shls_sat.org::HARRSH][Harrsh]]
    + [[file:qf_shls_sat.org::S2S][S2S]]
    + [[file:qf_shls_sat.org::SLEEK][SLEEK]]
    + [[file:qf_shls_sat.org::SB][Songbird]]
