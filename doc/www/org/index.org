@@ -135,7 +135,7 @@ constructs. This format has been changed for the second edition of
 | Division          | #problems | Asterix | ComSPEN | CVC4 | Cyclist | Harrsh |  S2S | Sleek | Slide | Songbird | SPEN |
 |                   |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |  <4> |
 |-------------------+------+------+------+------+------+------+------+------+------+------+------|
-| =qf_bsl_sat=      |   46 |    0 |    0 |   46 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
+| =qf_bsl_sat=      |   45 |    0 |    0 |   46 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
 | =qf_bsllia_sat=   |   24 |    0 |    0 |   24 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
 | =qf_shid_entl=    |  311 |    1 |    0 |    0 |   22 |    0 |   59 |   81 |   17 |  132 |   46 |
 | =qf_shid_sat=     |   99 |    0 |    0 |    0 |   61 |   29 |    9 |    0 |    0 |    0 |    0 |
@@ -145,7 +145,7 @@ constructs. This format has been changed for the second edition of
 | =qf_shls_entl=    |  296 |  287 |    0 |    0 |    0 |    0 |    9 |    0 |    0 |    0 |    5 |
 | =qf_shls_sat=     |  110 |  110 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
 | =shid_entl=       |   73 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    9 |   64 |    0 |
-| =shidlia_entl=    |  167 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |  167 |    0 |
+| =shidlia_entl=    |  181 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |  181 |    0 |
 |-------------------+------+------+------+------+------+------+------+------+------+------+------|
 
 
@@ -163,7 +163,7 @@ constructs. This format has been changed for the second edition of
 |------------+-------------+------------+--------------------+---------|
 | Asterix    | 986         |  20618     | [[file:solvers.org::Asterix][Asterix]] | [[mailto:juannavarroperez@gmail.com][Juan Antonio Navarro Pérez]] |
 |------------+-------------+------------+--------------------+---------|
-| ComSPEN  | 20429       |   20631      | [[file:solvers.org::CSPEN][ComSPEN]] | [[mailto:gaochong@ios.ac.cn][Chong Gao]] |
+| ComSPEN  | 20429       |   20631 (pull out) | [[file:solvers.org::CSPEN][ComSPEN]] | [[mailto:gaochong@ios.ac.cn][Chong Gao]] |
 |------------+-------------+------------+--------------------+---------|
 | Cyclist-SL | 1136,1137   | 1136,1137  | [[file:solvers.org::CYCLIST][Cyclist-SL]] | [[mailto:nikos.gorogiannis@gmail.com][Nikos Gorogiannis]] |
 |------------+-------------+------------+--------------------+---------|
@@ -196,13 +196,13 @@ These are the benchmark divisions in which each solver is competing:
 | =qf_bsllia_sat=   |   24 |      |      | X    |      |      |      |      |      | O    |      |      |
 | =qf_shid_entl=    |  311 |      |      |      | X    |      | X    | X    | X    |      | X    | X    |
 | =qf_shid_sat=     |   99 |      |      |      | X    | X    | X    | X    |      |      | X    | X    |
-| =qf_shidlia_entl= |   75 |      | X    |      |      |      | X    | X    |      |      | X    |      |
-| =qf_shidlia_sat=  |   33 |      | X    |      |      |      | X    | X    |      |      | X    |      |
-| =qf_shlid_entl=   |   59 |      | X    |      | X    |      | X    | X    | X    |      | X    | X    |
-| =qf_shls_entl=    |  296 | X    | X    |      | X    |      | X    | X    | X    | -    | X    | X    |
-| =qf_shls_sat=     |  110 | X    | X    |      | X    | X    | X    | X    |      | -    | X    | X    |
+| =qf_shidlia_entl= |   75 |      | O    |      |      |      | X    | X    |      |      | X    |      |
+| =qf_shidlia_sat=  |   33 |      | O    |      |      |      | X    | X    |      |      | X    |      |
+| =qf_shlid_entl=   |   59 |      | O    |      | X    |      | X    | X    | X    |      | X    | X    |
+| =qf_shls_entl=    |  296 | X    | O    |      | X    |      | X    | X    | X    | O    | X    | X    |
+| =qf_shls_sat=     |  110 | X    | O    |      | X    | X    | X    | X    |      | O    | X    | X    |
 | =shid_entl=       |   73 |      |      |      | X    |      | X    | X    | X    |      | X    |      |
-| =shidlia_entl=    |  167 |      |      |      |      |      | X    | X    |      |      | X    |      |
+| =shidlia_entl=    |  181 |      |      |      |      |      | X    | X    |      |      | X    |      |
 |-------------------+------+------+------+------+------+------+------+------+------+------+------+------|
 
 
@@ -289,7 +289,7 @@ These are the benchmark divisions in which each solver is competing:
    + [[file:shid_entl.org::SLIDE][SLIDE]] 
    + [[file:shid_entl.org::SB][Songbird]]
 
-** Division =shidlia_entl=: 167 problems, 3 solvers
+** Division =shidlia_entl=: 181 problems, 3 solvers
    + [[file:shidlia_entl.org::S2S][S2S]] 
    + [[file:shidlia_entl.org::SLEEK][SLEEK]] 
    + [[file:shidlia_entl.org::SB][Songbird]]
