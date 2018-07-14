@@ -12,6 +12,20 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
+* Overview
+
+#+ATTR_HTML: :border 2 :rules all :frame border
+
+|Solver|	config|	solved|	 time| 	wrong| timeout| failed| unknown |
+|------+--------------+-------+------+-------+--------+-------+---------|
+|Asterix|	v18|	296|	 3.7| 	0|	0|	0|	0|
+|CYCLIST|	default|	57|	 12.2| 	0|	152|	0|	87|
+|S2S|	v2|	296|	 22.4| 	0|	0|	0|	0|
+|SLEEK|	default|	277|	 19.6| 	19|	0|	0|	0|
+|SLIDE|	v5|	1|	 0.3| 	0|	0|	0|	295|
+|Songbird|	v2|	296|	 495.6| 	0|	0|	0|	0|
+|SPEN|	PR|	289|	 19.2| 	5|	0|	0|	2|
+|SPEN|	TA|	290|	 18.6| 	4|	0|	0|	2|
 
 * Asterix
 #+NAME: Asterix

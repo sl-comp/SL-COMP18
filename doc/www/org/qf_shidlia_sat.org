@@ -12,6 +12,18 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
+* Overview
+
+
+#+ATTR_HTML: :border 2 :rules all :frame border
+|Solver| config| solved| time| wrong| timeout| failed | unknown| max timeout|
+|------+-------+-------+-----+------+--------+--------+--------+------------|
+|S2S| v2| 33| 19.1| 0| 0| 0| 0| 600|
+|SLEEK| default| 19| 11.6| 14| 0| 0| 0| 600|
+|Songbird| v2| 18| 12.3| 0| 3| 0| 12| 2400|
+|Songbird| v1| 18| 12.5| 0| 15| 0| 0| 600|
+
+
 * ComSPEN
 #+NAME: CSPEN
 ** Round 3: July 11th

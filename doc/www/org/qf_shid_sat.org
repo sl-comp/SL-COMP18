@@ -13,6 +13,17 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
 
+* Overview
+
+#+ATTR_HTML: :border 2 :rules all :frame border
+|Solver| config| solved| time| wrong| timeout| failed | unknown| max timeout|
+|------+-------+-------+-----+------+--------+--------+--------+------------|
+|CYCLIST| SLSAT| 90| 5.1| 9| 0| 0| 0| 600|
+|Harrsh| inc| 72| 246.6| 0| 0| 0| 27| 2400|
+|S2S| v2| 71| 706.3| 0| 28| 0| 0| 2400|
+|SLEEK| default| 73| 693.2| 9| 17| 0| 0| 2400|
+|Songbird| v2| 60| 300.5| 0| 18| 0| 21| 2400|
+|SPEN| shlid| 3| 0.1| 2| 0| 0| 94| 600|
 * [[file:solvers.org:CYCLIST][CYCLIST-SLSAT]]
 #+NAME: CYCLIST
 ** Round 2: July 9th, FINAL

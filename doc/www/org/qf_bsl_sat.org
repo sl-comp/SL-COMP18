@@ -12,6 +12,12 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
+* Overview
+
+#+ATTR_HTML: :border 2 :rules all :frame border
+|Solver| config| solved| time| wrong| timeout| failed | unknown| max timeout|
+|------+-------+-------+-----+------+--------+--------+--------+------------|
+|CVC4| def| 44| 391.1| 0| 2| 0| 0| 600|
 
 * [[file:solvers.org:CVC4][CVC4]]
 #+NAME: CVC4

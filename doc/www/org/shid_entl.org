@@ -12,6 +12,17 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
+* Overview
+
+#+ATTR_HTML: :border 2 :rules all :frame border
+|Solver| config| solved| time| wrong| timeout| failed | unknown| max timeout|
+|------+-------+-------+-----+------+--------+--------+--------+------------|
+|CYCLIST| default| 2| 0.1| 0| 45| 0| 26| 2400|
+|S2S| v2| 12| 1.5| 0| 4| 0| 57| 2400|
+|SLEEK| default| 29| 16.9| 39| 0| 0| 5| 2400|
+|SLIDE| v5| 15| 11.1| 0| 0| 0| 58| 2400|
+|Songbird| v2| 70| 928.9| 0| 1| 0| 2| 2400|
+
 
 * [[file:solvers.org::CYCLIST][CYCLIST-SL]]
 #+NAME: CYCLIST

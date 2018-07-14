@@ -12,6 +12,14 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
+* Overview
+
+#+ATTR_HTML: :border 2 :rules all :frame border
+|Solver| config| solved| time| wrong| timeout| failed | unknown| max timeout|
+|------+-------+-------+-----+------+--------+--------+--------+------------|
+|S2S| v2| 15| 10564.9| 0| 98| 0| 68| 2400|
+|SLEEK| default| 16| 3| 126| 0| 0| 29| 600/2400|
+|Songbird| v2| 152| 4248.2| 0| 0| 0| 15| 2400|
 
 * ComSPEN
 #+NAME: CSPEN

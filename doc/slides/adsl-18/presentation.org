@@ -163,9 +163,9 @@ New fellows (4 + /2/):
 
 ** Participants by Underlying Technique
 
-- /SMT solving/: Asterix, CVC4
-- /Language theory/ (tree automata): SLIDE, SPEN
-- /Small model and SMT/: ComSPEN, Harrsh, Sloth
+- /SMT solving/: Asterix, CVC4, CYCLIST-SLSAT
+- /Language theory/ (tree automata): Harrsh, SLIDE, SPEN
+- /Small model and SMT/: ComSPEN, Sloth
 - /Proofs/: SLEEK, SPEN
 - /Cyclic proofs/: CYCLIST, Songbird
 - /Not provided/: S2S

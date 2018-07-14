@@ -13,6 +13,13 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
 
+* Overview
+
+#+ATTR_HTML: :border 2 :rules all :frame border
+|Solver| config| solved| time| wrong| timeout| failed | unknown| max timeout|
+|------+-------+-------+-----+------+--------+--------+--------+------------|
+|CVC4| def| 24| 2.3| 0| 0| 0| 0| 120|
+
 * [[file:solvers.org::CVC4][CVC4]]
 #+NAME: CVC4
 ** Round 2: July 8th, FINAL

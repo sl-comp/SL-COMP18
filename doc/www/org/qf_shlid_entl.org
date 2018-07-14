@@ -12,6 +12,20 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/stylebig.css"/>
 
+* Overview
+
+#+ATTR_HTML: :border 2 :rules all :frame border
+|Solver| config| solved| time| wrong| timeout| failed| unknown| max timeout|
+|------+-------+-------+-----+------+--------+-------+--------+------------|
+|CYCLIST| default| 24| 187.2| 0| 31| 0| 5| 600|
+|S2S| v2| 60| 4.9| 0| 0| 0| 0| 2400|
+|SLEEK| default| 45| 1285.2| 7| 8| 0| 0| 2400|
+|SLIDE| v5| 7| 2.2| 0| 0| 0| 53| 600|
+|Songbird| v2| 51| 133.2| 0| 1| 0| 0| 600|
+|SPEN| TA| 25| 0.9| 15| 0| 0| 20| 600|
+|SPEN| PR| 28| 1.4| 2| 0| 0| 20| 600|
+
+
 * COMSPEN
 #+NAME: CSPEN
 ** Round 3: July 11th
