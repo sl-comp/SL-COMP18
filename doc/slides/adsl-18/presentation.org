@@ -146,13 +146,13 @@ Example: =qf_shidlia_entl=
 ** Participants
 
 Old fellows (6):
-- *Asterix*: A. Rybalchenko (MSR), J.A. Navarro Perez (Google) 
+- *Asterix*: A. Rybalchenko (MSR), J.A. Navarro Perez (Google)
 - *CYCLIST* & *SLSAT*: N. Gorogiannis (Middlesex U.)
 - *SLEEK*: B. Lee, C. Wei Ngan (NUS)
 - *SLIDE*: R. Iosif (Verimag); A. Rogalewicz (TU Brno)
 - *SPEN*: C. Enea, M.S. (UPD); T. Vojnar, O. Lengal (TU Brno)
 
-New fellows (4 + /2/):
+New fellows (4 + /3/):
 - /ComSPEN/: C. Gao, Z. Wu (Acad. China)
 - *CVC4*: A. J. Reynolds (U. Iowa)
 - *Harrsh*: J. Katelaan (TU Vienna)
@@ -163,12 +163,12 @@ New fellows (4 + /2/):
 
 ** Participants by Underlying Technique
 
-- /SMT solving/: Asterix, CVC4, CYCLIST-SLSAT
-- /Language theory/ (tree automata): Harrsh, SLIDE, SPEN
+- /SMT solving/: Asterix, CVC4, SLSAT
 - /Small model and SMT/: ComSPEN, Sloth
+- /Automata/: Harrsh, SLIDE, SPEN
 - /Proofs/: SLEEK, SPEN
-- /Cyclic proofs/: CYCLIST, Songbird
-- /Not provided/: S2S
+- /Cyclic proofs/: CYCLIST, S2S, Songbird
+
 
 ** Collected Set of Benchmarks
 
@@ -266,7 +266,7 @@ but
 - Impressive differences in execution times
 - Some problems to be fixed with 9 problems or in the pre-processors
 
-*Put on show CYCLIST-SLSAT!*
+*Put on show SLSAT!*
 
 ** Divisions /=qf_bsl_sat=/ and /=qf_bsllia_sat=/
 
@@ -279,8 +279,15 @@ but
 ** Division /=qf_shidlia_entl=/
 
 - New, problems from proof based solvers
-- 3 solvers, 33 problems
+- 3 solvers, 61 problems
 - Execution times differ very much
+
+*Put on show Songbird!*
+
+** Division /=qf_shidlia_sat=/
+
+- New, problems from proof based solvers
+- 3 solvers, 33 problems
 
 *Put on show S2S!*
 
