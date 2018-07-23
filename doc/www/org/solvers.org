@@ -126,6 +126,13 @@ HARRSH is a prover for symbolic heap separation logic with user defined predicat
 #+NAME: S2S
 ** Description
 #+BEGIN_QUOTE
+S2S is a Solver for Second-order Separation logic. It supports 
+constraints in separation logic combining with
+general inductive definitions, arithmetic and string.
+S2S includes a central component of a generic cyclic proof framework.
+Currently, three cyclic-proof instantiations have been implemented:
+two solvers of separation logic (one for satisfiability and one for entailment)
+and one satisfiability solver of string logic.
 #+END_QUOTE
 
 ** Contact

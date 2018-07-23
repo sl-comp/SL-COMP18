@@ -30,7 +30,7 @@
    Boolean constraints for {{{SAT-COMP}}}.
 
 * News
-  - *JUly 14*: Results and [[https://github.com/sl-comp/SL-COMP18/master/tree/doc/slides/adsl-18/presentation.pdf][ADSL presentation]] are available online.
+  - *July 14*: Results and their [[file:img/presentation.pdf][ADSL presentation]] are available online.
   - *July 13*: To present your solver at [[http://adsl.univ-grenoble-alpes.fr][ADSL 2018]], please read the mailing list.
   - *July 10*: [[file:index.org::Results][provisional results]] 
   - *July 8*: first round of the competition
@@ -209,7 +209,7 @@ These are the benchmark divisions in which each solver is competing:
 
   The list of participants at SL-COMP 2014 is provided [[https://www.irif.fr/~sighirea/sl-comp/14/participants.html][here]].
 
-* Results (until round 3)
+* Results
 #+NAME: Results
   - The StarExec configuration is fixed to: 
     + before July 9th: 120 sec of timeout and 1 GB of memory.
