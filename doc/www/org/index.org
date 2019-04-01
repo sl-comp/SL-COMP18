@@ -140,7 +140,7 @@ constructs. This format has been changed for the second edition of
 | =qf_bsllia_sat=   |   24 |    0 |    0 |   24 |    0 |    0 |    0 |    0 |    0 |    0 |    0 |
 | =qf_shid_entl=    |  311 |    1 |    0 |    0 |   22 |    0 |   59 |   81 |   17 |  132 |   46 |
 | =qf_shid_sat=     |   99 |    0 |    0 |    0 |   61 |   29 |    9 |    0 |    0 |    0 |    0 |
-| =qf_shidlia_entl= |   75 |    0 |   22 |    0 |    0 |    0 |    0 |    0 |    0 |   53 |    0 |
+| =qf_shidlia_entl= |   61 |    0 |   22 |    0 |    0 |    0 |    0 |    0 |    0 |   39 |    0 |
 | =qf_shidlia_sat=  |   33 |    0 |   20 |    0 |    0 |    0 |   13 |    0 |    0 |    0 |    0 |
 | =qf_shlid_entl=   |   59 |    0 |    0 |    0 |    0 |    0 |   13 |    0 |    0 |    0 |   46 |
 | =qf_shls_entl=    |  296 |  287 |    0 |    0 |    0 |    0 |    9 |    0 |    0 |    0 |    5 |
@@ -197,7 +197,7 @@ These are the benchmark divisions in which each solver is competing:
 | =qf_bsllia_sat=   |   24 |      |      | X    |      |      |      |      |      | O    |      |      |
 | =qf_shid_entl=    |  311 |      |      |      | X    |      | X    | X    | X    |      | X    | X    |
 | =qf_shid_sat=     |   99 |      |      |      | X    | X    | X    | X    |      |      | X    | X    |
-| =qf_shidlia_entl= |   75 |      | O    |      |      |      | X    | X    |      |      | X    |      |
+| =qf_shidlia_entl= |   61 |      | O    |      |      |      | X    | X    |      |      | X    |      |
 | =qf_shidlia_sat=  |   33 |      | O    |      |      |      | X    | X    |      |      | X    |      |
 | =qf_shlid_entl=   |   59 |      | O    |      | X    |      | X    | X    | X    |      | X    | X    |
 | =qf_shls_entl=    |  296 | X    | O    |      | X    |      | X    | X    | X    | O    | X    | X    |
@@ -246,7 +246,7 @@ These are the benchmark divisions in which each solver is competing:
    + [[file:qf_shid_sat.org::SB][Songbird]]
    + [[file:qf_shid_sat.org::SPEN][SPEN]]
 
-** Division =qf_shidlia_entl=: 75 problems, 4 solvers
+** Division =qf_shidlia_entl=: 61 problems, 4 solvers
    + [[file:qf_shidlia_entl.org][Overview]]
    + [[file:qf_shidlia_entl.org::CSPEN][ComSPEN]]
    + [[file:qf_shidlia_entl.org::S2S][S2S]]

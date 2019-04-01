@@ -1,2 +1,2 @@
-SPEN is a solver for SH theory of SL based on timed automata
+SPEN is a solver for SH theory of SL based on tree automata
 and proof search heuristics.
